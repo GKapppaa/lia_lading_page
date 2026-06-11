@@ -1,10 +1,18 @@
-# Astro Starter Kit: Basics
+# Astro Landing Page for Proyect A
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+## What is the project about?
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This project is a **landing page built with Astro** for a pet care application designed to help pet owners manage every aspect of their pets' well-being.
+
+The application allows users to:
+
+- Manage their pets' profiles and information
+- Track food and nutrition
+- Monitor medication and treatments
+
+Its **core feature is personalized nutrition**: by leveraging each pet's parameters (such as species, weight and age), the app calculates and recommends three plans (Low cost, mid cost and premium) a customized diet tailored to your pet's specific needs.
+
+This landing page serves as the public-facing entry point for the product, providing visitors with information about the application and explaining its key features and benefits.
 
 ## 🚀 Project Structure
 
