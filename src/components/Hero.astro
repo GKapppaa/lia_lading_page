@@ -1,0 +1,191 @@
+---
+import PhoneMockup from "./PhoneMockup.astro";
+
+// Hero con layout a 2 columnas: texto izquierda + mockup del celular derecha.
+// Animado por GSAP al cargar. Inputs rediseñados más delgados.
+---
+
+<section
+  id="waitlist"
+  class="relative overflow-hidden pt-20 pb-16 sm:pt-24 sm:pb-24"
+>
+  <!-- blobs decorativos de fondo -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -top-32 -left-20 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-40 -right-20 h-[28rem] w-[28rem] rounded-full bg-accent-400/20 blur-3xl"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16"
+  >
+    <!-- Columna izquierda: texto + CTA -->
+    <div class="text-center lg:text-left">
+      <div
+        data-hero-logo
+        class="flex justify-center lg:justify-start"
+      >
+        <img
+          src="/logo_lia.png"
+          alt="Logo de Lía"
+          class="h-40 w-40 object-contain drop-shadow-lg sm:h-48 sm:w-48"
+        />
+      </div>
+
+      <span
+        data-hero-badge
+        class="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3.5 py-1 text-[11px] font-semibold text-brand-700 backdrop-blur"
+      >
+        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-500"></span>
+        Beta privada · Cupos limitados
+      </span>
+
+      <h1
+        data-hero-title
+        class="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight text-brand-900 sm:text-5xl lg:text-6xl"
+      >
+        Nunca más te des cuenta de que
+        <span class="relative inline-block">
+          <span class="relative z-10">falta comida</span>
+          <span
+            aria-hidden="true"
+            class="absolute inset-x-0 bottom-1 -z-0 h-3 rounded bg-accent-400/60 sm:h-4"
+          ></span>
+        </span>
+        <br class="hidden sm:block" />
+        a la hora de la cena.
+      </h1>
+
+      <p
+        data-hero-subtitle
+        class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-brand-800/80 sm:text-lg lg:mx-0"
+      >
+        Lía predice <strong>exactamente</strong> cuándo se acabará el alimento de
+        tu perro y coordina la entrega automática a tu casa, integrando el
+        inventario de las tiendas de mascotas de tu barrio.
+      </p>
+
+      <form
+        data-hero-form
+        class="mx-auto mt-7 flex max-w-md flex-col gap-2.5 sm:flex-row lg:mx-0"
+        novalidate
+      >
+        <label for="hero-email" class="sr-only">Tu correo electrónico</label>
+        <input
+          id="hero-email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="tu@correo.com"
+          class="flex-1 rounded-full border border-brand-200 bg-white px-4 py-2.5 text-sm text-brand-900 placeholder:text-sm placeholder:text-brand-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200/60"
+        />
+        <button
+          type="submit"
+          class="group inline-flex items-center justify-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/30"
+        >
+          Unirme a la lista
+          <svg
+            class="h-3.5 w-3.5 transition group-hover:translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            ></path>
+          </svg>
+        </button>
+      </form>
+
+      <p data-hero-meta class="mt-3 text-xs text-brand-700/70">
+        🔒 Sin spam. Solo avisos cuando abramos más cupos en tu zona.
+      </p>
+    </div>
+
+    <!-- Columna derecha: mockup del celular -->
+    <div data-hero-phone class="relative">
+      <PhoneMockup />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Animación de entrada del Hero — stagger suave al cargar
+  document.addEventListener("DOMContentLoaded", () => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    gsap.set(
+      "[data-hero-logo], [data-hero-badge], [data-hero-title], [data-hero-subtitle], [data-hero-form], [data-hero-meta], [data-hero-phone]",
+      { autoAlpha: 0, y: 24 },
+    );
+
+    tl.to("[data-hero-logo]", { autoAlpha: 1, y: 0, duration: 0.7 })
+      .to("[data-hero-badge]", { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.3")
+      .to("[data-hero-title]", { autoAlpha: 1, y: 0, duration: 0.8 }, "-=0.3")
+      .to(
+        "[data-hero-subtitle]",
+        { autoAlpha: 1, y: 0, duration: 0.6 },
+        "-=0.45",
+      )
+      .to("[data-hero-form]", { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.4")
+      .to("[data-hero-meta]", { autoAlpha: 1, y: 0, duration: 0.5 }, "-=0.4")
+      .to(
+        "[data-hero-phone]",
+        { autoAlpha: 1, y: 0, duration: 0.9, ease: "power2.out" },
+        "-=1.2",
+      );
+
+    // El celular hace una entrada lateral sutil desde la derecha
+    gsap.fromTo(
+      "[data-phone-mockup]",
+      { x: 30, scale: 0.95 },
+      {
+        x: 0,
+        scale: 1,
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.3,
+      },
+    );
+  });
+
+  // Validación y "envío" simulado (no hay backend todavía)
+  const form = document.querySelector<HTMLFormElement>("[data-hero-form]");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = (form.querySelector("input[type=email]") as HTMLInputElement)
+      ?.value;
+    if (!email || !email.includes("@")) {
+      gsap.fromTo(
+        "[data-hero-form]",
+        { x: -6 },
+        { x: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" },
+      );
+      return;
+    }
+    gsap.to("[data-hero-form]", {
+      scale: 0.985,
+      duration: 0.12,
+      yoyo: true,
+      repeat: 1,
+      ease: "power2.inOut",
+    });
+    const btn = form.querySelector("button");
+    if (btn) {
+      btn.textContent = "¡Listo! Te avisaremos pronto 🎉";
+      btn.setAttribute("disabled", "true");
+      (btn as HTMLButtonElement).classList.add("bg-brand-700");
+    }
+  });
+</script>

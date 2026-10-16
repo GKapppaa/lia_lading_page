@@ -1,0 +1,134 @@
+---
+// Mockup del celular mostrando la app de Lía.
+// Recreado en SVG inline para que sea escalable, liviano y fiel a la marca.
+// Combina las pantallas 5 (dashboard con puntos) y 6 (tarjeta Tu Plan) del prototipo.
+---
+
+<div
+  data-phone-mockup
+  class="relative mx-auto w-[280px] sm:w-[320px]"
+  style="filter: drop-shadow(0 25px 50px rgb(13 148 136 / 0.25));"
+>
+  <!-- Marco del teléfono -->
+  <div
+    class="relative overflow-hidden rounded-[2.5rem] border-[10px] border-brand-900 bg-white shadow-2xl"
+  >
+    <!-- Notch superior -->
+    <div
+      class="absolute left-1/2 top-0 z-10 h-6 w-24 -translate-x-1/2 rounded-b-2xl bg-brand-900"
+    >
+    </div>
+
+    <!-- Pantalla -->
+    <div class="relative bg-gradient-to-b from-accent-500 to-accent-400 px-4 pb-5 pt-8">
+      <!-- Saludo + avatar del perro -->
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-[10px] font-medium text-white/80">Hola 👋</p>
+          <h3 class="text-lg font-extrabold text-white">Lía</h3>
+        </div>
+        <!-- Avatar perrito -->
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md ring-2 ring-white/40"
+          aria-hidden="true"
+        >
+          <span class="text-2xl">🐶</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta del dashboard: 10 días para su cumpleaños -->
+      <div
+        class="mt-4 rounded-2xl bg-white p-3 shadow-sm"
+      >
+        <p class="text-[10px] font-semibold text-brand-700">
+          10 días para su cumpleaños 🎉
+        </p>
+        <div class="mt-2 flex items-center gap-2">
+          <div
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-base ring-1 ring-brand-200"
+            aria-hidden="true"
+          >
+            🐕
+          </div>
+          <div class="text-[10px] leading-tight text-brand-800">
+            <p><span class="font-semibold">Edad:</span> 4 años</p>
+            <p><span class="font-semibold">Raza:</span> Quiltro</p>
+            <p><span class="font-semibold">Peso:</span> 30 Kilos</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta Tu Plan (la más persuasiva para conversión) -->
+      <div class="mt-3 rounded-2xl bg-brand-700 p-3.5 text-white shadow-md">
+        <p class="text-[10px] font-semibold text-accent-400">Tu Plan</p>
+        <div class="mt-2 flex items-center gap-2">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl"
+            aria-hidden="true"
+          >
+            🍖
+          </div>
+          <div class="flex-1">
+            <p class="text-[10px] text-white/70">Plan Premium</p>
+            <p class="text-sm font-bold leading-tight">
+              $40.000 CLP
+              <span class="text-[10px] font-normal text-white/70">x Mes</span>
+            </p>
+            <p class="text-[10px] text-white/70">12,5 Kg</p>
+          </div>
+        </div>
+        <button
+          class="mt-3 w-full rounded-full bg-accent-500 py-1.5 text-[10px] font-bold text-brand-900"
+        >
+          Gestiona tu plan
+        </button>
+      </div>
+
+      <!-- Fila de puntos -->
+      <div class="mt-3 rounded-2xl bg-white p-3 shadow-sm">
+        <div class="flex items-center justify-between">
+          <p class="text-[10px] font-semibold text-brand-700">Tus puntos</p>
+          <span class="text-[10px] text-brand-500">🏆</span>
+        </div>
+        <p class="mt-1 text-2xl font-extrabold text-brand-700">
+          1.250<span class="text-[10px] font-medium text-brand-500">PTS</span>
+        </p>
+        <!-- Barra de progreso -->
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-brand-100">
+          <div
+            class="h-full w-3/4 rounded-full bg-gradient-to-r from-brand-400 to-brand-600"
+          >
+          </div>
+        </div>
+        <p class="mt-1 text-[9px] text-brand-500">
+          Próximo premio: 750 pts para Miráditas Móvil
+        </p>
+      </div>
+
+      <!-- Nav inferior del celular -->
+      <div
+        class="mt-4 flex items-center justify-around rounded-2xl bg-white/20 px-2 py-2 backdrop-blur"
+      >
+        <button class="flex flex-col items-center gap-0.5 text-brand-900">
+          <span class="text-base" aria-hidden="true">🏠</span>
+          <span class="text-[8px] font-semibold">Inicio</span>
+        </button>
+        <button class="flex flex-col items-center gap-0.5 text-white/70">
+          <span class="text-base" aria-hidden="true">📋</span>
+          <span class="text-[8px]">Plan</span>
+        </button>
+        <button class="flex flex-col items-center gap-0.5 text-white/70">
+          <span class="text-base" aria-hidden="true">🛍️</span>
+          <span class="text-[8px]">Tienda</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sombra elíptica debajo -->
+  <div
+    aria-hidden="true"
+    class="absolute -bottom-2 left-1/2 h-3 w-3/4 -translate-x-1/2 rounded-full bg-brand-600/20 blur-md"
+  >
+  </div>
+</div>

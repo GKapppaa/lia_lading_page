@@ -1,0 +1,60 @@
+---
+// Header minimalista: solo logo + CTA.
+// Transparente por defecto; aparece fondo blanco translúcido al hacer scroll.
+---
+
+<header
+  data-nav
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a
+      href="#"
+      class="flex items-center gap-2 transition hover:opacity-80"
+      aria-label="Inicio Lía"
+    >
+      <img
+        src="/logo_lia.png"
+        alt="Logo de Lía"
+        class="h-9 w-9 object-contain"
+      />
+      <span class="text-lg font-bold tracking-tight text-brand-700">Lía</span>
+    </a>
+
+    <a
+      href="#waitlist"
+      class="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 hover:shadow-md"
+    >
+      Unirme a la lista
+    </a>
+  </div>
+</header>
+
+<script>
+  // Aparece fondo translúcido solo cuando el usuario hace scroll.
+  // Mantiene el look limpio cuando el usuario está en el top de la página.
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  if (nav) {
+    const onScroll = () => {
+      if (window.scrollY > 12) {
+        nav.classList.add(
+          "bg-white/75",
+          "backdrop-blur-md",
+          "shadow-sm",
+          "border-b",
+          "border-brand-100/50",
+        );
+      } else {
+        nav.classList.remove(
+          "bg-white/75",
+          "backdrop-blur-md",
+          "shadow-sm",
+          "border-b",
+          "border-brand-100/50",
+        );
+      }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

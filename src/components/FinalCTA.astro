@@ -1,0 +1,66 @@
+---
+// Cierre con CTA final: vuelve a ofrecer el email.
+---
+
+<section class="relative py-20 sm:py-28">
+  <div class="mx-auto max-w-3xl px-6 text-center">
+    <h2
+      class="text-3xl font-extrabold tracking-tight text-brand-900 sm:text-5xl"
+    >
+      ¿Listo para no preocuparte
+      <span class="text-brand-600">nunca más</span>?
+    </h2>
+    <p class="mx-auto mt-5 max-w-xl text-lg text-brand-800/75">
+      Estamos abriendo la beta privada en pocas ciudades. Déjanos tu correo y te
+      avisaremos antes que a nadie.
+    </p>
+
+    <form
+      data-cta-form
+      class="mx-auto mt-10 flex max-w-md flex-col gap-2.5 sm:flex-row"
+      novalidate
+    >
+      <label for="cta-email" class="sr-only">Tu correo electrónico</label>
+      <input
+        id="cta-email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="tu@correo.com"
+        class="flex-1 rounded-full border border-brand-200 bg-white px-4 py-2.5 text-sm text-brand-900 placeholder:text-sm placeholder:text-brand-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200/60"
+      />
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition hover:bg-brand-700"
+      >
+        Reservar mi lugar
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-brand-700/70">
+      Únete a los más de <strong>+500</strong> dueños en lista de espera.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  const form = document.querySelector<HTMLFormElement>("[data-cta-form]");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button");
+    if (btn) {
+      btn.textContent = "¡Listo! 🎉";
+      btn.setAttribute("disabled", "true");
+    }
+    gsap.fromTo(
+      "[data-cta-form]",
+      { scale: 0.985 },
+      {
+        scale: 1,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.4)",
+      },
+    );
+  });
+</script>

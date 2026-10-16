@@ -1,7 +1,8 @@
 {
-  "name": "landing-page-proyect-a",
+  "name": "lia-landing",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
   "engines": {
     "node": ">=22.12.0"
   },
@@ -12,6 +13,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.4.6"
+    "astro": "^6.4.6",
+    "gsap": "^3.13.0",
+    "@tailwindcss/vite": "^4.1.1",
+    "tailwindcss": "^4.1.1"
   }
 }
