@@ -1,265 +1,323 @@
 ---
 // Pantallas de la app de Lía recreadas en HTML a partir del mockup.
 // Cada variante es una pantalla real del flujo: foto, datos, plan, inicio, mi perro y puntos.
+// Con `screens` el mismo teléfono apila varias pantallas y la clase `on` decide cuál se ve
+// (lo usa la guía de la landing para recorrer la app con scroll).
+type Screen = "foto" | "datos" | "plan" | "inicio" | "miperro" | "puntos";
 interface Props {
-  screen: "foto" | "datos" | "plan" | "inicio" | "miperro" | "puntos";
+  screen?: Screen;
+  screens?: Screen[];
   label?: string;
+  class?: string;
 }
-const { screen, label } = Astro.props;
+const { screen = "inicio", screens, label, class: cls } = Astro.props;
+const list = screens ?? [screen];
 const dog = "/v2/american-eskimo-dog-portrait-above.jpg";
 const steps = { foto: 1, datos: 2, plan: 3 } as Record<string, number>;
 const stepTitle = { foto: "Foto", datos: "Datos", plan: "Plan" } as Record<string, string>;
-const tab = screen === "miperro" ? "perro" : screen === "puntos" ? "puntos" : "inicio";
+const tabOf = (s: Screen) => (s === "miperro" ? "perro" : s === "puntos" ? "puntos" : "inicio");
 ---
 
-<figure class="phone" aria-label={label}>
-  <div class="screen">
-    {
-      steps[screen] && (
-        <div class="stepper">
-          <span class="back" aria-hidden="true">‹</span>
-          <div class="stepper-info">
-            <span class="stepper-text">
-              Paso {steps[screen]} de 3 · {stepTitle[screen]}
-            </span>
-            <span class="bars">
-              {[1, 2, 3].map((n) => (
-                <i class={n <= steps[screen] ? "on" : ""} />
-              ))}
-            </span>
+<figure class:list={["phone", cls]} aria-label={label} aria-hidden={label ? undefined : "true"}>
+  <span class="hw" aria-hidden="true"></span>
+  {
+    list.map((s, idx) => (
+      <div class:list={["screen", { on: idx === 0 }]} data-screen={s}>
+        {steps[s] && (
+          <div class="stepper">
+            <span class="back" aria-hidden="true">‹</span>
+            <div class="stepper-info">
+              <span class="stepper-text">
+                Paso {steps[s]} de 3 · {stepTitle[s]}
+              </span>
+              <span class="bars">
+                {[1, 2, 3].map((n) => (
+                  <i class={n <= steps[s] ? "on" : ""} />
+                ))}
+              </span>
+            </div>
           </div>
-        </div>
-      )
-    }
+        )}
 
-    {
-      screen === "foto" && (
-        <div class="body">
-          <p class="s-title">Una foto de tu perro</p>
-          <p class="s-sub">Así lo reconoces en la app. Puedes cambiarla después.</p>
-          <div class="photo">
-            <img src={dog} alt="" loading="lazy" />
-            <span class="photo-ok">✓ Foto lista</span>
+        {s === "foto" && (
+          <div class="body">
+            <p class="s-title">Una foto de tu perro</p>
+            <p class="s-sub">Así lo reconoces en la app. Puedes cambiarla después.</p>
+            <div class="photo">
+              <img src={dog} alt="" loading="lazy" />
+              <span class="photo-ok">✓ Foto lista</span>
+            </div>
+            <div class="s-actions">
+              <span class="s-btn">Continuar</span>
+              <span class="s-btn s-btn-ghost">Elegir otra foto</span>
+            </div>
           </div>
-          <div class="s-actions">
-            <span class="s-btn">Continuar</span>
-            <span class="s-btn s-btn-ghost">Elegir otra foto</span>
-          </div>
-        </div>
-      )
-    }
+        )}
 
-    {
-      screen === "datos" && (
-        <div class="body">
-          <div class="s-head-row">
-            <img class="avatar" src={dog} alt="" loading="lazy" />
-            <div>
-              <p class="s-title">Cuéntanos de tu perro</p>
-              <p class="s-sub">Con esto calculamos cuánto come.</p>
-            </div>
-          </div>
-          <span class="f-label">Nombre</span>
-          <span class="f-input">Lía</span>
-          <div class="f-row">
-            <div>
-              <span class="f-label">Nacimiento</span>
-              <span class="f-input">02/02/2021</span>
-            </div>
-            <div>
-              <span class="f-label">Peso</span>
-              <span class="f-input f-step"><b>−</b>30 kg<b>+</b></span>
-            </div>
-          </div>
-          <span class="f-label">Raza</span>
-          <span class="f-input">Quiltro (mestizo) ▾</span>
-          <span class="f-label">Nivel de actividad</span>
-          <span class="seg">
-            <i>Tranquilo</i><i class="on">Normal</i><i>Muy activo</i>
-          </span>
-          <p class="s-note">Paseos diarios de 30 a 60 minutos.</p>
-          <div class="s-actions">
-            <span class="s-btn">Continuar</span>
-          </div>
-        </div>
-      )
-    }
-
-    {
-      screen === "plan" && (
-        <div class="body">
-          <p class="s-title">Elige el alimento de Lía</p>
-          <div class="dark-card">
-            <span class="ring ring-sm" style="--p: 0.7" />
-            <div>
-              <span class="tiny light">Lía · Quiltro · 30 kg · Normal</span>
-              <b>Un saco de 12,5 kg le dura ~31 días</b>
-              <span class="tiny light">Estimado: unos 400 g al día</span>
-            </div>
-          </div>
-          <div class="opt">
-            <span class="sw sw-1" />
-            <span class="opt-name">Esencial<small>12,5 kg</small></span>
-            <span class="opt-price">$28.000</span>
-            <span class="radio" />
-          </div>
-          <div class="opt opt-on">
-            <span class="rec">Recomendado para Lía</span>
-            <span class="sw sw-2" />
-            <span class="opt-name">Equilibrado<small>12,5 kg</small></span>
-            <span class="opt-price">$40.000</span>
-            <span class="radio on" />
-          </div>
-          <div class="opt">
-            <span class="sw sw-3" />
-            <span class="opt-name">Premium<small>12,5 kg</small></span>
-            <span class="opt-price">$58.000</span>
-            <span class="radio" />
-          </div>
-          <div class="s-actions">
-            <span class="s-btn">Activar reposición automática</span>
-            <span class="s-note center">Sin permanencia. Cancela cuando quieras.</span>
-          </div>
-        </div>
-      )
-    }
-
-    {
-      screen === "inicio" && (
-        <div class="body">
-          <div class="s-head-row between">
-            <div>
-              <span class="tiny">Hola, Daniela</span>
-              <p class="s-title sm">Lía está cubierta</p>
-            </div>
-            <img class="avatar sm" src={dog} alt="" loading="lazy" />
-          </div>
-          <div class="dark-card big">
-            <span class="ring" style="--p: 0.3">
-              <b>9</b>
-              <small>días de comida</small>
-            </span>
-            <div>
-              <span class="tiny light">Próxima entrega</span>
-              <b class="lg">Jueves 22 oct</b>
-              <span class="tiny light">5 días antes de que se acabe el saco</span>
-            </div>
-            <span class="dark-foot">
-              Equilibrado 12,5 kg desde Mascotas Don Pepe <em>Ver</em>
-            </span>
-          </div>
-          <p class="s-label">¿Qué necesita Lía hoy?</p>
-          <div class="tiles">
-            <span>Consejos</span>
-            <span>Alimentos</span>
-            <span>Cuidados</span>
-          </div>
-          <div class="points-row">
-            <b>1.250 puntos</b>
-            <span class="tiny">250 para Nivel Patita</span>
-            <span class="bar"><i style="width: 83%" /></span>
-          </div>
-        </div>
-      )
-    }
-
-    {
-      screen === "miperro" && (
-        <div class="body">
-          <p class="s-title">Mi perro</p>
-          <div class="card">
+        {s === "datos" && (
+          <div class="body">
             <div class="s-head-row">
               <img class="avatar" src={dog} alt="" loading="lazy" />
               <div>
-                <b class="lg">Lía</b>
-                <span class="chips">
-                  <i>Quiltro</i>
-                  <i>5 años</i>
-                  <i>30 kg</i>
-                </span>
+                <p class="s-title">Cuéntanos de tu perro</p>
+                <p class="s-sub">Con esto calculamos cuánto come.</p>
               </div>
             </div>
-            <span class="bday">Cumple 6 años el 2 de febrero</span>
-          </div>
-          <div class="dark-card col">
-            <span class="tiny light">Su plan · Activo</span>
-            <b>Equilibrado · 12,5 kg cada ~31 días</b>
-            <b class="lg">$40.000 /mes</b>
-            <span class="dark-btns">
-              <i>Gestionar plan</i>
-              <i>Adelantar entrega</i>
+            <span class="f-label">Nombre</span>
+            <span class="f-input">Lía</span>
+            <div class="f-row">
+              <div>
+                <span class="f-label">Nacimiento</span>
+                <span class="f-input">02/02/2021</span>
+              </div>
+              <div>
+                <span class="f-label">Peso</span>
+                <span class="f-input f-step"><b>−</b>30 kg<b>+</b></span>
+              </div>
+            </div>
+            <span class="f-label">Raza</span>
+            <span class="f-input">Quiltro (mestizo) ▾</span>
+            <span class="f-label">Nivel de actividad</span>
+            <span class="seg">
+              <i>Tranquilo</i><i class="on">Normal</i><i>Muy activo</i>
             </span>
+            <p class="s-note">Paseos diarios de 30 a 60 minutos.</p>
+            <div class="s-actions">
+              <span class="s-btn">Continuar</span>
+            </div>
           </div>
-          <p class="s-label">Entregas</p>
-          <div class="card list">
-            <span><i class="dot dot-o" />Jueves 22 oct<small>Programada</small></span>
-            <span><i class="dot" />Lunes 21 sep<small>Entregada a tiempo</small></span>
-          </div>
-        </div>
-      )
-    }
+        )}
 
-    {
-      screen === "puntos" && (
-        <div class="body">
-          <p class="s-title">Puntos Lía</p>
-          <div class="dark-card col">
-            <span class="tiny light">Tus puntos · Nivel Huellita</span>
-            <b class="xl">1.250</b>
-            <span class="bar light"><i style="width: 83%" /></span>
-            <span class="tiny light">Te faltan 250 pts para Nivel Patita</span>
+        {s === "plan" && (
+          <div class="body">
+            <p class="s-title">Elige el alimento de Lía</p>
+            <div class="dark-card">
+              <span class="ring ring-sm" style="--p: 0.7" />
+              <div>
+                <span class="tiny light">Lía · Quiltro · 30 kg · Normal</span>
+                <b>Un saco de 12,5 kg le dura ~31 días</b>
+                <span class="tiny light">Estimado: unos 400 g al día</span>
+              </div>
+            </div>
+            <div class="opt">
+              <span class="sw sw-1" />
+              <span class="opt-name">Esencial<small>12,5 kg</small></span>
+              <span class="opt-price">$28.000</span>
+              <span class="radio" />
+            </div>
+            <div class="opt opt-on">
+              <span class="rec">Recomendado para Lía</span>
+              <span class="sw sw-2" />
+              <span class="opt-name">Equilibrado<small>12,5 kg</small></span>
+              <span class="opt-price">$40.000</span>
+              <span class="radio on" />
+            </div>
+            <div class="opt">
+              <span class="sw sw-3" />
+              <span class="opt-name">Premium<small>12,5 kg</small></span>
+              <span class="opt-price">$58.000</span>
+              <span class="radio" />
+            </div>
+            <div class="s-actions">
+              <span class="s-btn">Activar reposición automática</span>
+              <span class="s-note center">Sin permanencia. Cancela cuando quieras.</span>
+            </div>
           </div>
-          <div class="tiles">
-            <span>Canjear</span>
-            <span>Historial</span>
-            <span>Cómo ganar</span>
-          </div>
-          <p class="s-label">Premios destacados</p>
-          <div class="card prize">
-            <span class="pct">10%</span>
-            <span>10% dcto. en tu próximo saco<small>200 pts</small></span>
-            <em>Canjear</em>
-          </div>
-          <div class="card prize">
-            <span class="pct">Gratis</span>
-            <span>Snack dental gratis<small>300 pts</small></span>
-            <em>Canjear</em>
-          </div>
-        </div>
-      )
-    }
+        )}
 
-    {
-      !steps[screen] && (
-        <nav class="tabbar" aria-hidden="true">
-          <span class={tab === "inicio" ? "on" : ""}>Inicio</span>
-          <span class={tab === "perro" ? "on" : ""}>Mi perro</span>
-          <span class={tab === "puntos" ? "on" : ""}>Puntos</span>
-        </nav>
-      )
-    }
+        {s === "inicio" && (
+          <div class="body">
+            <div class="s-head-row between">
+              <div>
+                <span class="tiny">Hola, Daniela</span>
+                <p class="s-title sm">Lía está cubierta</p>
+              </div>
+              <img class="avatar sm" src={dog} alt="" loading="lazy" />
+            </div>
+            <div class="dark-card big">
+              <span class="ring" style="--p: 0.3">
+                <b>9</b>
+                <small>días de comida</small>
+              </span>
+              <div>
+                <span class="tiny light">Próxima entrega</span>
+                <b class="lg">Jueves 22 oct</b>
+                <span class="tiny light">5 días antes de que se acabe el saco</span>
+              </div>
+              <span class="dark-foot">
+                Equilibrado 12,5 kg desde Mascotas Don Pepe <em>Ver</em>
+              </span>
+            </div>
+            <p class="s-label">¿Qué necesita Lía hoy?</p>
+            <div class="tiles">
+              <span>Consejos</span>
+              <span>Alimentos</span>
+              <span>Cuidados</span>
+            </div>
+            <div class="points-row">
+              <b>1.250 puntos</b>
+              <span class="tiny">250 para Nivel Patita</span>
+              <span class="bar"><i style="width: 83%" /></span>
+            </div>
+          </div>
+        )}
+
+        {s === "miperro" && (
+          <div class="body">
+            <p class="s-title">Mi perro</p>
+            <div class="card">
+              <div class="s-head-row">
+                <img class="avatar" src={dog} alt="" loading="lazy" />
+                <div>
+                  <b class="lg">Lía</b>
+                  <span class="chips">
+                    <i>Quiltro</i>
+                    <i>5 años</i>
+                    <i>30 kg</i>
+                  </span>
+                </div>
+              </div>
+              <span class="bday">Cumple 6 años el 2 de febrero</span>
+            </div>
+            <div class="dark-card col">
+              <span class="tiny light">Su plan · Activo</span>
+              <b>Equilibrado · 12,5 kg cada ~31 días</b>
+              <b class="lg">$40.000 /mes</b>
+              <span class="dark-btns">
+                <i>Gestionar plan</i>
+                <i>Adelantar entrega</i>
+              </span>
+            </div>
+            <p class="s-label">Entregas</p>
+            <div class="card list">
+              <span><i class="dot dot-o" />Jueves 22 oct<small>Programada</small></span>
+              <span><i class="dot" />Lunes 21 sep<small>Entregada a tiempo</small></span>
+            </div>
+          </div>
+        )}
+
+        {s === "puntos" && (
+          <div class="body">
+            <p class="s-title">Puntos Lía</p>
+            <div class="dark-card col">
+              <span class="tiny light">Tus puntos · Nivel Huellita</span>
+              <b class="xl">1.250</b>
+              <span class="bar light"><i style="width: 83%" /></span>
+              <span class="tiny light">Te faltan 250 pts para Nivel Patita</span>
+            </div>
+            <div class="tiles">
+              <span>Canjear</span>
+              <span>Historial</span>
+              <span>Cómo ganar</span>
+            </div>
+            <p class="s-label">Premios destacados</p>
+            <div class="card prize">
+              <span class="pct">10%</span>
+              <span>10% dcto. en tu próximo saco<small>200 pts</small></span>
+              <em>Canjear</em>
+            </div>
+            <div class="card prize">
+              <span class="pct">Gratis</span>
+              <span>Snack dental gratis<small>300 pts</small></span>
+              <em>Canjear</em>
+            </div>
+          </div>
+        )}
+
+        {!steps[s] && (
+          <nav class="tabbar" aria-hidden="true">
+            <span class={tabOf(s) === "inicio" ? "on" : ""}>Inicio</span>
+            <span class={tabOf(s) === "perro" ? "on" : ""}>Mi perro</span>
+            <span class={tabOf(s) === "puntos" ? "on" : ""}>Puntos</span>
+          </nav>
+        )}
+      </div>
+    ))
+  }
+  <div class="sb" aria-hidden="true">
+    <span>9:41</span>
+    <span class="sb-icons">
+      <i class="sig"><i></i><i></i><i></i><i></i></i>
+      <i class="bat"></i>
+    </span>
   </div>
 </figure>
 
 <style>
+  @property --p {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
   .phone {
     --t9: #0d3b44;
     --t6: #2b7f86;
     --t1: #e6f0f0;
     --or: #f28a3c;
+    position: relative;
     width: 272px;
     aspect-ratio: 9 / 19;
     margin: 0;
-    padding: 9px;
     border-radius: 44px;
     background: #10181a;
-    box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+    /* Única sombra del sistema: el producto apoyado sobre la superficie */
+    box-shadow:
+      inset 0 0 0 1.5px #2c373a,
+      inset 0 0 0 4px #10181a,
+      inset 0 0 0 5px #1e282b,
+      rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
     flex-shrink: 0;
     user-select: none;
   }
+  /* Botones laterales */
+  .phone::before,
+  .hw {
+    content: "";
+    position: absolute;
+    width: 3px;
+    border-radius: 2px;
+    background: #1b2427;
+  }
+  .phone::before { left: -2px; top: 100px; height: 22px; box-shadow: 0 38px 0 0 #1b2427, 0 76px 0 0 #1b2427; }
+  .hw { right: -2px; top: 150px; height: 64px; }
+  /* Isla */
+  .phone::after {
+    content: "";
+    position: absolute;
+    top: 19px;
+    left: 50%;
+    width: 78px;
+    height: 22px;
+    margin-left: -39px;
+    border-radius: 99px;
+    background: #050809;
+    z-index: 3;
+  }
+  .sb {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    right: 9px;
+    height: 34px;
+    padding: 0 24px 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font: 600 11px "Inter", system-ui, sans-serif;
+    color: #14272b;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .sb-icons { display: flex; gap: 5px; align-items: center; }
+  .sig { display: flex; gap: 1.5px; align-items: flex-end; height: 8px; }
+  .sig i { display: block; width: 2.5px; border-radius: 1px; background: currentColor; }
+  .sig i:nth-child(1) { height: 3px; } .sig i:nth-child(2) { height: 4.5px; } .sig i:nth-child(3) { height: 6px; } .sig i:nth-child(4) { height: 8px; }
+  .bat { display: block; width: 18px; height: 8.5px; border-radius: 2.5px; box-shadow: inset 0 0 0 1px rgb(20 39 43 / 0.45); position: relative; }
+  .bat::after { content: ""; position: absolute; inset: 1.5px 4px 1.5px 1.5px; border-radius: 1px; background: currentColor; }
+
   .screen {
-    position: relative;
-    height: 100%;
+    position: absolute;
+    inset: 9px;
     border-radius: 36px;
     overflow: hidden;
     background: #f6f8f8;
@@ -269,17 +327,27 @@ const tab = screen === "miperro" ? "perro" : screen === "puntos" ? "puntos" : "i
     line-height: 1.35;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
+  .screen.on { opacity: 1; transform: none; }
+  /* Al entrar una pantalla, sus anillos y barras se llenan */
+  .screen:not(.on) .ring { --p: 0 !important; }
+  .screen:not(.on) .bar i { width: 0 !important; }
+  .ring { transition: --p 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s; }
+  .bar i { transition: width 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s; }
+
   .body {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 34px 16px 14px;
+    padding: 40px 16px 14px;
     min-height: 0;
   }
   .stepper + .body { padding-top: 10px; }
-  .stepper { display: flex; gap: 10px; align-items: center; padding: 34px 16px 0; }
+  .stepper { display: flex; gap: 10px; align-items: center; padding: 40px 16px 0; }
   .back { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 15px; box-shadow: 0 0 0 1px #e1e7e8; }
   .stepper-info { flex: 1; display: grid; gap: 4px; }
   .stepper-text { font-size: 9px; color: #51656a; }
@@ -318,12 +386,10 @@ const tab = screen === "miperro" ? "perro" : screen === "puntos" ? "puntos" : "i
   .seg i { font-style: normal; text-align: center; padding: 6px 0; font-size: 9px; border-radius: 6px; }
   .seg i.on { background: var(--t9); color: #fff; font-weight: 600; }
 
-  .dark-card { background: var(--t9); color: #fff; border-radius: 14px; padding: 12px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .dark-card { background: var(--t9); color: #fff; border-radius: 14px; padding: 12px; display: flex; gap: 12px; align-items: center; flex-wrap: nowrap; }
   .dark-card.col { flex-direction: column; align-items: stretch; gap: 6px; }
   .dark-card.big { padding: 14px; flex-wrap: wrap; }
   .dark-card.big > div { flex: 1; min-width: 0; }
-  .dark-card { flex-wrap: nowrap; }
-  .dark-card.big { flex-wrap: wrap; }
   .dark-card b:not(.lg):not(.xl) { display: block; font-size: 11px; }
   .ring {
     --p: 0.5;
