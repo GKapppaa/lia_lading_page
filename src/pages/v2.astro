@@ -1,0 +1,1050 @@
+---
+// Landing v2 — dirección "La página es el objeto" (taste-skill, seed 1249064938).
+// La idea: la ficha de tu perro. La portada es una pila de carpetas con pestañas;
+// la carpeta del frente viene abierta con la calculadora del saco.
+const title = "Lía — Sabe qué día se acaba el saco de tu perro";
+const description =
+  "Lía calcula la ración de tu perro por peso, edad y actividad, predice el día en que se acaba el saco y lo pide a tu tienda de barrio antes de que pase.";
+
+const folders = [
+  { href: "#preguntas", label: "Preguntas", bg: "var(--f5)", x: "72%" },
+  { href: "#barrio", label: "Barrio", bg: "var(--f4)", x: "8%" },
+  { href: "#app", label: "La app", bg: "var(--f3)", x: "54%" },
+  { href: "#planes", label: "Planes", bg: "var(--f2)", x: "26%" },
+];
+
+const slip = [
+  {
+    when: "Hoy",
+    rows: [
+      ["Creas la ficha: raza, peso, edad", "2 min"],
+      ["Lía calcula su ración diaria", "al instante"],
+      ["Eliges plan y tienda de barrio", "1 min"],
+    ],
+  },
+  {
+    when: "Día 26",
+    rows: [
+      ["Lía ve que quedan cuatro días de saco", "aviso"],
+      ["La tienda confirma stock y precio", "en la mañana"],
+    ],
+  },
+  {
+    when: "Día 28",
+    rows: [
+      ["El saco sale de la tienda", "tarde"],
+      ["Llega a tu puerta", "antes de la cena"],
+    ],
+  },
+];
+
+const plans = [
+  {
+    id: "economico",
+    name: "Económico",
+    perKg: 2900,
+    desc: "Lo justo y bien medido: buen alimento a precio de supermercado, sin salir de casa.",
+    lines: [
+      "Alimento completo de marca nacional",
+      "Ración ajustada a su peso",
+      "Despacho desde tu tienda de barrio",
+      "Aviso cuatro días antes",
+    ],
+  },
+  {
+    id: "equilibrado",
+    name: "Equilibrado",
+    perKg: 4600,
+    desc: "El que elige la mayoría de los veterinarios para un perro adulto sano.",
+    lines: [
+      "Proteína animal como primer ingrediente",
+      "Ración por peso, edad y actividad",
+      "Despacho desde tu tienda de barrio",
+      "Cambio de alimento sin costo",
+    ],
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    perKg: 7900,
+    desc: "Para perros con alergias, dietas especiales o dueños que no transan.",
+    lines: [
+      "Fórmula sin granos o veterinaria",
+      "Ración revisada cada mes",
+      "Despacho prioritario",
+      "Recordatorios de medicación",
+    ],
+  },
+];
+
+const showcase = [
+  {
+    id: "racion",
+    tab: "Ración",
+    title: "Su plato, al gramo",
+    desc: "Lía convierte peso, edad y actividad en gramos por día, y te dice cuántas tazas son con tu medidor. Si sube de peso, la ración se ajusta sola.",
+    kind: "img",
+    src: "/v2/pile-of-kibble-dog-food-51049786351.jpg",
+    alt: "Un puñado de croquetas redondas sobre fondo blanco",
+  },
+  {
+    id: "medicacion",
+    tab: "Medicación",
+    title: "Pastillas y vacunas a tiempo",
+    desc: "Antiparasitario cada tres meses, vacuna anual, la pastilla de las ocho. Lía avisa el día que toca y guarda lo que ya le diste.",
+    kind: "ui",
+  },
+  {
+    id: "perfil",
+    tab: "Perfil",
+    title: "Toda su ficha en un lugar",
+    desc: "Raza, peso, alergias, veterinario y su historial de comida. Lo compartes con quien lo cuida cuando tú no estás.",
+    kind: "img",
+    src: "/v2/woman-and-dog-portrait.jpg",
+    alt: "Una mujer sentada en el suelo acaricia a un chow chow frente a un muro amarillo",
+  },
+];
+
+const faq = [
+  ["¿Cómo sabe Lía cuánto come mi perro?", "Parte de una fórmula veterinaria de energía según peso, edad y actividad, y la corrige con lo que realmente dura cada saco en tu casa."],
+  ["¿Y si mi perro come menos de lo calculado?", "Le dices a Lía que sobró y mueve la fecha. Después de dos o tres sacos la predicción usa tu propio ritmo."],
+  ["¿Quién me trae el saco?", "Tu tienda de mascotas de barrio. Lía le avisa con días de margen y ella despacha o te lo deja listo para retirar."],
+  ["¿Puedo elegir la marca?", "Sí. Los planes son rangos de precio; dentro de cada uno eliges la marca que tu tienda tenga en stock."],
+  ["¿Cuánto cuesta la app?", "Durante la beta, nada. Pagas el alimento a precio de tienda, más el despacho si lo pides a domicilio."],
+  ["¿Sirve si tengo dos perros?", "Sí. Cada uno tiene su ficha y su ración; si comparten saco, Lía suma ambos consumos."],
+  ["¿Puedo pausar un pedido?", "Cuando quieras, desde la ficha. Si te vas de viaje, Lía corre la fecha los días que estés fuera."],
+  ["¿Qué pasa con mis datos?", "Son tuyos. La tienda solo ve lo necesario para despachar: dirección, producto y cantidad."],
+  ["¿Funciona para gatos?", "Estamos empezando con perros. Los gatos llegan después de la beta."],
+];
+
+let credits: { title: string; creator: string; license: string; page: string; media: string }[] = [];
+try {
+  const fs = await import("node:fs");
+  credits = JSON.parse(fs.readFileSync("public/v2/credits.json", "utf8"));
+} catch {}
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,800;1,400&family=Libre+Franklin:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Portada: la pila de carpetas -->
+    <header class="hero">
+      <nav class="top">
+        <a href="#top" class="top-mark" aria-label="Lía, inicio">
+          <img src="/logo_lia.png" alt="" width="40" height="40" />
+        </a>
+        <a href="#unirme" class="top-link">Unirme a la beta</a>
+      </nav>
+      <div class="hero-copy" id="top">
+        <h1 class="hero-title" data-rise>Lía</h1>
+        <p class="hero-sub" data-rise>
+          Sabe qué día se acaba el saco de tu perro y se lo pide a tu tienda de
+          barrio antes de que pase.
+        </p>
+        <a href="#calc-form" class="btn btn-solid hero-btn">Calcular su saco</a>
+      </div>
+      <div class="stack" aria-label="Secciones">
+        {
+          folders.map((f) => (
+            <a class="folder" href={f.href} style={`--fold:${f.bg};--tab-x:${f.x}`}>
+              <span class="tab">{f.label}</span>
+            </a>
+          ))
+        }
+      </div>
+    </header>
+
+    <main>
+      <!-- Carpeta del frente: la calculadora -->
+      <section class="front" id="calcula" aria-labelledby="calc-h">
+        <div class="front-sheet">
+          <span class="tab tab-front">Su saco</span>
+          <a href="#calc-form" class="btn btn-solid front-btn">Calcular su saco</a>
+          <div class="calc">
+            <div class="calc-intro">
+              <h2 id="calc-h" class="h-head" data-rise>¿Cuándo se acaba?</h2>
+              <p class="lead" data-rise>
+                Ponle sus datos. Lía hace la cuenta que harías tú con una
+                pesa, un calendario y mucha paciencia.
+              </p>
+            </div>
+            <form id="calc-form" class="calc-form" data-calc>
+              <label class="field">
+                <span>Nombre</span>
+                <input name="name" value="Tobi" maxlength="20" autocomplete="off" />
+              </label>
+              <label class="field">
+                <span>Peso (kg)</span>
+                <input name="kg" type="number" inputmode="decimal" min="1" max="90" step="0.5" value="14" />
+              </label>
+              <label class="field">
+                <span>Saco (kg)</span>
+                <select name="bag">
+                  <option value="3">3 kg</option>
+                  <option value="8">8 kg</option>
+                  <option value="15" selected>15 kg</option>
+                  <option value="20">20 kg</option>
+                </select>
+              </label>
+              <fieldset class="seg">
+                <legend>Edad</legend>
+                <label><input type="radio" name="age" value="2" /><span>Cachorro</span></label>
+                <label><input type="radio" name="age" value="1.6" checked /><span>Adulto</span></label>
+                <label><input type="radio" name="age" value="1.4" /><span>Senior</span></label>
+              </fieldset>
+              <fieldset class="seg">
+                <legend>Actividad</legend>
+                <label><input type="radio" name="act" value="0.85" /><span>Tranquilo</span></label>
+                <label><input type="radio" name="act" value="1" checked /><span>Normal</span></label>
+                <label><input type="radio" name="act" value="1.25" /><span>Inquieto</span></label>
+              </fieldset>
+            </form>
+            <output class="result" for="calc-form" aria-live="polite">
+              <p class="result-main">
+                El saco de <b data-out="name">Tobi</b> se acaba el
+                <span class="result-date" data-out="date">—</span>
+              </p>
+              <dl class="result-rows">
+                <div><dt>Ración diaria</dt><dd><span data-out="grams">—</span> g</dd></div>
+                <div><dt>Duración del saco</dt><dd><span data-out="days">—</span> días</dd></div>
+                <div><dt>Lía avisa a la tienda</dt><dd data-out="order">—</dd></div>
+              </dl>
+            </output>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cómo funciona: el itinerario en una boleta -->
+      <section class="how" aria-labelledby="how-h">
+        <div class="how-text">
+          <h2 id="how-h" class="h-head" data-rise>Un saco, un mes</h2>
+          <p class="body" data-rise>
+            Así se ve un mes con Lía para un perro de 14 kg y un saco de 15
+            kg. Tú haces la primera línea; el resto pasa solo.
+          </p>
+          <figure class="how-fig" data-rise>
+            <img
+              src="/v2/dog-food-1.jpg"
+              width="1920"
+              height="1440"
+              alt="Un saco de croquetas abierto con un medidor de plástico adentro"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        </div>
+        <ol class="slip" data-rise>
+          {
+            slip.map((g) => (
+              <li class="slip-group">
+                <h3 class="slip-when">{g.when}</h3>
+                {g.rows.map(([what, time]) => (
+                  <p class="slip-row">
+                    <span>{what}</span>
+                    <i aria-hidden="true" />
+                    <span>{time}</span>
+                  </p>
+                ))}
+              </li>
+            ))
+          }
+          <li class="slip-total">
+            <span>Plato lleno los 30 días</span><span>0 viajes tuyos</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Planes: el ticket -->
+      <section class="plans" id="planes" aria-labelledby="plans-h">
+        <div class="plans-head">
+          <h2 id="plans-h" class="h-head" data-rise>Tres planes, su ración</h2>
+          <div class="plan-tabs" role="tablist" aria-label="Plan">
+            {
+              plans.map((p, i) => (
+                <button
+                  role="tab"
+                  class="plan-tab"
+                  aria-selected={i === 1 ? "true" : "false"}
+                  data-plan={p.id}
+                >
+                  {p.name}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <div class="ticket" data-rise>
+          <div class="ticket-main">
+            {
+              plans.map((p, i) => (
+                <div class="ticket-plan" data-plan-panel={p.id} hidden={i !== 1}>
+                  <div class="ticket-top"><p class="ticket-title">Plan {p.name}</p><p class="ticket-desc">{p.desc}</p></div>
+                  <ul class="ticket-lines">
+                    {p.lines.map((l) => <li>{l}</li>)}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+          <div class="ticket-stub">
+            <p class="ticket-price" data-out="price">—</p>
+            <p class="ticket-note">al mes para <span data-out="name">Tobi</span>, <span data-out="kgmonth">—</span> kg de alimento</p>
+            <a href="#unirme" class="ticket-btn">Quiero este plan</a>
+          </div>
+          <span class="notch notch-t" aria-hidden="true"></span>
+          <span class="notch notch-b" aria-hidden="true"></span>
+        </div>
+        <p class="plans-note body">
+          Precios de referencia en pesos chilenos según la ración calculada
+          arriba. El precio final lo pone tu tienda.
+        </p>
+      </section>
+
+      <!-- La app: plato cuadrado con pestañas -->
+      <section class="show" id="app" aria-labelledby="show-h">
+        <div class="show-plate">
+          {
+            showcase.map((s, i) => (
+              <div class="plate" data-plate={s.id} data-on={i === 0 ? "" : undefined}>
+                {s.kind === "img" ? (
+                  <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+                ) : (
+                  <div class="ui" data-ui>
+                    <p class="ui-head">Medicación de Tobi</p>
+                    <ul class="ui-list">
+                      <li class="ui-row ui-due">
+                        <span>Antiparasitario interno</span>
+                        <b>Hoy, 20:00</b>
+                      </li>
+                      <li class="ui-row">
+                        <span>Pipeta antipulgas</span>
+                        <b>24 nov</b>
+                      </li>
+                      <li class="ui-row">
+                        <span>Vacuna óctuple</span>
+                        <b>3 mar 2027</b>
+                      </li>
+                      <li class="ui-row ui-done">
+                        <span>Antiparasitario interno</span>
+                        <b>Dado 16 jul</b>
+                      </li>
+                    </ul>
+                    <button class="ui-btn" type="button" tabindex="-1">Marcar como dado</button>
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </div>
+        <div class="show-text">
+          <div class="show-tabs" role="tablist" aria-label="Funciones de la app">
+            {
+              showcase.map((s, i) => (
+                <button
+                  role="tab"
+                  class="show-tab"
+                  aria-selected={i === 0 ? "true" : "false"}
+                  data-show={s.id}
+                >
+                  {s.tab}
+                </button>
+              ))
+            }
+          </div>
+          <div class="show-copy">
+            {
+              showcase.map((s, i) => (
+                <div data-show-panel={s.id} hidden={i !== 0}>
+                  <h2 id={i === 0 ? "show-h" : undefined} class="h-sub">{s.title}</h2>
+                  <p class="body">{s.desc}</p>
+                </div>
+              ))
+            }
+          </div>
+          <div class="show-actions">
+            <a href="#unirme" class="cell cell-ink">Probar la beta</a>
+            <a href="#preguntas" class="cell cell-tone">Leer preguntas</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barrio: la carta en una hoja -->
+      <section class="barrio" id="barrio" aria-label="Por qué tu tienda de barrio">
+        <figure class="plate-tip plate-left" data-rise>
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/v2/dog-walking-in-the-mission-in-san-poster.jpg"
+            aria-label="Un perro de pelo largo camina con correa por una vereda"
+          >
+            <source src="/v2/dog-walking-in-the-mission-in-san.webm" type="video/webm" />
+          </video>
+        </figure>
+        <article class="letter" data-rise>
+          <img class="letter-mark" src="/logo_lia.png" alt="" width="44" height="44" />
+          <p>Hola,</p>
+          <p>
+            Lía nació de una noche cualquiera: el plato vacío, el perro mirando
+            y el supermercado ya cerrado. Lo que sí estaba abierto era la tienda
+            de la esquina, la de siempre.
+          </p>
+          <p>
+            Esa tienda conoce a tu perro por su nombre, pero no tiene cómo saber
+            cuándo se te acaba el saco. Lía es ese dato. Con él, la tienda pide
+            a tiempo, guarda tu marca y te despacha sin que tengas que llamar.
+          </p>
+          <p>
+            <mark>Cada pedido queda en el barrio.</mark> No hay bodega central
+            ni intermediario: tu tienda vende, tu tienda despacha.
+          </p>
+          <p>Si tienes una tienda y quieres sumarte a la beta, escríbenos.</p>
+          <p class="letter-sign">El equipo de Lía</p>
+          <p class="letter-role">Beta privada, 2026</p>
+          <div class="letter-strip">
+            <a href="mailto:hola@lia.pet?subject=Quiero%20sumar%20mi%20tienda%20a%20L%C3%ADa">hola@lia.pet</a>
+          </div>
+        </article>
+        <figure class="plate-tip plate-right" data-rise>
+          <img
+            src="/v2/ramirez-pet-shop.jpg"
+            width="1024"
+            height="768"
+            alt="Fachada de una tienda de mascotas de barrio con un mural de pájaros sobre la puerta"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </section>
+
+      <!-- Preguntas: texto corrido -->
+      <section class="faq" id="preguntas" aria-labelledby="faq-h">
+        <h2 id="faq-h" class="h-sub" data-rise>Preguntas</h2>
+        <div class="faq-cols">
+          {
+            faq.map(([q, a]) => (
+              <p data-rise>
+                <b>{q}</b> {a}
+              </p>
+            ))
+          }
+        </div>
+        <figure class="faq-fig" data-rise>
+          <img
+            src="/v2/american-eskimo-dog-portrait-above.jpg"
+            width="1370"
+            height="2048"
+            alt="Un perro blanco de pelo largo mira hacia arriba con la boca entreabierta"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </section>
+
+      <!-- Cierre: la ficha ya abierta -->
+      <section class="cta" id="unirme" aria-labelledby="cta-h">
+        <div class="cta-copy">
+          <h2 id="cta-h" class="h-close" data-rise>Abre su ficha</h2>
+          <p class="body" data-rise>
+            Te avisamos por correo cuando haya cupo en tu comuna. Llegas con la
+            ficha de tu perro ya creada.
+          </p>
+        </div>
+        <form class="dialog" data-ui data-join novalidate>
+          <p class="dialog-title">Nueva ficha</p>
+          <label class="dialog-field">
+            <span>Nombre de tu perro</span>
+            <input name="dog" value="Tobi" maxlength="20" autocomplete="off" />
+          </label>
+          <label class="dialog-field">
+            <span>Tu correo</span>
+            <input name="email" type="email" placeholder="tu@correo.cl" autocomplete="email" required />
+          </label>
+          <fieldset class="dialog-seg">
+            <legend>Entrega</legend>
+            <label><input type="radio" name="mode" value="casa" checked /><span>A mi casa</span></label>
+            <label><input type="radio" name="mode" value="retiro" /><span>Retiro en tienda</span></label>
+          </fieldset>
+          <button type="submit" class="dialog-btn">Crear la ficha de <span data-join-name>Tobi</span></button>
+          <p class="dialog-msg" aria-live="polite" hidden></p>
+        </form>
+      </section>
+    </main>
+
+    <!-- Reverso: el pie -->
+    <footer class="foot">
+      <div class="foot-cols">
+        <div>
+          <p class="foot-first">Lía</p>
+          <p>Ración, saco y medicación de tu perro, en una ficha.</p>
+        </div>
+        <div>
+          <p class="foot-first">Secciones</p>
+          <p><a href="#calcula">Su saco</a></p>
+          <p><a href="#planes">Planes</a></p>
+          <p><a href="#app">La app</a></p>
+          <p><a href="#barrio">Barrio</a></p>
+          <p><a href="#preguntas">Preguntas</a></p>
+        </div>
+        <div>
+          <p class="foot-first">Contacto</p>
+          <p><a href="mailto:hola@lia.pet">hola@lia.pet</a></p>
+          <p><a href="mailto:hola@lia.pet?subject=Tengo%20una%20tienda">Tengo una tienda</a></p>
+        </div>
+        <div class="foot-credits">
+          <p class="foot-first">Fotografías</p>
+          {
+            credits.map((c) => (
+              <p>
+                <a href={c.page}>{c.title}</a>, {c.creator}, {c.license}
+              </p>
+            ))
+          }
+        </div>
+      </div>
+      <svg class="foot-word" viewBox="0 0 243 118" role="img" aria-label="Lía">
+        <text x="0" y="104">Lía</text>
+      </svg>
+      <p class="foot-legal">© 2026 Lía. Beta privada.</p>
+    </footer>
+
+    <style is:global>
+      :root {
+        --ink-ground: #2b2a29;
+        --ink: #333231;
+        --muted: #5f5b57;
+        --paper: #f3f3f1;
+        --f1: #eeecea;
+        --f2: #e4e1dd;
+        --f3: #d9d4ce;
+        --f4: #cdc3b6;
+        --f5: #b9ae9f;
+        --accent: #0a7a7f;
+        --accent-ink: #ffffff;
+
+        --display: "Besley", Georgia, serif;
+        --text: "Libre Franklin", system-ui, sans-serif;
+        --step-small: 0.875rem;
+        --step-body: 1.0625rem;
+        --step-lead: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+        --step-sub: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+        --step-head: clamp(2.25rem, 1.3rem + 3.6vw, 4.25rem);
+        --step-display: clamp(6rem, 10vw, 10rem);
+
+        --m: clamp(16px, 3vw, 40px);
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body {
+        margin: 0;
+        background: var(--ink-ground);
+        color: var(--ink);
+        font-family: var(--text);
+        font-size: var(--step-body);
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      img, video { display: block; max-width: 100%; }
+      h1, h2, h3, p, figure, ol, ul, dl, dd { margin: 0; padding: 0; }
+      ul, ol { list-style: none; }
+      a { color: inherit; }
+      ::selection { background: var(--accent); color: var(--accent-ink); }
+      :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+      main { position: relative; z-index: 2; }
+
+      .h-head, .h-close, .hero-title {
+        font-family: var(--display);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 0.95;
+      }
+      .h-head { font-size: var(--step-head); }
+      .h-sub { font-family: var(--display); font-weight: 800; font-size: var(--step-sub); line-height: 1; letter-spacing: -0.02em; }
+      .lead { font-size: var(--step-lead); line-height: 1.4; }
+      .body { font-size: var(--step-body); max-width: 34ch; }
+
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 52px; padding: 0 28px;
+        font: 600 var(--step-body) / 1 var(--text);
+        text-decoration: none; border: 0; cursor: pointer;
+        clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%, 0 12px);
+        transition: transform 0.18s var(--ease), background-color 0.18s;
+      }
+      .btn-solid { background: var(--accent); color: var(--accent-ink); }
+      .btn-solid:hover { background: #086569; }
+      .btn:active { transform: translateY(2px); }
+
+      /* ---------- Portada ---------- */
+      .hero { position: relative; z-index: 2; background: var(--ink-ground); color: var(--paper); padding-top: 24px; }
+      .top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--m); }
+      .top-mark { grid-column: 2; display: block; width: 44px; height: 44px; border-radius: 50%; background: var(--paper); padding: 2px; transition: transform 0.2s var(--ease); }
+      .top-mark:hover { transform: rotate(-8deg); }
+      .top-link { justify-self: end; font-size: var(--step-small); font-weight: 600; text-decoration: none; padding: 8px 0; }
+      .top-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+      .hero-copy { min-height: calc(51svh - 68px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px var(--m) 72px; }
+      .hero-title { font-size: var(--step-display); }
+      .hero-btn { display: none; }
+      .hero-sub { margin-top: 20px; font-size: var(--step-lead); line-height: 1.35; max-width: 34ch; }
+
+      .stack { width: 86%; margin: 0 auto; padding-top: 40px; }
+      .folder {
+        position: relative; display: block; height: 64px;
+        background: var(--fold); text-decoration: none; color: var(--ink);
+      }
+      .tab {
+        position: absolute; top: -40px; left: var(--tab-x, 6%);
+        height: 41px; padding: 0 36px; display: flex; align-items: center;
+        background: var(--fold, var(--f1)); color: var(--ink);
+        font-size: var(--step-body); font-weight: 600; white-space: nowrap;
+        clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 100%, 0 100%);
+        transition: transform 0.2s var(--ease);
+      }
+      .folder:hover .tab, .folder:focus-visible .tab { transform: translateY(-6px); }
+      .folder:focus-visible { outline-offset: -3px; }
+
+      /* ---------- Carpeta del frente ---------- */
+      .front { background: var(--ink-ground); }
+      .front-sheet {
+        position: relative; width: 86%; margin: 0 auto;
+        background: var(--f1); padding: 32px clamp(20px, 4vw, 64px) 120px;
+      }
+      .tab-front { --fold: var(--f1); left: 40%; }
+      .front-btn { margin-bottom: clamp(56px, 8vw, 112px); }
+      .calc { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px clamp(16px, 2vw, 32px); align-items: start; }
+      .calc-intro { grid-column: 1 / 6; display: grid; gap: 24px; }
+      .calc-intro .lead { max-width: 26ch; }
+      .calc-form { grid-column: 7 / 13; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+      .field { display: grid; gap: 6px; font-size: var(--step-small); font-weight: 600; }
+      .field input, .field select {
+        font: 400 var(--step-body) var(--text); color: var(--ink);
+        background: var(--paper); border: 0; border-bottom: 3px solid var(--f4);
+        padding: 12px 12px; min-height: 52px; width: 100%; border-radius: 0;
+        transition: border-color 0.18s;
+      }
+      .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+      .seg { grid-column: 1 / -1; border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+      .seg legend { font-size: var(--step-small); font-weight: 600; padding: 0; margin-bottom: 6px; width: 100%; }
+      .seg label { flex: 1; cursor: pointer; }
+      .seg input, .dialog-seg input { position: absolute; opacity: 0; pointer-events: none; }
+      .seg span {
+        display: flex; justify-content: center; align-items: center; min-height: 48px;
+        background: var(--f2); font-size: var(--step-body); font-weight: 600;
+        transition: background-color 0.18s, color 0.18s, transform 0.15s;
+      }
+      .seg label:hover span { background: var(--f3); }
+      .seg input:checked + span { background: var(--ink); color: var(--paper); }
+      .seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+      .seg label:active span { transform: scale(0.97); }
+
+      .result {
+        grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px clamp(16px, 2vw, 32px);
+        background: var(--ink); color: var(--paper); padding: clamp(28px, 4vw, 56px);
+        margin-top: 24px;
+      }
+      .result-main { grid-column: 1 / 8; font-family: var(--display); font-weight: 800; font-size: var(--step-sub); line-height: 1.1; letter-spacing: -0.02em; }
+      .result-date { display: inline-block; color: #8fd6d9; }
+      .result-rows { grid-column: 8 / 13; display: grid; gap: 14px; align-self: end; }
+      .result-rows div { display: flex; justify-content: space-between; gap: 16px; font-size: var(--step-body); }
+      .result-rows dt { color: #d6d1cb; }
+      .result-rows dd { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+      /* ---------- Cómo funciona ---------- */
+      .how {
+        background: var(--f2); display: grid; grid-template-columns: repeat(12, 1fr);
+        gap: 32px clamp(16px, 2vw, 32px); padding: clamp(96px, 12vw, 180px) var(--m);
+        align-items: start;
+      }
+      .how-text { grid-column: 1 / 6; display: grid; gap: 24px; }
+      .how-fig { margin-top: 24px; aspect-ratio: 4 / 3; overflow: hidden; }
+      .how-fig img { width: 100%; height: 100%; object-fit: cover; }
+      .slip {
+        grid-column: 7 / 12; background: var(--paper); padding: 36px 36px 64px;
+        font-size: var(--step-body); font-variant-numeric: tabular-nums;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), 95% 100%, 90% calc(100% - 14px), 85% 100%, 80% calc(100% - 14px), 75% 100%, 70% calc(100% - 14px), 65% 100%, 60% calc(100% - 14px), 55% 100%, 50% calc(100% - 14px), 45% 100%, 40% calc(100% - 14px), 35% 100%, 30% calc(100% - 14px), 25% 100%, 20% calc(100% - 14px), 15% 100%, 10% calc(100% - 14px), 5% 100%, 0 calc(100% - 14px));
+      }
+      .slip-group + .slip-group { margin-top: 28px; }
+      .slip-when { font: 600 var(--step-body) var(--text); margin-bottom: 10px; }
+      .slip-row { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; }
+      .slip-row i { flex: 1; min-width: 24px; border-bottom: 4px dotted var(--muted); transform: translateY(-4px); }
+      .slip-row span:last-child { white-space: nowrap; color: var(--muted); font-weight: 600; }
+      .slip-total {
+        margin: 32px -36px 0; padding: 0 36px; min-height: 44px; display: flex; align-items: center;
+        justify-content: space-between; gap: 12px; background: var(--ink); color: var(--paper); font-weight: 600;
+      }
+
+      /* ---------- Planes ---------- */
+      .plans { background: var(--f4); padding: clamp(96px, 12vw, 180px) var(--m); }
+      .plans-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; width: min(100%, 1120px); margin: 0 auto 48px; }
+      .plan-tabs { display: flex; gap: 4px; }
+      .plan-tab {
+        font: 600 var(--step-body) var(--text); color: var(--ink); background: var(--f3);
+        border: 0; min-height: 48px; padding: 0 22px; cursor: pointer;
+        transition: background-color 0.18s, color 0.18s, transform 0.15s;
+      }
+      .plan-tab:hover { background: var(--f2); }
+      .plan-tab:active { transform: scale(0.97); }
+      .plan-tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+      .ticket {
+        position: relative; width: min(100%, 1120px); margin: 0 auto;
+        display: grid; grid-template-columns: 7fr 3fr; min-height: 420px;
+        background: var(--paper);
+      }
+      .ticket-main { padding: 40px; display: flex; }
+      .ticket-plan { display: flex; flex-direction: column; justify-content: space-between; width: 100%; gap: 32px; }
+      .ticket-plan[hidden] { display: none; }
+      .ticket-title { font-family: var(--display); font-weight: 800; font-size: var(--step-head); line-height: 0.95; letter-spacing: -0.02em; }
+      .ticket-top { display: grid; gap: 20px; }
+      .ticket-desc { font-size: var(--step-lead); line-height: 1.35; max-width: 32ch; }
+      .ticket-lines { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; font-size: var(--step-body); }
+      .ticket-stub {
+        position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        text-align: center; gap: 8px; padding: 32px 24px;
+        background: var(--f2);
+      }
+      .ticket-stub::before {
+        content: ""; position: absolute; left: -3px; top: 28px; bottom: 28px; width: 0;
+        border-left: 6px dotted var(--f4);
+      }
+      .ticket-for { font-size: var(--step-body); font-weight: 600; }
+      .ticket-price { font-family: var(--display); font-weight: 800; font-size: var(--step-head); letter-spacing: -0.02em; line-height: 1; }
+      .ticket-note { font-size: var(--step-body); color: var(--muted); }
+      .ticket-btn {
+        margin-top: 20px; align-self: stretch; min-height: 56px; display: flex; align-items: center; justify-content: center;
+        background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none;
+        transition: background-color 0.18s, transform 0.15s;
+      }
+      .ticket-btn:hover { background: #086569; }
+      .ticket-btn:active { transform: translateY(2px); }
+      .notch { position: absolute; left: 70%; width: 28px; height: 28px; margin-left: -14px; border-radius: 50%; background: var(--f4); }
+      .notch-t { top: -14px; }
+      .notch-b { bottom: -14px; }
+      .plans-note { width: min(100%, 1120px); margin: 32px auto 0; max-width: 60ch; margin-left: max(0px, calc((100% - 1120px) / 2)); }
+      .plans-note { color: var(--ink); }
+
+      /* ---------- La app ---------- */
+      .show { background: var(--f3); display: grid; grid-template-columns: 1fr 1fr; min-height: 88svh; }
+      .show-plate { position: relative; display: grid; place-items: center; padding: 40px; }
+      .plate { grid-area: 1 / 1; width: 100%; aspect-ratio: 1; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 0.24s, visibility 0.24s; }
+      .plate[data-on] { opacity: 1; visibility: visible; }
+      .plate img { width: 100%; height: 100%; object-fit: cover; }
+      .ui {
+        width: 100%; height: 100%; background: var(--paper); padding: clamp(24px, 4vw, 48px);
+        display: flex; flex-direction: column; gap: 20px; font-size: var(--step-body);
+      }
+      .ui-head { font-family: var(--display); font-weight: 800; font-size: var(--step-sub); }
+      .ui-list { display: grid; gap: 8px; }
+      .ui-row { display: flex; justify-content: space-between; gap: 12px; padding: 16px; background: var(--f2); border-left: 5px solid transparent; }
+      .ui-due { border-left-color: var(--accent); background: #dcecec; }
+      .ui-done { color: var(--muted); }
+      .ui-btn { margin-top: auto; align-self: start; font: 600 var(--step-body) var(--text); border: 0; background: var(--accent); color: #fff; padding: 14px 20px; border-radius: 8px; }
+      .show-text { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding: 40px var(--m) 40px 0; }
+      .show-tabs { display: flex; gap: 28px; flex-wrap: wrap; }
+      .show-tab {
+        font: 600 var(--step-body) var(--text); color: var(--muted); background: none; border: 0; padding: 8px 0; cursor: pointer;
+        border-bottom: 3px solid transparent; transition: color 0.18s, border-color 0.18s;
+      }
+      .show-tab:hover { color: var(--ink); }
+      .show-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+      .show-copy > div { display: grid; gap: 48px; }
+      .show-copy > div[hidden] { display: none; }
+      .show-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+      .cell { min-height: 72px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 600; transition: background-color 0.18s, transform 0.15s; }
+      .cell:active { transform: translateY(2px); }
+      .cell-ink { background: var(--ink); color: var(--paper); }
+      .cell-ink:hover { background: #000; }
+      .cell-tone { background: var(--f2); }
+      .cell-tone:hover { background: var(--f1); }
+
+      /* ---------- Barrio ---------- */
+      .barrio {
+        background: var(--ink-ground); padding: clamp(120px, 14vw, 200px) var(--m);
+        display: grid; grid-template-columns: 1fr minmax(0, 640px) 1fr; gap: clamp(16px, 3vw, 48px); align-items: start;
+      }
+      .plate-tip { aspect-ratio: 4 / 5; overflow: hidden; }
+      .plate-tip video, .plate-tip img { width: 100%; height: 100%; object-fit: cover; }
+      .plate-left { margin-top: 120px; }
+      .plate-right { margin-top: 320px; aspect-ratio: 3 / 4; }
+      .letter {
+        background: var(--paper); padding: 60px 60px 0; font-size: var(--step-body); line-height: 1.55;
+        display: grid; gap: 1.1em;
+        -webkit-mask: radial-gradient(circle 9px at 50% 100%, transparent 98%, #000) 0 0 / 24px 100% repeat-x; /* taste-skill-ignore: máscara del borde festoneado */
+        mask: radial /* taste-skill-ignore */-gradient(circle 9px at 50% 100%, transparent 98%, #000) 0 0 / 24px 100% repeat-x;
+        padding-bottom: 9px;
+      }
+      .letter-mark { width: 44px; height: 44px; border-radius: 50%; background: #fff; margin-bottom: 4px; }
+      .letter mark { background: #bfe3e4; color: inherit; padding: 0 3px; }
+      .letter-sign { font-style: italic; font-size: var(--step-lead); margin-top: 8px; }
+      .letter-role { font-size: var(--step-small); color: var(--muted); margin-top: -0.9em; }
+      .letter-strip {
+        margin: 24px -60px 0; min-height: 72px; display: flex; align-items: center; justify-content: center;
+        background: var(--f2); position: relative;
+      }
+      .letter-strip::before {
+        content: ""; position: absolute; left: 0; right: 0; top: -2px; height: 0;
+        border-top: 5px dotted var(--f4);
+      }
+      .letter-strip a { font-weight: 600; text-underline-offset: 4px; padding: 12px; }
+
+      /* ---------- Preguntas ---------- */
+      .faq {
+        background: var(--f5); display: grid; grid-template-columns: repeat(12, 1fr);
+        gap: 32px clamp(16px, 2vw, 32px); padding: clamp(96px, 12vw, 180px) var(--m);
+      }
+      .faq > h2 { grid-column: 1 / 4; }
+      .faq-cols { grid-column: 4 / 13; columns: 2; column-gap: 56px; font-size: var(--step-body); line-height: 1.55; }
+      .faq-cols p { break-inside: avoid; margin-bottom: 20px; }
+      .faq-cols b { font-weight: 600; }
+      .faq-fig { grid-column: 1 / 4; grid-row: 2; aspect-ratio: 3 / 4; overflow: hidden; align-self: start; }
+      .faq-fig img { width: 100%; height: 100%; object-fit: cover; }
+      .faq-cols { grid-row: 1 / 3; }
+
+      /* ---------- Cierre ---------- */
+      .cta {
+        background: var(--accent); color: var(--accent-ink); min-height: 90svh;
+        display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px clamp(16px, 2vw, 32px);
+        padding: 40px var(--m); align-items: center;
+      }
+      .cta-copy { grid-column: 1 / 6; align-self: end; display: grid; gap: 24px; padding-bottom: 40px; }
+      .h-close { font-size: var(--step-head); line-height: 0.92; }
+      .dialog {
+        grid-column: 7 / 12; justify-self: center; width: min(100%, 440px);
+        background: #fff; color: var(--ink); padding: 28px; border-radius: 14px;
+        box-shadow: 0 24px 60px rgb(0 0 0 / 0.28); /* taste-skill-ignore: diálogo data-ui */
+        display: grid; gap: 18px; font-size: var(--step-body);
+      }
+      .dialog-title { font-weight: 600; font-size: var(--step-lead); }
+      .dialog-field { display: grid; gap: 6px; font-size: var(--step-small); font-weight: 600; }
+      .dialog-field input { font: 400 var(--step-body) var(--text); padding: 12px 14px; min-height: 50px; border: 2px solid #d9d4ce; border-radius: 8px; color: var(--ink); }
+      .dialog-field input:focus { outline: none; border-color: var(--accent); }
+      .dialog-seg { border: 0; padding: 4px; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #eeecea; border-radius: 10px; }
+      .dialog-seg legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .dialog-seg span { display: flex; justify-content: center; align-items: center; min-height: 42px; border-radius: 7px; font-weight: 600; cursor: pointer; transition: background-color 0.18s; }
+      .dialog-seg input:checked + span { background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / 0.15); /* taste-skill-ignore */ }
+      .dialog-seg input:focus-visible + span { outline: 3px solid var(--accent); }
+      .dialog-btn { font: 600 var(--step-body) var(--text); min-height: 52px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; transition: background-color 0.18s, transform 0.15s; }
+      .dialog-btn:hover { background: #086569; }
+      .dialog-btn:active { transform: scale(0.98); }
+      .dialog-msg { font-weight: 600; color: var(--accent); }
+
+      /* ---------- Pie ---------- */
+      .foot {
+        position: sticky; bottom: 0; z-index: 1; min-height: 100svh;
+        display: grid; grid-template-rows: auto 1fr auto auto; background: var(--ink-ground); color: var(--f2);
+        padding: 40px var(--m) 20px;
+      }
+      .foot-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; font-size: var(--step-small); color: #c9c3bc; }
+      .foot-cols p + p { margin-top: 6px; }
+      .foot-first { color: var(--paper); font-weight: 600; }
+      .foot-cols a { text-decoration: none; }
+      .foot-cols a:hover { text-decoration: underline; text-underline-offset: 3px; color: var(--paper); }
+      .foot-credits { font-size: var(--step-small); }
+      .foot-word { grid-row: 3; width: 100%; height: auto; margin-top: 40px; fill: var(--paper); }
+      .foot-word text { font-family: var(--display); font-weight: 800; font-size: 136px; letter-spacing: -3px; }
+      .foot-legal { grid-row: 4; font-size: var(--step-small); margin-top: 16px; color: #c9c3bc; }
+
+      /* ---------- Teléfono ---------- */
+      @media (max-width: 860px) {
+        .hero-copy { min-height: auto; padding: 72px 16px 64px; }
+        .hero-title { font-size: 17vw; }
+        .hero-sub { font-size: var(--step-body); }
+        .stack { width: 100%; padding-top: 32px; }
+        .folder { height: 52px; }
+        .tab { height: 33px; top: -32px; font-size: var(--step-small); padding: 0 24px; }
+        .stack .folder:nth-child(1) .tab { left: auto; right: 4%; }
+        .stack .folder:nth-child(2) .tab { left: 4%; }
+        .stack .folder:nth-child(3) .tab { left: 36%; }
+        .stack .folder:nth-child(4) .tab { left: 8%; }
+        .tab-front { left: auto; right: 6%; width: 120px; font-size: 0; }
+        .front-sheet { width: 100%; padding: 24px 16px 72px; }
+        .front-btn { display: none; }
+        .hero-btn { display: inline-flex; margin-top: 28px; }
+        .front-sheet { padding-top: 64px; }
+        .result-main { font-size: var(--step-lead); }
+        .ticket-stub { padding-top: 56px; }
+        .calc, .result, .how, .faq, .cta { grid-template-columns: 1fr; }
+        .calc-intro, .calc-form, .result-main, .result-rows, .how-text, .slip, .faq > h2, .faq-cols, .faq-fig, .cta-copy, .dialog { grid-column: 1; grid-row: auto; }
+        .calc-form { grid-template-columns: 1fr 1fr; }
+        .calc-form .field:first-child { grid-column: 1 / -1; }
+        .result { padding: 24px 16px; margin: 24px -16px 0; }
+        .how { padding: 96px 16px; }
+        .slip { padding: 28px 20px 56px; }
+        .slip-total { margin: 28px -20px 0; padding: 0 20px; }
+        .plans { padding: 96px 20px; }
+        .plan-tabs { width: 100%; }
+        .plan-tab { flex: 1; padding: 0 8px; font-size: var(--step-body); }
+        .ticket { grid-template-columns: 1fr; aspect-ratio: auto; }
+        .ticket-main { padding: 28px 24px 64px; }
+        
+        .ticket-lines { grid-template-columns: 1fr; }
+        
+        .ticket-stub::before { left: 28px; right: 28px; top: -3px; bottom: auto; width: auto; height: 0; border-left: 0; border-top: 6px dotted var(--f4); }
+        .notch { left: auto; top: auto; margin: 0; }
+        .notch-t { left: -14px; top: var(--notch-y, 60%); }
+        .notch-b { right: -14px; top: var(--notch-y, 60%); bottom: auto; }
+        .show { grid-template-columns: 1fr; min-height: 0; }
+        .show-plate { padding: 16px 16px 0; }
+        .show-text { padding: 32px 16px 72px; gap: 32px; }
+        .show-tab { font-size: var(--step-body); }
+        .show-copy > div { gap: 20px; }
+        .show-actions { grid-template-columns: 1fr; }
+        .cell { min-height: 60px; }
+        .barrio { grid-template-columns: 1fr 1fr; padding: 96px 0; gap: 16px; }
+        .letter { grid-column: 1 / -1; grid-row: 1; padding: 40px 24px 9px; font-size: var(--step-body); }
+        .letter-strip { margin: 16px -24px 0; }
+        .plate-left, .plate-right { margin-top: 0; aspect-ratio: 4 / 5; }
+        .plate-left { margin-left: 16px; }
+        .plate-right { margin-right: 16px; }
+        .faq { padding: 96px 20px; }
+        .faq-cols { columns: 1; font-size: var(--step-body); }
+        .faq-fig { max-width: 60%; }
+        .cta { min-height: 84svh; padding: 72px 16px 40px; align-content: space-between; }
+        .cta-copy { align-self: start; padding-bottom: 0; }
+        
+        .dialog { width: 100%; }
+        .foot-cols { grid-template-columns: 1fr 1fr; gap: 32px 16px; }
+        .foot-credits { grid-column: 1 / -1; }
+      }
+
+      /* ---------- Movimiento ---------- */
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      }
+    </style>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      // ---------- Calculadora del saco ----------
+      // Energía de reposo 70·kg^0.75, por factor de edad y actividad;
+      // croqueta promedio de 3,6 kcal por gramo.
+      const KCAL_PER_G = 3.6;
+      const PLAN_PER_KG: Record<string, number> = { economico: 2900, equilibrado: 4600, premium: 7900 };
+      const fmtDate = new Intl.DateTimeFormat("es-CL", { weekday: "long", day: "numeric", month: "long" });
+      const fmtShort = new Intl.DateTimeFormat("es-CL", { day: "numeric", month: "long" });
+      const fmtCLP = new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 });
+      const form = document.querySelector<HTMLFormElement>("[data-calc]")!;
+      let plan = "equilibrado";
+      let gramsPerDay = 0;
+
+      const setOut = (key: string, value: string) =>
+        document.querySelectorAll(`[data-out="${key}"]`).forEach((el) => (el.textContent = value));
+
+      function compute() {
+        const data = new FormData(form);
+        const name = String(data.get("name") || "").trim() || "tu perro";
+        const kg = Math.min(90, Math.max(1, Number(data.get("kg")) || 14));
+        const bag = Number(data.get("bag")) || 15;
+        const factor = Number(data.get("age")) * Number(data.get("act"));
+        const kcal = 70 * Math.pow(kg, 0.75) * factor;
+        gramsPerDay = Math.round(kcal / KCAL_PER_G / 5) * 5;
+        const days = Math.floor((bag * 1000) / gramsPerDay);
+        const end = new Date();
+        end.setDate(end.getDate() + days);
+        const order = new Date(end);
+        order.setDate(order.getDate() - 4);
+        setOut("name", name);
+        setOut("grams", String(gramsPerDay));
+        setOut("days", String(days));
+        setOut("date", fmtDate.format(end));
+        setOut("order", fmtShort.format(order));
+        price();
+      }
+      function price() {
+        const kgMonth = (gramsPerDay * 30) / 1000;
+        setOut("kgmonth", kgMonth.toLocaleString("es-CL", { maximumFractionDigits: 1 }));
+        setOut("price", fmtCLP.format(Math.round((kgMonth * PLAN_PER_KG[plan]) / 100) * 100));
+      }
+      form.addEventListener("input", compute);
+      form.addEventListener("submit", (e) => e.preventDefault());
+      compute();
+
+      // ---------- Pestañas de planes ----------
+      document.querySelectorAll<HTMLButtonElement>("[data-plan]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          plan = btn.dataset.plan!;
+          document.querySelectorAll("[data-plan]").forEach((b) => b.setAttribute("aria-selected", String(b === btn)));
+          document.querySelectorAll<HTMLElement>("[data-plan-panel]").forEach((p) => (p.hidden = p.dataset.planPanel !== plan));
+          price();
+          gsap.fromTo(".ticket-price", { y: 10, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "power2.out" });
+        });
+      });
+
+      // ---------- La app: índice con vista previa ----------
+      const showTabs = document.querySelectorAll<HTMLButtonElement>("[data-show]");
+      const pick = (id: string) => {
+        showTabs.forEach((b) => b.setAttribute("aria-selected", String(b.dataset.show === id)));
+        document.querySelectorAll<HTMLElement>("[data-plate]").forEach((p) => p.toggleAttribute("data-on", p.dataset.plate === id));
+        document.querySelectorAll<HTMLElement>("[data-show-panel]").forEach((p) => (p.hidden = p.dataset.showPanel !== id));
+      };
+      showTabs.forEach((b) => {
+        b.addEventListener("click", () => pick(b.dataset.show!));
+        b.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") pick(b.dataset.show!); });
+      });
+
+      // ---------- Cierre: la ficha ----------
+      const join = document.querySelector<HTMLFormElement>("[data-join]")!;
+      const joinName = join.querySelector("[data-join-name]")!;
+      join.dog.addEventListener("input", () => (joinName.textContent = join.dog.value.trim() || "tu perro"));
+      join.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const msg = join.querySelector<HTMLElement>(".dialog-msg")!;
+        if (!join.email.value.includes("@")) {
+          gsap.fromTo(join, { x: -8 }, { x: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" });
+          join.email.focus();
+          return;
+        }
+        msg.hidden = false;
+        msg.textContent = `Listo. Te escribimos cuando haya cupo para ${join.dog.value.trim() || "tu perro"}.`;
+        join.querySelector("button")!.setAttribute("disabled", "");
+      });
+
+      // ---------- Entradas ----------
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduce) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".hero [data-rise]", { y: 28, autoAlpha: 0, duration: 0.8, stagger: 0.09, ease: "power3.out" });
+        gsap.from(".stack .folder", { y: 40, duration: 0.7, stagger: 0.07, delay: 0.2, ease: "power3.out" });
+        gsap.from(".front-sheet", { y: 60, duration: 0.9, delay: 0.35, ease: "power3.out" });
+        document.querySelectorAll<HTMLElement>("main > section").forEach((sec) => {
+          const items = sec.querySelectorAll("[data-rise]");
+          if (!items.length) return;
+          gsap.from(items, {
+            y: 24, autoAlpha: 0, duration: 0.7, stagger: 0.075, ease: "power3.out",
+            scrollTrigger: { trigger: sec, start: "top 78%", once: true },
+          });
+        });
+        gsap.from(".slip-row", {
+          x: -12, autoAlpha: 0, duration: 0.45, stagger: 0.06, ease: "power2.out",
+          scrollTrigger: { trigger: ".slip", start: "top 75%", once: true },
+        });
+        gsap.to(".how-fig img", {
+          scale: 1.12, ease: "none",
+          scrollTrigger: { trigger: ".how", start: "top bottom", end: "bottom top", scrub: true },
+        });
+        gsap.from(".dialog", {
+          y: 48, autoAlpha: 0, duration: 0.8, ease: "power3.out",
+          scrollTrigger: { trigger: ".cta", start: "top 70%", once: true },
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,737 @@
+---
+// Landing v3 — basada en el mockup de la app (7 pantallas).
+// Sistema: Apple como base (tiles a todo el ancho que alternan claro/oscuro,
+// producto al centro, titulares ajustados, CTA píldora, presión scale(0.95))
+// + Airbnb para tarjetas, selectores y formularios. Paleta y tipografías del mockup.
+import Phone from "../components/v3/Phone.astro";
+
+const title = "Lía — La comida de tu perro llega antes de que se acabe";
+const description =
+  "Lía calcula cuándo se acaba el saco de tu perro y tu tienda de barrio lo despacha a tiempo. Sin permanencia, cancela cuando quieras.";
+
+const benefits = [
+  {
+    icon: "clock",
+    title: "Calculamos cuándo se acaba su saco",
+    desc: "Con su peso, edad y actividad sabemos cuántos gramos come al día y qué día queda vacío.",
+  },
+  {
+    icon: "truck",
+    title: "Tu tienda de barrio lo despacha",
+    desc: "El pedido llega desde una tienda cercana, cinco días antes de que se termine.",
+  },
+  {
+    icon: "lock",
+    title: "Pago seguro, sin permanencia",
+    desc: "Pagas cada saco cuando se despacha. Pausas o cancelas desde la app cuando quieras.",
+  },
+];
+
+const steps = [
+  {
+    screen: "foto" as const,
+    title: "Sube una foto",
+    desc: "Así reconoces a tu perro en la app. Puedes cambiarla cuando quieras.",
+  },
+  {
+    screen: "datos" as const,
+    title: "Cuéntanos de él",
+    desc: "Nombre, fecha de nacimiento, peso, raza y cuánto se mueve. Toma menos de un minuto.",
+  },
+  {
+    screen: "plan" as const,
+    title: "Elige su alimento",
+    desc: "Te mostramos cuánto le dura cada saco y te recomendamos un plan. Activas la reposición y listo.",
+  },
+];
+
+const plans = [
+  { id: "esencial", name: "Esencial", price: 28000, desc: "Alimento completo de marca nacional.", items: ["Saco de 12,5 kg", "Despacho desde tu tienda de barrio", "Aviso antes de cada entrega"] },
+  { id: "equilibrado", name: "Equilibrado", price: 40000, desc: "Proteína animal como primer ingrediente.", items: ["Saco de 12,5 kg", "Despacho desde tu tienda de barrio", "Cambio de marca sin costo", "Doble de Puntos Lía"], rec: true },
+  { id: "premium", name: "Premium", price: 58000, desc: "Fórmulas sin granos o veterinarias.", items: ["Saco de 12,5 kg", "Despacho prioritario", "Cambio de marca sin costo", "Recordatorios de cuidados"] },
+];
+
+const daily = [
+  { title: "Días de comida, de un vistazo", desc: "El anillo de Inicio te dice cuántos días quedan y cuándo llega el próximo saco." },
+  { title: "Adelanta o pausa una entrega", desc: "¿Visitas o viaje? Mueve la fecha con un toque desde Mi perro." },
+  { title: "Su ficha completa", desc: "Raza, edad, peso, cumpleaños y el historial de cada entrega." },
+];
+
+const faq = [
+  ["¿Cómo sabe Lía cuánto come mi perro?", "Usamos una fórmula veterinaria según su peso, edad y nivel de actividad. Después de las primeras entregas la ajustamos con lo que realmente dura cada saco en tu casa."],
+  ["¿Qué tienda me trae el saco?", "Una tienda de mascotas de tu barrio asociada a Lía. La ves en la app antes de activar el plan."],
+  ["¿Puedo cambiar de plan o de marca?", "Sí, cuando quieras y sin costo desde Mi perro → Gestionar plan. El cambio aplica desde la próxima entrega."],
+  ["¿Hay permanencia?", "No. Pagas cada saco cuando se despacha y puedes pausar o cancelar en cualquier momento."],
+  ["¿Cómo funcionan los Puntos Lía?", "Sumas puntos con cada reposición a tiempo y los canjeas por descuentos en tu próximo saco o premios para tu perro."],
+  ["¿Sirve si tengo más de un perro?", "Sí. Cada perro tiene su ficha y su ración, y si comparten saco sumamos ambos consumos."],
+];
+
+const icons: Record<string, string> = {
+  clock: "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  truck: "M3 6h11v10H3zM14 10h4l3 3v3h-7M7.5 18.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm11 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z",
+  lock: "M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3",
+  check: "M5 12.5l4.5 4.5L19 7.5",
+  star: "M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5Z",
+};
+const clp = (n: number) => "$" + n.toLocaleString("es-CL");
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+
+    <!-- 1. Navegación -->
+    <header class="nav">
+      <div class="wrap nav-in">
+        <a href="#top" class="brand" aria-label="Lía, inicio">
+          <img src="/logo_lia.png" alt="" width="36" height="36" />
+          <span>Lía</span>
+        </a>
+        <nav class="nav-links" aria-label="Principal">
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#calcula">Calcula</a>
+          <a href="#planes">Planes</a>
+          <a href="#app">La app</a>
+          <a href="#preguntas">Preguntas</a>
+        </nav>
+        <a href="#empezar" class="btn btn-primary btn-sm">Comenzar</a>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <!-- 2. Hero -->
+      <section class="tile tile-dark hero" id="top">
+        <div class="wrap hero-in">
+          <div class="hero-copy">
+            <h1 class="display" data-rise>La comida de tu perro llega antes de que se acabe</h1>
+            <p class="lead" data-rise>
+              Lía calcula cuándo se termina su saco y tu tienda de barrio lo
+              despacha a tiempo. Tú no tienes que acordarte de nada.
+            </p>
+            <div class="hero-ctas" data-rise>
+              <a href="#empezar" class="btn btn-primary">Comenzar gratis</a>
+              <a href="#calcula" class="btn btn-ghost-dark">Calcular su saco</a>
+            </div>
+            <ul class="hero-points" data-rise>
+              {
+                benefits.map((b) => (
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[b.icon]} /></svg>
+                    {b.title}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="hero-phone" data-rise>
+            <Phone screen="inicio" label="Pantalla de inicio de la app de Lía: quedan 9 días de comida y la próxima entrega es el jueves 22 de octubre" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Beneficios -->
+      <section class="tile tile-light" aria-labelledby="ben-h">
+        <div class="wrap">
+          <h2 id="ben-h" class="h2 center" data-rise>Una preocupación menos</h2>
+          <div class="ben-grid">
+            {
+              benefits.map((b) => (
+                <article class="ben" data-rise>
+                  <span class="ben-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[b.icon]} /></svg>
+                  </span>
+                  <h3 class="h3">{b.title}</h3>
+                  <p>{b.desc}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Cómo funciona -->
+      <section class="tile tile-parchment" id="como-funciona" aria-labelledby="how-h">
+        <div class="wrap">
+          <h2 id="how-h" class="h2 center" data-rise>Listo en tres pasos</h2>
+          <p class="sub center" data-rise>Configuras a tu perro una vez. Lía se encarga del resto.</p>
+          <ol class="steps">
+            {
+              steps.map((s, i) => (
+                <li class="step" data-rise>
+                  <Phone screen={s.screen} label={`Paso ${i + 1}: ${s.title}`} />
+                  <div class="step-text">
+                    <span class="step-n" aria-hidden="true">{i + 1}</span>
+                    <h3 class="h3">{s.title}</h3>
+                    <p>{s.desc}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <!-- 5. Calculadora -->
+      <section class="tile tile-dark" id="calcula" aria-labelledby="calc-h">
+        <div class="wrap calc-in">
+          <div class="calc-copy">
+            <h2 id="calc-h" class="h2" data-rise>¿Cuánto le dura un saco?</h2>
+            <p class="lead" data-rise>
+              Prueba el cálculo que hace la app. Cambia los datos y mira el
+              resultado al instante.
+            </p>
+          </div>
+          <div class="calc-card" data-rise>
+            <form class="calc-form" data-calc>
+              <label class="field">
+                <span>Nombre</span>
+                <input name="name" value="Lía" maxlength="20" autocomplete="off" />
+              </label>
+              <div class="field">
+                <span id="kg-l">Peso</span>
+                <div class="stepper" role="group" aria-labelledby="kg-l">
+                  <button type="button" data-kg="-1" aria-label="Restar 1 kg">−</button>
+                  <output name="kgOut"><b data-kg-val>30</b> kg</output>
+                  <button type="button" data-kg="1" aria-label="Sumar 1 kg">+</button>
+                </div>
+                <input type="hidden" name="kg" value="30" />
+              </div>
+              <fieldset class="field seg-field">
+                <legend>Edad</legend>
+                <div class="seg">
+                  <label><input type="radio" name="age" value="2" /><span>Cachorro</span></label>
+                  <label><input type="radio" name="age" value="1.6" checked /><span>Adulto</span></label>
+                  <label><input type="radio" name="age" value="1.4" /><span>Senior</span></label>
+                </div>
+              </fieldset>
+              <fieldset class="field seg-field">
+                <legend>Nivel de actividad</legend>
+                <div class="seg">
+                  <label><input type="radio" name="act" value="0.85" /><span>Tranquilo</span></label>
+                  <label><input type="radio" name="act" value="1" checked /><span>Normal</span></label>
+                  <label><input type="radio" name="act" value="1.25" /><span>Muy activo</span></label>
+                </div>
+              </fieldset>
+            </form>
+            <div class="result" aria-live="polite">
+              <div class="result-ring" style="--p: 0.75">
+                <b data-out="days">31</b>
+                <small>días</small>
+              </div>
+              <div>
+                <p class="result-main">
+                  Un saco de 12,5 kg le dura a <span data-out="name">Lía</span>
+                  unos <span data-out="days">31</span> días
+                </p>
+                <p class="result-sub">
+                  Come unos <b data-out="grams">400</b> g al día. Si empiezas
+                  hoy, el próximo saco llegaría el <b data-out="date">—</b>.
+                </p>
+              </div>
+            </div>
+            <a href="#planes" class="btn btn-primary btn-block">Ver planes para <span data-out="name">Lía</span></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Planes -->
+      <section class="tile tile-light" id="planes" aria-labelledby="plans-h">
+        <div class="wrap">
+          <h2 id="plans-h" class="h2 center" data-rise>Elige su alimento</h2>
+          <p class="sub center" data-rise>Precio por saco de 12,5 kg, despacho incluido. Sin permanencia.</p>
+          <div class="plans" role="radiogroup" aria-label="Planes">
+            {
+              plans.map((p) => (
+                <label class:list={["plan", { "plan-rec": p.rec }]} data-rise>
+                  <input type="radio" name="plan" value={p.id} checked={p.rec} data-price={p.price} data-name={p.name} />
+                  {p.rec && <span class="rec">Recomendado</span>}
+                  <span class="plan-head">
+                    <span class="plan-name">{p.name}</span>
+                    <span class="radio" aria-hidden="true" />
+                  </span>
+                  <span class="plan-desc">{p.desc}</span>
+                  <span class="plan-price">
+                    {clp(p.price)} <small>por saco</small>
+                  </span>
+                  <ul class="plan-items">
+                    {p.items.map((it) => (
+                      <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </label>
+              ))
+            }
+          </div>
+          <div class="plan-summary" data-rise>
+            <p>
+              Elegiste <b data-plan-name>Equilibrado</b> ·
+              <b data-plan-price>$40.000</b> por saco
+            </p>
+            <a href="#empezar" class="btn btn-primary">Activar reposición automática</a>
+          </div>
+          <p class="fine center">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.lock} /></svg>
+            Sin permanencia. Cancela cuando quieras.
+          </p>
+        </div>
+      </section>
+
+      <!-- 7. La app en el día a día -->
+      <section class="tile tile-parchment" id="app" aria-labelledby="app-h">
+        <div class="wrap app-in">
+          <div class="app-phones" data-rise>
+            <Phone screen="inicio" label="Inicio: días de comida y próxima entrega" />
+            <Phone screen="miperro" label="Mi perro: ficha, plan activo y entregas" />
+          </div>
+          <div class="app-copy">
+            <h2 id="app-h" class="h2" data-rise>Todo bajo control, sin pensarlo</h2>
+            <ul class="app-list">
+              {
+                daily.map((d) => (
+                  <li data-rise>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>
+                    <div>
+                      <h3 class="h3">{d.title}</h3>
+                      <p>{d.desc}</p>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Puntos Lía -->
+      <section class="tile tile-dark" aria-labelledby="pts-h">
+        <div class="wrap app-in reverse">
+          <div class="app-copy">
+            <h2 id="pts-h" class="h2" data-rise>Cada saco a tiempo suma Puntos Lía</h2>
+            <p class="lead" data-rise>
+              Junta puntos con cada reposición y canjéalos por descuentos en tu
+              próximo saco o premios para tu perro.
+            </p>
+            <ul class="pts-list" data-rise>
+              <li><b>200 pts</b> 10% de descuento en tu próximo saco</li>
+              <li><b>300 pts</b> Snack dental gratis</li>
+              <li><b>Nivel Patita</b> beneficios extra desde 1.500 pts</li>
+            </ul>
+          </div>
+          <div class="app-phones single" data-rise>
+            <Phone screen="puntos" label="Puntos Lía: 1.250 puntos y premios destacados" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Preguntas -->
+      <section class="tile tile-light" id="preguntas" aria-labelledby="faq-h">
+        <div class="wrap narrow">
+          <h2 id="faq-h" class="h2 center" data-rise>Preguntas frecuentes</h2>
+          <div class="faq">
+            {
+              faq.map(([q, a], i) => (
+                <details open={i === 0} data-rise>
+                  <summary>{q}</summary>
+                  <p>{a}</p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Comenzar -->
+      <section class="tile tile-dark" id="empezar" aria-labelledby="cta-h">
+        <div class="wrap narrow center">
+          <img src="/logo_lia.png" alt="" width="72" height="72" class="cta-logo" data-rise />
+          <h2 id="cta-h" class="h2" data-rise>Que nunca le falte su comida</h2>
+          <p class="lead" data-rise>
+            Estamos abriendo cupos por comuna. Déjanos tu correo y te avisamos
+            cuando Lía llegue a tu barrio.
+          </p>
+          <form class="join" data-join novalidate data-rise>
+            <label class="sr-only" for="join-email">Tu correo</label>
+            <input id="join-email" name="email" type="email" placeholder="tu@correo.cl" autocomplete="email" required />
+            <button type="submit" class="btn btn-primary">Unirme</button>
+          </form>
+          <p class="join-msg" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- 11. Pie -->
+    <footer class="foot">
+      <div class="wrap foot-in">
+        <div class="foot-brand">
+          <a href="#top" class="brand">
+            <img src="/logo_lia.png" alt="" width="32" height="32" />
+            <span>Lía</span>
+          </a>
+          <p>La comida de tu perro llega antes de que se acabe.</p>
+        </div>
+        <div>
+          <p class="foot-h">Producto</p>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#planes">Planes</a>
+          <a href="#app">La app</a>
+        </div>
+        <div>
+          <p class="foot-h">Ayuda</p>
+          <a href="#preguntas">Preguntas frecuentes</a>
+          <a href="mailto:hola@lia.pet">hola@lia.pet</a>
+        </div>
+        <div>
+          <p class="foot-h">Tiendas</p>
+          <a href="mailto:hola@lia.pet?subject=Quiero%20sumar%20mi%20tienda">Suma tu tienda</a>
+        </div>
+      </div>
+      <div class="wrap foot-legal">
+        <p>© 2026 Lía. Beta privada.</p>
+        <p>
+          Foto del perro: <a href="https://commons.wikimedia.org/w/index.php?curid=1923059">“American Eskimo Dog portrait above”</a>, SheltieBoy, CC BY 2.0.
+        </p>
+      </div>
+    </footer>
+
+    <style is:global>
+      :root {
+        --t9: #0d3b44;
+        --t8: #12474f;
+        --t7: #1b5a63;
+        --t6: #2b7f86;
+        --t1: #e6f0f0;
+        --or: #f28a3c;
+        --or-press: #e5772a;
+        --on-or: #0a2f37;
+        --ink: #14272b;
+        --muted: #4f6266;
+        --canvas: #ffffff;
+        --parchment: #f4f7f7;
+        --hairline: #dde5e6;
+        --on-dark: #ffffff;
+        --on-dark-muted: #c3d8da;
+
+        --display: "Poppins", system-ui, sans-serif;
+        --text: "Inter", system-ui, sans-serif;
+        --r-sm: 8px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --section: clamp(64px, 9vw, 112px);
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-font-smoothing: antialiased; }
+      body { margin: 0; font-family: var(--text); font-size: 17px; line-height: 1.47; color: var(--ink); background: var(--canvas); overflow-x: hidden; }
+      img { max-width: 100%; display: block; }
+      h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+      ul, ol { list-style: none; }
+      a { color: inherit; }
+      :focus-visible { outline: 3px solid var(--or); outline-offset: 3px; border-radius: 4px; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .skip { position: absolute; left: 16px; top: -60px; background: var(--or); color: var(--on-or); padding: 10px 16px; border-radius: var(--r-sm); z-index: 100; font-weight: 600; }
+      .skip:focus { top: 12px; }
+      svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+      .wrap { width: min(100% - 32px, 1180px); margin-inline: auto; }
+      .narrow { width: min(100% - 32px, 760px); }
+      .center { text-align: center; }
+
+      /* Tipografía (Apple: titulares ajustados, cuerpo 17px) */
+      .display { font-family: var(--display); font-weight: 600; font-size: clamp(2.25rem, 1.4rem + 3.4vw, 3.75rem); line-height: 1.07; letter-spacing: -0.02em; }
+      .h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.875rem, 1.3rem + 2vw, 2.75rem); line-height: 1.1; letter-spacing: -0.015em; }
+      .h3 { font-family: var(--display); font-weight: 600; font-size: 1.25rem; line-height: 1.25; }
+      .lead { font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem); line-height: 1.45; }
+      .sub { color: var(--muted); margin-top: 12px; font-size: 1.125rem; }
+      .fine { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 16px; font-size: 14px; color: var(--muted); }
+      .fine svg { width: 16px; height: 16px; }
+
+      /* Botones (píldora, presión scale 0.95) */
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        min-height: 48px; padding: 12px 26px; border-radius: 999px; border: 0;
+        font: 600 17px/1.2 var(--text); text-decoration: none; cursor: pointer;
+        transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .btn:active { transform: scale(0.95); }
+      .btn-primary { background: var(--or); color: var(--on-or); }
+      .btn-primary:hover { background: var(--or-press); }
+      .btn-ghost-dark { color: var(--on-dark); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.45); }
+      .btn-ghost-dark:hover { box-shadow: inset 0 0 0 1.5px #fff; background: rgb(255 255 255 / 0.06); }
+      .btn-sm { min-height: 40px; padding: 8px 18px; font-size: 15px; }
+      .btn-block { width: 100%; }
+
+      /* Navegación */
+      .nav { position: sticky; top: 0; z-index: 50; background: rgb(13 59 68 / 0.92); backdrop-filter: saturate(180%) blur(16px); color: var(--on-dark); }
+      .nav-in { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+      .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 20px var(--display); }
+      .brand img { border-radius: 50%; background: #fff; padding: 2px; }
+      .nav-links { display: flex; gap: 28px; margin-left: auto; font-size: 15px; }
+      .nav-links a { text-decoration: none; color: var(--on-dark-muted); padding: 8px 0; transition: color 0.15s; }
+      .nav-links a:hover { color: #fff; }
+
+      /* Tiles (Apple: el cambio de color es el divisor) */
+      .tile { padding-block: var(--section); }
+      .tile-dark { background: var(--t9); color: var(--on-dark); }
+      .tile-dark .lead { color: var(--on-dark-muted); }
+      .tile-light { background: var(--canvas); }
+      .tile-parchment { background: var(--parchment); }
+
+      /* Hero */
+      .hero { padding-top: clamp(48px, 7vw, 96px); padding-bottom: 0; overflow: hidden; }
+      .hero-in { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: end; }
+      .hero-copy { display: grid; gap: 24px; padding-bottom: clamp(48px, 7vw, 96px); align-self: center; }
+      .hero-copy .lead { max-width: 34ch; }
+      .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+      .hero-points { display: grid; gap: 12px; margin-top: 8px; color: var(--on-dark-muted); font-size: 16px; }
+      .hero-points li { display: flex; align-items: center; gap: 12px; }
+      .hero-points svg { width: 34px; height: 34px; padding: 7px; border-radius: 10px; background: var(--t7); color: #fff; }
+      .hero-phone { justify-self: center; margin-bottom: -120px; }
+      .hero-phone .phone { width: 300px; }
+
+      /* Beneficios */
+      .ben-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+      .ben { background: var(--parchment); border-radius: var(--r-lg); padding: 32px 28px; display: grid; gap: 12px; align-content: start; }
+      .ben-icon { width: 48px; height: 48px; border-radius: var(--r-md); display: grid; place-items: center; background: var(--t9); color: #fff; margin-bottom: 4px; }
+      .ben-icon svg { width: 24px; height: 24px; }
+      .ben p { color: var(--muted); }
+
+      /* Pasos */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 56px; counter-reset: s; }
+      .step { display: grid; justify-items: center; gap: 28px; }
+      .step-text { text-align: center; display: grid; gap: 8px; justify-items: center; max-width: 30ch; }
+      .step-n { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--or); color: var(--on-or); font: 600 16px var(--display); }
+      .step-text p { color: var(--muted); }
+
+      /* Calculadora */
+      .calc-in { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: center; }
+      .calc-copy { display: grid; gap: 20px; }
+      .calc-card { background: var(--canvas); color: var(--ink); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 32px); display: grid; gap: 24px; }
+      .calc-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .field { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+      .field > span, .field legend { font-size: 14px; font-weight: 600; color: var(--muted); padding: 0; }
+      .field legend { margin-bottom: 8px; }
+      .field input:not([type="radio"]) { font: 400 17px var(--text); color: var(--ink); min-height: 52px; padding: 12px 14px; border-radius: var(--r-sm); border: 1px solid var(--hairline); background: #fff; width: 100%; }
+      .field input:focus { outline: none; border: 2px solid var(--t9); padding: 11px 13px; }
+      .stepper { display: grid; grid-template-columns: 52px 1fr 52px; align-items: center; min-height: 52px; border: 1px solid var(--hairline); border-radius: var(--r-sm); }
+      .stepper button { height: 50px; border: 0; background: none; font-size: 22px; color: var(--t9); cursor: pointer; border-radius: var(--r-sm); transition: background-color 0.15s, transform 0.1s; }
+      .stepper button:hover { background: var(--t1); }
+      .stepper button:active { transform: scale(0.92); }
+      .stepper output { text-align: center; font-size: 17px; }
+      .seg-field { grid-column: 1 / -1; }
+      .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--parchment); border-radius: 12px; }
+      .seg input { position: absolute; opacity: 0; pointer-events: none; }
+      .seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 9px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color 0.15s, color 0.15s; }
+      .seg label:hover span { background: var(--t1); }
+      .seg input:checked + span { background: var(--t9); color: #fff; }
+      .seg input:focus-visible + span { outline: 3px solid var(--or); outline-offset: 2px; }
+      .result { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; background: var(--t9); color: #fff; border-radius: var(--r-md); padding: 20px; }
+      .result-ring { --p: 0.75; width: 92px; height: 92px; border-radius: 50%; display: grid; place-content: center; text-align: center; position: relative; background: conic-gradient(#5fc3c4 calc(var(--p) * 360deg), #1f5560 0); transition: --p 0.4s; }
+      .result-ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--t9); }
+      .result-ring > * { position: relative; }
+      .result-ring b { font: 600 30px/1 var(--display); }
+      .result-ring small { font-size: 12px; color: var(--on-dark-muted); }
+      .result-main { font: 600 1.25rem/1.3 var(--display); }
+      .result-sub { margin-top: 6px; color: var(--on-dark-muted); font-size: 15px; }
+      .result-sub b { color: #fff; }
+
+      /* Planes (Airbnb: tarjetas 14–20px, selección con borde 2px) */
+      .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; align-items: stretch; }
+      .plan { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 28px 24px; border-radius: var(--r-lg); background: #fff; box-shadow: inset 0 0 0 1px var(--hairline); cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+      .plan:hover { box-shadow: inset 0 0 0 1px var(--t6), rgba(0,0,0,0.04) 0 2px 6px, rgba(0,0,0,0.08) 0 4px 8px; }
+      .plan:active { transform: scale(0.99); }
+      .plan input { position: absolute; opacity: 0; pointer-events: none; }
+      .plan:has(input:checked) { box-shadow: inset 0 0 0 2px var(--t9); }
+      .plan:has(input:focus-visible) { outline: 3px solid var(--or); outline-offset: 3px; }
+      .rec { position: absolute; top: -13px; left: 24px; background: var(--or); color: var(--on-or); font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+      .plan-head { display: flex; justify-content: space-between; align-items: center; }
+      .plan-name { font: 600 1.375rem var(--display); }
+      .radio { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 2px #a7b6b9; transition: box-shadow 0.15s; }
+      .plan:has(input:checked) .radio { box-shadow: inset 0 0 0 7px var(--t9); }
+      .plan-desc { color: var(--muted); font-size: 15px; }
+      .plan-price { font: 600 2rem/1.1 var(--display); letter-spacing: -0.01em; margin-top: 4px; }
+      .plan-price small { font: 400 15px var(--text); color: var(--muted); letter-spacing: 0; }
+      .plan-items { display: grid; gap: 10px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--hairline); font-size: 15px; }
+      .plan-items li { display: flex; gap: 10px; align-items: flex-start; }
+      .plan-items svg { color: var(--t6); width: 18px; height: 18px; margin-top: 2px; }
+      .plan-summary { margin: 32px auto 0; max-width: 720px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 16px 16px 24px; border-radius: 999px; background: var(--parchment); }
+
+      /* App */
+      .app-in { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
+      .app-in.reverse { grid-template-columns: 1fr 1fr; }
+      .app-phones { display: flex; justify-content: center; gap: 24px; }
+      .app-phones .phone:nth-child(2) { margin-top: 64px; }
+      .app-copy { display: grid; gap: 24px; }
+      .app-list { display: grid; gap: 24px; margin-top: 8px; }
+      .app-list li { display: flex; gap: 16px; align-items: flex-start; }
+      .app-list li > svg { width: 32px; height: 32px; padding: 6px; border-radius: 50%; background: var(--t9); color: #fff; }
+      .app-list p { color: var(--muted); margin-top: 4px; }
+      .pts-list { display: grid; gap: 12px; }
+      .pts-list li { display: flex; gap: 14px; align-items: baseline; padding: 14px 18px; border-radius: var(--r-md); background: var(--t8); color: var(--on-dark-muted); }
+      .pts-list b { color: var(--or); min-width: 98px; }
+
+      /* Preguntas */
+      .faq { margin-top: 40px; border-top: 1px solid var(--hairline); }
+      .faq details { border-bottom: 1px solid var(--hairline); }
+      .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 4px; font: 600 1.125rem var(--display); }
+      .faq summary::-webkit-details-marker { display: none; }
+      .faq summary::after { content: "+"; font: 400 28px/1 var(--text); color: var(--t6); transition: transform 0.2s; }
+      .faq details[open] summary::after { transform: rotate(45deg); }
+      .faq summary:hover { color: var(--t6); }
+      .faq details p { padding: 0 4px 22px; color: var(--muted); max-width: 62ch; }
+
+      /* Comenzar */
+      #empezar .narrow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+      #empezar .cta-logo { justify-self: center; }
+      .cta-logo { border-radius: 50%; background: #fff; padding: 4px; }
+      .join { display: flex; gap: 8px; width: min(100%, 480px); margin: 8px auto 0; padding: 6px; border-radius: 999px; background: #fff; }
+      .join input { flex: 1 1 0; width: 100%; min-width: 0; border: 0; padding: 0 18px; font: 400 17px var(--text); color: var(--ink); border-radius: 999px; }
+      .join input:focus { outline: none; }
+      .join:focus-within { outline: 3px solid var(--or); outline-offset: 3px; }
+      .join-msg { min-height: 1.5em; color: var(--or); font-weight: 600; }
+
+      /* Pie (Apple: parchment, columnas con interlineado amplio) */
+      .foot { background: var(--parchment); padding: 56px 0 32px; font-size: 15px; color: var(--muted); }
+      .foot-in { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+      .foot-in > div { display: grid; align-content: start; }
+      .foot-in a { text-decoration: none; line-height: 2.2; }
+      .foot-in a:hover { color: var(--ink); text-decoration: underline; }
+      .foot .brand { color: var(--ink); margin-bottom: 12px; line-height: 1; }
+      .foot-h { font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+      .foot-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--hairline); font-size: 13px; }
+
+      /* Responsive */
+      @media (max-width: 1000px) {
+        .nav-links { display: none; }
+        .nav-in { justify-content: space-between; }
+        .hero-in, .calc-in, .app-in, .app-in.reverse { grid-template-columns: 1fr; }
+        .hero-copy { padding-bottom: 0; text-align: left; }
+        .hero-phone { margin-bottom: -160px; }
+        .hero { padding-bottom: 0; }
+        .ben-grid, .plans { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+        .steps { grid-template-columns: 1fr; gap: 64px; }
+        .app-in.reverse .app-phones { order: 2; }
+        .foot-in { grid-template-columns: 1fr 1fr; }
+        .foot-brand { grid-column: 1 / -1; }
+      }
+      @media (max-width: 600px) {
+        .hero-ctas .btn { flex: 1 1 100%; }
+        .calc-form { grid-template-columns: 1fr; }
+        .app-phones .phone:nth-child(2) { display: none; }
+        .plan-summary { border-radius: var(--r-lg); padding: 20px; }
+        .plan-summary .btn { width: 100%; }
+        .result { grid-template-columns: 1fr; justify-items: start; }
+        .hero-phone .phone { width: 272px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition-duration: 0.01ms !important; }
+      }
+    </style>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      // ---------- Calculadora ----------
+      // Energía 70·kg^0.75 × edad × actividad; croqueta ~3,6 kcal/g; saco de 12,5 kg.
+      const BAG_G = 12500;
+      const form = document.querySelector<HTMLFormElement>("[data-calc]")!;
+      const kgInput = form.querySelector<HTMLInputElement>('input[name="kg"]')!;
+      const kgVal = form.querySelector("[data-kg-val]")!;
+      const ring = document.querySelector<HTMLElement>(".result-ring")!;
+      const fmtDate = new Intl.DateTimeFormat("es-CL", { weekday: "long", day: "numeric", month: "long" });
+      const setOut = (k: string, v: string) =>
+        document.querySelectorAll(`[data-out="${k}"]`).forEach((el) => (el.textContent = v));
+
+      function compute() {
+        const d = new FormData(form);
+        const name = String(d.get("name") || "").trim() || "tu perro";
+        const kg = Number(d.get("kg"));
+        const kcal = 70 * Math.pow(kg, 0.75) * Number(d.get("age")) * Number(d.get("act"));
+        const grams = Math.round(kcal / 3.6 / 10) * 10;
+        const days = Math.floor(BAG_G / grams);
+        const next = new Date();
+        next.setDate(next.getDate() + days - 5);
+        setOut("name", name);
+        setOut("grams", String(grams));
+        setOut("days", String(days));
+        setOut("date", fmtDate.format(next));
+        ring.style.setProperty("--p", String(Math.min(1, days / 60)));
+      }
+      form.querySelectorAll<HTMLButtonElement>("[data-kg]").forEach((b) =>
+        b.addEventListener("click", () => {
+          const kg = Math.min(80, Math.max(2, Number(kgInput.value) + Number(b.dataset.kg)));
+          kgInput.value = String(kg);
+          kgVal.textContent = String(kg);
+          compute();
+        }),
+      );
+      form.addEventListener("input", compute);
+      form.addEventListener("submit", (e) => e.preventDefault());
+      compute();
+
+      // ---------- Planes ----------
+      const planName = document.querySelector("[data-plan-name]")!;
+      const planPrice = document.querySelector("[data-plan-price]")!;
+      document.querySelectorAll<HTMLInputElement>('input[name="plan"]').forEach((r) =>
+        r.addEventListener("change", () => {
+          planName.textContent = r.dataset.name!;
+          planPrice.textContent = "$" + Number(r.dataset.price).toLocaleString("es-CL");
+        }),
+      );
+
+      // ---------- Unirme ----------
+      const join = document.querySelector<HTMLFormElement>("[data-join]")!;
+      const msg = document.querySelector(".join-msg")!;
+      join.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = join.email.value.trim();
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          msg.textContent = "Revisa tu correo, parece incompleto.";
+          gsap.fromTo(join, { x: -8 }, { x: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" });
+          join.email.focus();
+          return;
+        }
+        msg.textContent = "¡Listo! Te avisaremos cuando Lía llegue a tu barrio.";
+        join.querySelector("button")!.setAttribute("disabled", "");
+      });
+
+      // ---------- Entradas ----------
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".hero [data-rise]", { y: 24, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" });
+        // Cada sección anima sus partes al entrar; lo que ya está a la vista no se oculta.
+        document.querySelectorAll<HTMLElement>("main > section:not(.hero)").forEach((sec) => {
+          const items = sec.querySelectorAll("[data-rise]");
+          if (!items.length) return;
+          ScrollTrigger.create({
+            trigger: sec,
+            start: "top 85%",
+            once: true,
+            onEnter: () =>
+              gsap.fromTo(items, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: "power3.out" }),
+          });
+        });
+        window.addEventListener("load", () => ScrollTrigger.refresh());
+      }
+    </script>
+  </body>
+</html>

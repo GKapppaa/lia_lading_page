@@ -1,0 +1,380 @@
+---
+// Pantallas de la app de Lía recreadas en HTML a partir del mockup.
+// Cada variante es una pantalla real del flujo: foto, datos, plan, inicio, mi perro y puntos.
+interface Props {
+  screen: "foto" | "datos" | "plan" | "inicio" | "miperro" | "puntos";
+  label?: string;
+}
+const { screen, label } = Astro.props;
+const dog = "/v2/american-eskimo-dog-portrait-above.jpg";
+const steps = { foto: 1, datos: 2, plan: 3 } as Record<string, number>;
+const stepTitle = { foto: "Foto", datos: "Datos", plan: "Plan" } as Record<string, string>;
+const tab = screen === "miperro" ? "perro" : screen === "puntos" ? "puntos" : "inicio";
+---
+
+<figure class="phone" aria-label={label}>
+  <div class="screen">
+    {
+      steps[screen] && (
+        <div class="stepper">
+          <span class="back" aria-hidden="true">‹</span>
+          <div class="stepper-info">
+            <span class="stepper-text">
+              Paso {steps[screen]} de 3 · {stepTitle[screen]}
+            </span>
+            <span class="bars">
+              {[1, 2, 3].map((n) => (
+                <i class={n <= steps[screen] ? "on" : ""} />
+              ))}
+            </span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "foto" && (
+        <div class="body">
+          <p class="s-title">Una foto de tu perro</p>
+          <p class="s-sub">Así lo reconoces en la app. Puedes cambiarla después.</p>
+          <div class="photo">
+            <img src={dog} alt="" loading="lazy" />
+            <span class="photo-ok">✓ Foto lista</span>
+          </div>
+          <div class="s-actions">
+            <span class="s-btn">Continuar</span>
+            <span class="s-btn s-btn-ghost">Elegir otra foto</span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "datos" && (
+        <div class="body">
+          <div class="s-head-row">
+            <img class="avatar" src={dog} alt="" loading="lazy" />
+            <div>
+              <p class="s-title">Cuéntanos de tu perro</p>
+              <p class="s-sub">Con esto calculamos cuánto come.</p>
+            </div>
+          </div>
+          <span class="f-label">Nombre</span>
+          <span class="f-input">Lía</span>
+          <div class="f-row">
+            <div>
+              <span class="f-label">Nacimiento</span>
+              <span class="f-input">02/02/2021</span>
+            </div>
+            <div>
+              <span class="f-label">Peso</span>
+              <span class="f-input f-step"><b>−</b>30 kg<b>+</b></span>
+            </div>
+          </div>
+          <span class="f-label">Raza</span>
+          <span class="f-input">Quiltro (mestizo) ▾</span>
+          <span class="f-label">Nivel de actividad</span>
+          <span class="seg">
+            <i>Tranquilo</i><i class="on">Normal</i><i>Muy activo</i>
+          </span>
+          <p class="s-note">Paseos diarios de 30 a 60 minutos.</p>
+          <div class="s-actions">
+            <span class="s-btn">Continuar</span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "plan" && (
+        <div class="body">
+          <p class="s-title">Elige el alimento de Lía</p>
+          <div class="dark-card">
+            <span class="ring ring-sm" style="--p: 0.7" />
+            <div>
+              <span class="tiny light">Lía · Quiltro · 30 kg · Normal</span>
+              <b>Un saco de 12,5 kg le dura ~31 días</b>
+              <span class="tiny light">Estimado: unos 400 g al día</span>
+            </div>
+          </div>
+          <div class="opt">
+            <span class="sw sw-1" />
+            <span class="opt-name">Esencial<small>12,5 kg</small></span>
+            <span class="opt-price">$28.000</span>
+            <span class="radio" />
+          </div>
+          <div class="opt opt-on">
+            <span class="rec">Recomendado para Lía</span>
+            <span class="sw sw-2" />
+            <span class="opt-name">Equilibrado<small>12,5 kg</small></span>
+            <span class="opt-price">$40.000</span>
+            <span class="radio on" />
+          </div>
+          <div class="opt">
+            <span class="sw sw-3" />
+            <span class="opt-name">Premium<small>12,5 kg</small></span>
+            <span class="opt-price">$58.000</span>
+            <span class="radio" />
+          </div>
+          <div class="s-actions">
+            <span class="s-btn">Activar reposición automática</span>
+            <span class="s-note center">Sin permanencia. Cancela cuando quieras.</span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "inicio" && (
+        <div class="body">
+          <div class="s-head-row between">
+            <div>
+              <span class="tiny">Hola, Daniela</span>
+              <p class="s-title sm">Lía está cubierta</p>
+            </div>
+            <img class="avatar sm" src={dog} alt="" loading="lazy" />
+          </div>
+          <div class="dark-card big">
+            <span class="ring" style="--p: 0.3">
+              <b>9</b>
+              <small>días de comida</small>
+            </span>
+            <div>
+              <span class="tiny light">Próxima entrega</span>
+              <b class="lg">Jueves 22 oct</b>
+              <span class="tiny light">5 días antes de que se acabe el saco</span>
+            </div>
+            <span class="dark-foot">
+              Equilibrado 12,5 kg desde Mascotas Don Pepe <em>Ver</em>
+            </span>
+          </div>
+          <p class="s-label">¿Qué necesita Lía hoy?</p>
+          <div class="tiles">
+            <span>Consejos</span>
+            <span>Alimentos</span>
+            <span>Cuidados</span>
+          </div>
+          <div class="points-row">
+            <b>1.250 puntos</b>
+            <span class="tiny">250 para Nivel Patita</span>
+            <span class="bar"><i style="width: 83%" /></span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "miperro" && (
+        <div class="body">
+          <p class="s-title">Mi perro</p>
+          <div class="card">
+            <div class="s-head-row">
+              <img class="avatar" src={dog} alt="" loading="lazy" />
+              <div>
+                <b class="lg">Lía</b>
+                <span class="chips">
+                  <i>Quiltro</i>
+                  <i>5 años</i>
+                  <i>30 kg</i>
+                </span>
+              </div>
+            </div>
+            <span class="bday">Cumple 6 años el 2 de febrero</span>
+          </div>
+          <div class="dark-card col">
+            <span class="tiny light">Su plan · Activo</span>
+            <b>Equilibrado · 12,5 kg cada ~31 días</b>
+            <b class="lg">$40.000 /mes</b>
+            <span class="dark-btns">
+              <i>Gestionar plan</i>
+              <i>Adelantar entrega</i>
+            </span>
+          </div>
+          <p class="s-label">Entregas</p>
+          <div class="card list">
+            <span><i class="dot dot-o" />Jueves 22 oct<small>Programada</small></span>
+            <span><i class="dot" />Lunes 21 sep<small>Entregada a tiempo</small></span>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      screen === "puntos" && (
+        <div class="body">
+          <p class="s-title">Puntos Lía</p>
+          <div class="dark-card col">
+            <span class="tiny light">Tus puntos · Nivel Huellita</span>
+            <b class="xl">1.250</b>
+            <span class="bar light"><i style="width: 83%" /></span>
+            <span class="tiny light">Te faltan 250 pts para Nivel Patita</span>
+          </div>
+          <div class="tiles">
+            <span>Canjear</span>
+            <span>Historial</span>
+            <span>Cómo ganar</span>
+          </div>
+          <p class="s-label">Premios destacados</p>
+          <div class="card prize">
+            <span class="pct">10%</span>
+            <span>10% dcto. en tu próximo saco<small>200 pts</small></span>
+            <em>Canjear</em>
+          </div>
+          <div class="card prize">
+            <span class="pct">Gratis</span>
+            <span>Snack dental gratis<small>300 pts</small></span>
+            <em>Canjear</em>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      !steps[screen] && (
+        <nav class="tabbar" aria-hidden="true">
+          <span class={tab === "inicio" ? "on" : ""}>Inicio</span>
+          <span class={tab === "perro" ? "on" : ""}>Mi perro</span>
+          <span class={tab === "puntos" ? "on" : ""}>Puntos</span>
+        </nav>
+      )
+    }
+  </div>
+</figure>
+
+<style>
+  .phone {
+    --t9: #0d3b44;
+    --t6: #2b7f86;
+    --t1: #e6f0f0;
+    --or: #f28a3c;
+    width: 272px;
+    aspect-ratio: 9 / 19;
+    margin: 0;
+    padding: 9px;
+    border-radius: 44px;
+    background: #10181a;
+    box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .screen {
+    position: relative;
+    height: 100%;
+    border-radius: 36px;
+    overflow: hidden;
+    background: #f6f8f8;
+    color: #14272b;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 11px;
+    line-height: 1.35;
+    display: flex;
+    flex-direction: column;
+  }
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 34px 16px 14px;
+    min-height: 0;
+  }
+  .stepper + .body { padding-top: 10px; }
+  .stepper { display: flex; gap: 10px; align-items: center; padding: 34px 16px 0; }
+  .back { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 15px; box-shadow: 0 0 0 1px #e1e7e8; }
+  .stepper-info { flex: 1; display: grid; gap: 4px; }
+  .stepper-text { font-size: 9px; color: #51656a; }
+  .bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .bars i { height: 3px; border-radius: 3px; background: #d5dfe0; }
+  .bars i.on { background: var(--t9); }
+
+  .s-title { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 17px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+  .s-title.sm { font-size: 14px; }
+  .s-sub, .s-note { margin: 0; color: #51656a; font-size: 10px; }
+  .s-note.center { text-align: center; }
+  .s-label { margin: 6px 0 0; font-weight: 600; font-size: 11px; }
+  .tiny { display: block; font-size: 9px; color: #51656a; }
+  .tiny.light, .light { color: #b9d3d5; }
+  b { font-weight: 600; }
+  .lg { display: block; font-size: 14px; font-family: "Poppins", sans-serif; }
+  .xl { display: block; font-size: 26px; font-family: "Poppins", sans-serif; line-height: 1.1; }
+  .s-head-row { display: flex; gap: 10px; align-items: center; }
+  .s-head-row.between { justify-content: space-between; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .avatar.sm { width: 30px; height: 30px; }
+
+  .photo { position: relative; margin: 14px auto 0; width: 70%; aspect-ratio: 3 / 4; border-radius: 16px; overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-ok { position: absolute; left: 8px; bottom: 8px; background: #fff; border-radius: 99px; padding: 3px 8px; font-size: 9px; font-weight: 600; }
+  .s-actions { margin-top: auto; display: grid; gap: 6px; }
+  .s-btn { display: block; text-align: center; padding: 10px; border-radius: 99px; background: var(--or); color: #0a2f37; font-weight: 600; font-size: 11px; }
+  .s-btn-ghost { background: #fff; box-shadow: inset 0 0 0 1px #d5dfe0; }
+
+  .f-label { font-size: 9px; color: #51656a; margin-bottom: -4px; }
+  .f-input { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 8px; padding: 7px 9px; box-shadow: inset 0 0 0 1px #dbe3e4; font-size: 10px; }
+  .f-step b { font-size: 12px; color: var(--t9); }
+  .f-row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 8px; }
+  .f-row > div { display: grid; gap: 8px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); background: #e5ecec; border-radius: 8px; padding: 2px; }
+  .seg i { font-style: normal; text-align: center; padding: 6px 0; font-size: 9px; border-radius: 6px; }
+  .seg i.on { background: var(--t9); color: #fff; font-weight: 600; }
+
+  .dark-card { background: var(--t9); color: #fff; border-radius: 14px; padding: 12px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .dark-card.col { flex-direction: column; align-items: stretch; gap: 6px; }
+  .dark-card.big { padding: 14px; flex-wrap: wrap; }
+  .dark-card.big > div { flex: 1; min-width: 0; }
+  .dark-card { flex-wrap: nowrap; }
+  .dark-card.big { flex-wrap: wrap; }
+  .dark-card b:not(.lg):not(.xl) { display: block; font-size: 11px; }
+  .ring {
+    --p: 0.5;
+    width: 74px; height: 74px; border-radius: 50%; flex-shrink: 0;
+    background: conic-gradient(#5fc3c4 calc(var(--p) * 360deg), #1f5560 0);
+    display: grid; place-content: center; text-align: center; position: relative;
+  }
+  .ring::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--t9); }
+  .ring > * { position: relative; }
+  .dark-card .ring b { font-size: 24px; font-family: "Poppins", sans-serif; line-height: 1; }
+  .ring small { font-size: 7px; color: #b9d3d5; }
+  .ring-sm { width: 34px; height: 34px; }
+  .ring-sm::before { inset: 4px; }
+  .dark-foot { flex-basis: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #164a54; border-radius: 9px; padding: 6px 8px; font-size: 9px; }
+  .dark-foot em { font-style: normal; background: var(--or); color: #0a2f37; border-radius: 99px; padding: 3px 9px; font-weight: 600; }
+  .dark-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; }
+  .dark-btns i { font-style: normal; text-align: center; padding: 7px 0; border-radius: 99px; font-size: 9px; font-weight: 600; background: #fff; color: var(--t9); }
+  .dark-btns i + i { background: transparent; color: #fff; box-shadow: inset 0 0 0 1px #4f8189; }
+
+  .opt { position: relative; display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 12px; padding: 10px; box-shadow: inset 0 0 0 1px #dbe3e4; }
+  .opt-on { box-shadow: inset 0 0 0 2px var(--t9); margin-top: 6px; }
+  .rec { position: absolute; top: -8px; left: 10px; background: var(--or); color: #0a2f37; font-size: 8px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
+  .sw { width: 22px; height: 28px; border-radius: 5px; }
+  .sw-1 { background: #c9dfe0; } .sw-2 { background: var(--t6); } .sw-3 { background: var(--t9); }
+  .opt-name { flex: 1; font-weight: 600; display: grid; }
+  .opt-name small, .card small { font-weight: 400; color: #51656a; font-size: 9px; display: block; }
+  .opt-price { font-weight: 600; }
+  .radio { width: 13px; height: 13px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #a9b8bb; }
+  .radio.on { box-shadow: inset 0 0 0 4px var(--t9); }
+
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .tiles span { background: #fff; border-radius: 10px; padding: 18px 0 8px; text-align: center; font-size: 9px; box-shadow: inset 0 0 0 1px #e1e7e8; position: relative; }
+  .tiles span::before { content: ""; position: absolute; top: 6px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 3px; background: var(--t1); box-shadow: inset 0 0 0 2px var(--t6); }
+  .points-row { background: #fff; border-radius: 12px; padding: 9px 10px; box-shadow: inset 0 0 0 1px #e1e7e8; display: grid; grid-template-columns: 1fr auto; gap: 5px; }
+  .bar { grid-column: 1 / -1; display: block; height: 4px; border-radius: 4px; background: #e5ecec; overflow: hidden; }
+  .bar.light { background: #1f5560; }
+  .bar i { display: block; height: 100%; background: var(--or); border-radius: 4px; }
+
+  .card { background: #fff; border-radius: 14px; padding: 10px; box-shadow: inset 0 0 0 1px #e1e7e8; display: grid; gap: 8px; }
+  .chips { display: flex; gap: 4px; margin-top: 3px; }
+  .chips i { font-style: normal; font-size: 8px; background: var(--t1); padding: 2px 6px; border-radius: 99px; }
+  .bday { background: #fdf0e6; border-radius: 8px; padding: 5px 8px; font-size: 9px; }
+  .list span { display: grid; grid-template-columns: 12px 1fr; font-weight: 600; }
+  .list small { grid-column: 2; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--t9); margin-top: 4px; }
+  .dot-o { background: var(--or); }
+  .prize { grid-template-columns: 30px 1fr auto; align-items: center; font-weight: 600; }
+  .pct { width: 30px; height: 30px; border-radius: 8px; background: #fdf0e6; display: grid; place-items: center; font-size: 9px; }
+  .prize em { font-style: normal; background: var(--t9); color: #fff; border-radius: 99px; padding: 4px 9px; font-size: 9px; }
+
+  .tabbar { display: grid; grid-template-columns: repeat(3, 1fr); background: #fff; padding: 10px 0 18px; box-shadow: 0 -1px 0 #e1e7e8; font-size: 9px; text-align: center; color: #51656a; }
+  .tabbar span::before { content: ""; display: block; width: 12px; height: 12px; margin: 0 auto 3px; border-radius: 4px; box-shadow: inset 0 0 0 1.5px currentColor; }
+  .tabbar .on { color: var(--t9); font-weight: 600; }
+</style>
