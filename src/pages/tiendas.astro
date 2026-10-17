@@ -1,0 +1,746 @@
+---
+// Landing para tiendas (vendedores), en la línea de las páginas de socios de apps de delivery.
+// Sistema: Uber como base (píldora oscura como único CTA, tarjeta-formulario en el hero,
+// tarjetas de 16px, bandas oscuras a mitad de página, pie oscuro, Inter 700/500/400) y,
+// de las páginas de socios tipo PedidosYa, el hero a todo color con el registro a la vista.
+// Paleta de Lía: el teal profundo hace de "negro" y el naranja de la app es la superficie de marca.
+import Panel from "../components/tiendas/Panel.astro";
+
+const title = "Lía para tiendas — Recibe pedidos programados de los perros de tu barrio";
+const description =
+  "Suma tu tienda de mascotas a Lía: los dueños de tu barrio programan su alimento y tú recibes los pedidos con días de anticipación.";
+
+const stats = [
+  ["+500", "dueños en lista de espera"],
+  ["5 días", "de aviso antes de cada pedido"],
+  ["~31 días", "entre pedidos de cada cliente"],
+  ["$0", "costo de inscripción"],
+];
+
+const benefits = [
+  { icon: "repeat", title: "Clientes que vuelven solos", desc: "Cada perro tiene un plan de reposición. El mismo cliente te compra mes a mes sin que tengas que recordárselo." },
+  { icon: "calendar", title: "Sabes lo que viene", desc: "Ves los pedidos con días de anticipación y un pronóstico de sacos por semana. Compras justo lo que vas a vender." },
+  { icon: "pin", title: "Tu barrio te encuentra", desc: "Lía asigna los pedidos a la tienda más cercana. Apareces como la tienda de confianza de cada dueño." },
+  { icon: "card", title: "Cobro sin enredos", desc: "El dueño paga en la app cuando se despacha el saco. Tú recibes el depósito en tu cuenta, con el detalle de cada pedido." },
+];
+
+const steps = [
+  { title: "Registra tu tienda", desc: "Completa el formulario. Toma dos minutos." },
+  { title: "Te contactamos", desc: "Validamos tu tienda y cargamos contigo marcas, precios y zona de despacho." },
+  { title: "Recibes pedidos programados", desc: "Te avisamos por el panel y por WhatsApp con días de anticipación." },
+  { title: "Despachas y cobras", desc: "Marcas el pedido como entregado y el pago queda en camino." },
+];
+
+const panelPoints = [
+  "Pedidos de hoy y de los próximos días, en orden",
+  "Pronóstico de sacos por semana y por marca",
+  "Catálogo y precios que actualizas tú",
+  "Historial de pagos y de cada cliente",
+];
+
+const perks = [
+  "Comisión preferente durante tus primeros meses",
+  "Sello de Tienda fundadora en la app",
+  "Acompañamiento directo por WhatsApp",
+  "Prioridad en los pedidos de tu comuna",
+];
+
+const faq = [
+  ["¿Qué tipo de negocios pueden sumarse?", "Tiendas de mascotas, veterinarias con venta de alimento y distribuidoras que despachen en su barrio. Necesitas poder entregar sacos de 12,5 kg en tu zona."],
+  ["¿Tengo que pagar para entrar?", "No. Registrarte y usar el panel no tiene costo. Lía cobra una comisión solo por los pedidos entregados; te la detallamos antes de activar tu tienda."],
+  ["¿Quién hace el despacho?", "Tu tienda, con tus propios medios. Como los pedidos llegan con días de aviso, puedes agruparlos por ruta y día."],
+  ["¿Puedo elegir qué marcas vendo?", "Sí. Tú decides qué marcas y formatos ofreces y a qué precio. Lía solo te asigna pedidos de productos que tienes en tu catálogo."],
+  ["¿Qué pasa si no tengo stock un día?", "Puedes pausar tu tienda o una marca desde el panel. Si un pedido no se puede cumplir, lo reasignamos a otra tienda cercana para que ningún perro se quede sin comida."],
+  ["¿En qué comunas están?", "Estamos partiendo la beta en pocas comunas. Regístrate igual: si tu zona aún no abre, quedas primero en la fila."],
+];
+
+const icons: Record<string, string> = {
+  repeat: "M17 2.5l3 3-3 3M4 11V9.5a4 4 0 0 1 4-4h12M7 21.5l-3-3 3-3M20 13v1.5a4 4 0 0 1-4 4H4",
+  calendar: "M4 6.5h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5",
+  pin: "M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
+  card: "M3 6h18v12H3zM3 10h18M7 15h3",
+  check: "M5 12.5l4.5 4.5L19 7.5",
+};
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+
+    <!-- 1. Navegación -->
+    <header class="nav">
+      <div class="wrap nav-in">
+        <a href="#top" class="brand" aria-label="Lía para tiendas, inicio">
+          <img src="/logo_lia.png" alt="" width="34" height="34" />
+          <span>Lía</span>
+          <em>para tiendas</em>
+        </a>
+        <nav class="nav-links" aria-label="Principal">
+          <a href="#beneficios">Beneficios</a>
+          <a href="#panel">El panel</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#preguntas">Preguntas</a>
+        </nav>
+        <a href="/v3/" class="btn btn-subtle btn-sm nav-alt">Tengo un perro</a>
+        <a href="#registro" class="btn btn-primary btn-sm">Registrar mi tienda</a>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <!-- 2. Hero con registro -->
+      <section class="hero" id="top">
+        <div class="wrap hero-in">
+          <div class="hero-copy">
+            <span class="tag" data-rise>Lía para tiendas de mascotas</span>
+            <h1 class="display" data-rise>Vende más sacos sin salir a buscar clientes</h1>
+            <p class="lead" data-rise>
+              Los dueños de perros de tu barrio programan su alimento en Lía. Tú
+              recibes los pedidos con días de anticipación y los despachas a tiempo.
+            </p>
+            <ul class="hero-points" data-rise>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>Sin costo de inscripción</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>Tú pones tus marcas y precios</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>Despachas con tus propios medios</li>
+            </ul>
+            <div class="toast" aria-hidden="true">
+              <span class="toast-icon"><img src="/logo_lia.png" alt="" width="28" height="28" /></span>
+              <span>
+                <b>Nuevo pedido programado</b>
+                Lía · Equilibrado 12,5 kg · jueves 22 oct
+              </span>
+              <span class="toast-price">$40.000</span>
+            </div>
+          </div>
+
+          <div class="form-card" id="registro" data-rise>
+            <form class="reg" data-reg novalidate>
+              <p class="form-h">Registra tu tienda</p>
+              <p class="form-sub">Te contactamos en menos de 48 horas hábiles.</p>
+              <fieldset class="types">
+                <legend class="sr-only">Tipo de negocio</legend>
+                <label><input type="radio" name="tipo" value="tienda" checked /><span>Tienda de mascotas</span></label>
+                <label><input type="radio" name="tipo" value="veterinaria" /><span>Veterinaria</span></label>
+                <label><input type="radio" name="tipo" value="distribuidora" /><span>Distribuidora</span></label>
+              </fieldset>
+              <label class="field">
+                <span>Nombre de la tienda</span>
+                <input name="tienda" autocomplete="organization" required />
+              </label>
+              <label class="field">
+                <span>Comuna</span>
+                <input name="comuna" list="comunas" autocomplete="address-level2" required />
+                <datalist id="comunas">
+                  {["Providencia", "Ñuñoa", "Las Condes", "La Florida", "Maipú", "Santiago", "Puente Alto", "Vitacura", "La Reina", "Macul", "San Miguel", "Peñalolén"].map((c) => <option value={c} />)}
+                </datalist>
+              </label>
+              <div class="field-row">
+                <label class="field">
+                  <span>Tu nombre</span>
+                  <input name="nombre" autocomplete="name" required />
+                </label>
+                <label class="field">
+                  <span>WhatsApp</span>
+                  <input name="fono" type="tel" inputmode="tel" placeholder="+56 9 1234 5678" autocomplete="tel" required />
+                </label>
+              </div>
+              <label class="field">
+                <span>Correo</span>
+                <input name="email" type="email" placeholder="tienda@correo.com" autocomplete="email" required />
+              </label>
+              <label class="check">
+                <input type="checkbox" name="ok" required />
+                <span>Acepto que Lía me contacte para activar mi tienda.</span>
+              </label>
+              <button type="submit" class="btn btn-primary btn-large">Registrar mi tienda</button>
+              <p class="reg-msg" aria-live="polite"></p>
+            </form>
+            <div class="reg-done" hidden>
+              <span class="done-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg></span>
+              <p class="form-h">¡Listo, <span data-shop>tu tienda</span> está en la fila!</p>
+              <p class="form-sub">Te escribiremos por WhatsApp para validar tus datos y cargar tu catálogo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Cifras -->
+      <section class="stats" aria-label="Lía en cifras">
+        <div class="wrap stats-in">
+          {
+            stats.map(([n, t]) => (
+              <div class="stat" data-rise>
+                <b>{n}</b>
+                <span>{t}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 4. Beneficios -->
+      <section class="band" id="beneficios" aria-labelledby="ben-h">
+        <div class="wrap">
+          <h2 id="ben-h" class="h2" data-rise>¿Por qué sumar tu tienda a Lía?</h2>
+          <p class="sub" data-rise>Pedidos que se repiten, sin publicidad y sin perseguir a nadie.</p>
+          <div class="ben-grid">
+            {
+              benefits.map((b) => (
+                <article class="ben" data-rise>
+                  <span class="ben-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[b.icon]} /></svg>
+                  </span>
+                  <h3 class="h3">{b.title}</h3>
+                  <p>{b.desc}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. El panel (banda oscura) -->
+      <section class="band band-dark" id="panel" aria-labelledby="panel-h">
+        <div class="wrap panel-in">
+          <div class="panel-copy">
+            <span class="tag tag-dark" data-rise>Panel de tienda</span>
+            <h2 id="panel-h" class="h2" data-rise>Todos tus pedidos Lía, en un solo lugar</h2>
+            <p class="lead" data-rise>
+              Desde el computador o el celular ves qué despachar hoy, qué viene la
+              próxima semana y cuánto llevas vendido.
+            </p>
+            <ul class="panel-list" data-rise>
+              {
+                panelPoints.map((p) => (
+                  <li>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>
+                    {p}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="panel-stage" data-panel>
+            <Panel label="Panel de tienda de Lía: 4 pedidos por despachar hoy, 18 en la semana y el pronóstico de sacos por semana" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Cómo funciona -->
+      <section class="band" id="como-funciona" aria-labelledby="how-h">
+        <div class="wrap">
+          <h2 id="how-h" class="h2" data-rise>Empieza en cuatro pasos</h2>
+          <ol class="steps">
+            {
+              steps.map((s, i) => (
+                <li class="step" data-rise>
+                  <span class="step-n" aria-hidden="true">{i + 1}</span>
+                  <h3 class="h3">{s.title}</h3>
+                  <p>{s.desc}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <!-- 7. Calculadora -->
+      <section class="band band-soft" aria-labelledby="calc-h">
+        <div class="wrap calc-in">
+          <div class="calc-copy">
+            <h2 id="calc-h" class="h2" data-rise>¿Cuánto podrías vender con Lía?</h2>
+            <p class="sub" data-rise>
+              Cada cliente repone su saco más o menos una vez al mes. Mueve los
+              valores y mira cuánto suma.
+            </p>
+          </div>
+          <form class="calc card" data-calc data-rise>
+            <div class="field">
+              <span class="calc-label">
+                <label for="clientes">Clientes con plan</label>
+                <output for="clientes" data-out="clientes">60</output>
+              </span>
+              <input id="clientes" name="clientes" type="range" min="10" max="300" step="5" value="60" />
+            </div>
+            <fieldset class="field">
+              <legend class="calc-label">Precio promedio del saco</legend>
+              <div class="seg">
+                <label><input type="radio" name="precio" value="28000" /><span>$28.000</span></label>
+                <label><input type="radio" name="precio" value="40000" checked /><span>$40.000</span></label>
+                <label><input type="radio" name="precio" value="58000" /><span>$58.000</span></label>
+              </div>
+            </fieldset>
+            <div class="calc-out" aria-live="polite">
+              <div>
+                <span>Pedidos al mes</span>
+                <b data-out="pedidos">58</b>
+              </div>
+              <div class="calc-main">
+                <span>Ventas al mes</span>
+                <b data-out="ventas">$2.320.000</b>
+              </div>
+            </div>
+            <p class="calc-note">Estimación de ventas brutas, antes de comisión. Un saco de 12,5 kg dura cerca de 31 días.</p>
+          </form>
+        </div>
+      </section>
+
+      <!-- 8. Tiendas fundadoras -->
+      <section class="band" aria-labelledby="fund-h">
+        <div class="wrap">
+          <div class="promo" data-rise>
+            <div class="promo-img">
+              <img src="/v2/pile-of-kibble-dog-food-51049786351.jpg" alt="Croquetas de alimento para perro" loading="lazy" width="1920" height="1282" />
+            </div>
+            <div class="promo-copy">
+              <span class="tag">Cupos limitados por comuna</span>
+              <h2 id="fund-h" class="h2">Sé tienda fundadora</h2>
+              <p class="sub">
+                Las primeras tiendas de cada comuna arrancan con condiciones
+                especiales mientras abrimos la beta.
+              </p>
+              <ul class="perks">
+                {
+                  perks.map((p) => (
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons.check} /></svg>
+                      {p}
+                    </li>
+                  ))
+                }
+              </ul>
+              <a href="#registro" class="btn btn-primary">Quiero ser fundadora</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Preguntas -->
+      <section class="band band-soft" id="preguntas" aria-labelledby="faq-h">
+        <div class="wrap faq-in">
+          <h2 id="faq-h" class="h2" data-rise>Preguntas frecuentes</h2>
+          <div class="faq">
+            {
+              faq.map(([q, a], i) => (
+                <details open={i === 0} data-rise>
+                  <summary>{q}</summary>
+                  <p>{a}</p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Cierre -->
+      <section class="hero cta" aria-labelledby="cta-h">
+        <div class="wrap cta-in">
+          <h2 id="cta-h" class="display cta-h" data-rise>Los perros de tu barrio ya están pidiendo</h2>
+          <p class="lead" data-rise>Haz que su próximo saco salga de tu tienda.</p>
+          <a href="#registro" class="btn btn-primary btn-large" data-rise>Registrar mi tienda</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- 11. Pie -->
+    <footer class="foot">
+      <div class="wrap foot-in">
+        <div class="foot-brand">
+          <a href="#top" class="brand">
+            <img src="/logo_lia.png" alt="" width="34" height="34" />
+            <span>Lía</span>
+            <em>para tiendas</em>
+          </a>
+          <span class="badge">Beta privada</span>
+        </div>
+        <div>
+          <p class="foot-h">Tiendas</p>
+          <a href="#registro">Registrar mi tienda</a>
+          <a href="#panel">El panel</a>
+          <a href="#preguntas">Preguntas frecuentes</a>
+        </div>
+        <div>
+          <p class="foot-h">Dueños</p>
+          <a href="/v3/">Lía para tu perro</a>
+          <a href="/v3/#planes">Planes</a>
+        </div>
+        <div>
+          <p class="foot-h">Contacto</p>
+          <a href="mailto:tiendas@lia.pet">tiendas@lia.pet</a>
+        </div>
+      </div>
+      <div class="wrap foot-legal">
+        <p>© {year} Lía · Hecho con ♥ para perros y sus humanos.</p>
+        <p>
+          Foto: <a href="https://commons.wikimedia.org/w/index.php?curid=132219108">“Pile of Kibble Dog Food”</a>, Megan Marrs, CC BY 2.0. Los datos del panel son de ejemplo.
+        </p>
+      </div>
+    </footer>
+
+    <style is:global>
+      /* Tokens: roles de Uber con la paleta de Lía */
+      :root {
+        --ink: #0b2926;
+        --ink-elevated: #1c3b37;
+        --body: #4d6461;
+        --mute: #8fa3a0;
+        --canvas: #ffffff;
+        --soft: #eef3f2;
+        --softer: #f5f8f7;
+        --pressed: #dce5e3;
+        --brand: #f28a3c;
+        --brand-deep: #e5772a;
+        --on-dark: #ffffff;
+        --on-dark-muted: #b4ccc9;
+        --amber-bg: #fef3c7;
+        --amber-ink: #b45309;
+
+        --text: "Inter", system-ui, "Helvetica Neue", Arial, sans-serif;
+        --r-md: 8px;
+        --r-lg: 12px;
+        --r-xl: 16px;
+        --nav-h: 64px;
+        --band: clamp(64px, 8vw, 104px);
+        --lvl1: rgba(0, 0, 0, 0.12) 0 4px 16px 0;
+        --lvl2: rgba(0, 0, 0, 0.16) 0 4px 16px 0;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 8px); -webkit-font-smoothing: antialiased; }
+      body { margin: 0; font: 400 16px/1.5 var(--text); color: var(--ink); background: var(--canvas); overflow-x: hidden; }
+      img { max-width: 100%; display: block; }
+      [hidden] { display: none !important; }
+      h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+      ul, ol { list-style: none; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+      .band-dark :focus-visible, .foot :focus-visible { outline-color: #fff; }
+      ::selection { background: var(--brand); color: var(--ink); }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .skip { position: absolute; left: 16px; top: -60px; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 999px; z-index: 100; font-weight: 500; }
+      .skip:focus { top: 12px; }
+      svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+      .wrap { width: min(100% - 32px, 1200px); margin-inline: auto; }
+
+      /* Tipografía (Uber: 700 en titulares, sentence case, sin tracking) */
+      .display { font-weight: 700; font-size: clamp(2.25rem, 1.4rem + 3vw, 3.5rem); line-height: 1.12; text-wrap: balance; }
+      .h2 { font-weight: 700; font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); line-height: 1.2; text-wrap: balance; }
+      .h3 { font-weight: 700; font-size: 1.25rem; line-height: 1.4; }
+      .lead { font-weight: 500; font-size: 1.125rem; line-height: 1.5; }
+      .sub { margin-top: 12px; color: var(--body); font-size: 1.125rem; }
+      .tag { display: inline-flex; align-self: start; justify-self: start; padding: 6px 14px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 500; }
+      .tag-dark { background: var(--brand); color: var(--ink); }
+
+      /* Botones: la píldora es la firma */
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        min-height: 44px; padding: 12px 22px; border-radius: 999px; border: 0;
+        font: 500 16px/1.25 var(--text); text-decoration: none; cursor: pointer; white-space: nowrap;
+        transition: background-color 0.15s ease, transform 0.15s ease;
+      }
+      .btn:active { transform: scale(0.97); }
+      .btn-primary { background: var(--ink); color: #fff; }
+      .btn-primary:hover { background: var(--ink-elevated); }
+      .btn-primary:disabled { opacity: 0.6; cursor: default; transform: none; }
+      .btn-subtle { background: var(--soft); color: var(--ink); }
+      .btn-subtle:hover { background: var(--pressed); }
+      .btn-sm { min-height: 40px; padding: 8px 18px; font-size: 15px; }
+      /* Excepción documentada: el CTA grande dentro del formulario va en 16px, no en píldora */
+      .btn-large { min-height: 56px; padding: 16px 24px; border-radius: var(--r-xl); font-size: 18px; }
+
+      /* Navegación */
+      .nav { position: sticky; top: 0; z-index: 50; background: rgb(255 255 255 / 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--pressed); }
+      .nav-in { display: flex; align-items: center; gap: 12px; height: var(--nav-h); }
+      .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 20px; }
+      .brand em { font-style: normal; font-weight: 500; font-size: 14px; color: var(--body); padding: 3px 10px; border-radius: 999px; background: var(--soft); }
+      .nav-links { display: flex; gap: 4px; margin-left: auto; margin-right: 8px; }
+      .nav-links a { text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 999px; transition: background-color 0.15s; }
+      .nav-links a:hover { background: var(--soft); }
+
+      /* Hero a color con el registro a la vista */
+      .hero { background: var(--brand); color: var(--ink); padding-block: clamp(40px, 6vw, 80px); overflow: hidden; }
+      .hero-in { display: grid; grid-template-columns: 1fr minmax(0, 460px); gap: clamp(32px, 5vw, 72px); align-items: center; }
+      .hero-copy { display: grid; gap: 20px; align-content: center; }
+      .hero-copy .lead { max-width: 34rem; }
+      .hero-points { display: grid; gap: 10px; font-weight: 500; }
+      .hero-points li { display: flex; align-items: center; gap: 10px; }
+      .hero-points svg { width: 26px; height: 26px; padding: 5px; border-radius: 50%; background: var(--ink); color: var(--brand); stroke-width: 3; }
+      .toast { display: flex; align-items: center; gap: 12px; justify-self: start; margin-top: 12px; padding: 12px 16px 12px 12px; border-radius: var(--r-xl); background: #fff; box-shadow: var(--lvl1); font-size: 14px; color: var(--body); max-width: 100%; }
+      .toast b { display: block; color: var(--ink); font-weight: 700; }
+      .toast-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; flex-shrink: 0; }
+      .toast-price { margin-left: 8px; font-weight: 700; color: var(--ink); }
+
+      .form-card { background: #fff; border-radius: var(--r-xl); padding: clamp(20px, 3vw, 28px); box-shadow: var(--lvl2); }
+      .reg { display: grid; gap: 14px; }
+      .form-h { font-weight: 700; font-size: 1.5rem; line-height: 1.25; }
+      .form-sub { color: var(--body); font-size: 15px; margin-top: -8px; }
+      .types { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
+      .types input, .seg input { position: absolute; opacity: 0; pointer-events: none; }
+      .types span { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px; border-radius: 999px; background: var(--soft); font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.15s, color 0.15s; }
+      .types label:hover span { background: var(--pressed); }
+      .types input:checked + span { background: var(--ink); color: #fff; }
+      .types input:focus-visible + span, .seg input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+      .field { display: grid; gap: 6px; min-width: 0; border: 0; padding: 0; margin: 0; }
+      .field > span { font-size: 14px; font-weight: 500; }
+      .field input:not([type="range"]):not([type="radio"]) { width: 100%; min-height: 48px; padding: 12px 16px; border: 0; border-radius: var(--r-md); background: var(--soft); font: 400 16px var(--text); color: var(--ink); box-shadow: inset 0 0 0 2px transparent; transition: box-shadow 0.15s, background-color 0.15s; }
+      .field input::placeholder { color: var(--mute); }
+      .field input:focus { outline: none; background: #fff; box-shadow: inset 0 0 0 2px var(--ink); }
+      .field input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px #c2410c; }
+      .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--body); cursor: pointer; }
+      .check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--ink); flex-shrink: 0; }
+      .reg .btn-large { width: 100%; margin-top: 4px; }
+      .reg-msg { min-height: 1.4em; font-size: 14px; font-weight: 500; color: #c2410c; margin-top: -6px; }
+      .reg-done { display: grid; justify-items: center; text-align: center; gap: 12px; padding: 32px 8px; }
+      .reg-done:focus { outline: none; }
+      .reg-done .form-sub { margin-top: 0; }
+      .done-icon { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: var(--ink); }
+      .done-icon svg { width: 32px; height: 32px; stroke-width: 2.5; }
+
+      /* Cifras */
+      .stats { padding-block: 40px; border-bottom: 1px solid var(--pressed); }
+      .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+      .stat { display: grid; gap: 4px; }
+      .stat b { font-weight: 700; font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem); line-height: 1.1; }
+      .stat span { color: var(--body); font-size: 15px; }
+
+      /* Bandas */
+      .band { padding-block: var(--band); }
+      .band-soft { background: var(--softer); }
+      .band-dark { background: var(--ink); color: var(--on-dark); }
+      .band-dark .lead { color: var(--on-dark-muted); font-weight: 400; }
+
+      /* Beneficios */
+      .ben-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+      .ben { display: grid; gap: 10px; align-content: start; padding: 24px; border-radius: var(--r-xl); background: var(--soft); }
+      .ben-icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: var(--ink); margin-bottom: 6px; }
+      .ben-icon svg { width: 24px; height: 24px; }
+      .ben p { color: var(--body); }
+
+      /* Panel */
+      .panel-in { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+      .panel-copy { display: grid; gap: 20px; }
+      .panel-list { display: grid; gap: 12px; }
+      .panel-list li { display: flex; gap: 12px; align-items: center; }
+      .panel-list svg { width: 26px; height: 26px; padding: 5px; border-radius: 50%; background: var(--brand); color: var(--ink); stroke-width: 3; }
+      .panel-stage { display: flex; justify-content: center; }
+      .panel-stage .panel { zoom: 0.86; }
+
+      /* Pasos */
+      .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; counter-reset: s; position: relative; }
+      .steps::before { content: ""; position: absolute; top: 24px; left: 24px; right: 12%; height: 2px; background: var(--pressed); }
+      .step { position: relative; display: grid; gap: 8px; align-content: start; }
+      .step-n { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; font-weight: 700; font-size: 18px; margin-bottom: 8px; box-shadow: 0 0 0 6px var(--canvas); }
+      .step:first-child .step-n { background: var(--brand); color: var(--ink); }
+      .step p { color: var(--body); }
+
+      /* Calculadora */
+      .calc-in { display: grid; grid-template-columns: 1fr minmax(0, 520px); gap: clamp(32px, 5vw, 72px); align-items: center; }
+      .card { background: #fff; border-radius: var(--r-xl); padding: 24px; }
+      .calc { display: grid; gap: 24px; box-shadow: var(--lvl1); }
+      .calc-label { display: flex; justify-content: space-between; align-items: baseline; font-weight: 500; font-size: 15px; padding: 0; margin-bottom: 4px; width: 100%; }
+      .calc-label output { font-weight: 700; font-size: 20px; }
+      input[type="range"] { width: 100%; height: 28px; accent-color: var(--ink); cursor: pointer; }
+      .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 999px; background: var(--soft); }
+      .seg span { display: flex; align-items: center; justify-content: center; min-height: 40px; border-radius: 999px; font-weight: 500; font-size: 15px; cursor: pointer; transition: background-color 0.15s, color 0.15s; }
+      .seg label:hover span { background: var(--pressed); }
+      .seg input:checked + span { background: var(--ink); color: #fff; }
+      .calc-out { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; }
+      .calc-out > div { display: grid; gap: 2px; padding: 16px; border-radius: var(--r-lg); background: var(--soft); }
+      .calc-out span { font-size: 14px; color: var(--body); }
+      .calc-out b { font-weight: 700; font-size: 1.75rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+      .calc-out .calc-main { background: var(--brand); }
+      .calc-out .calc-main span { color: var(--ink); }
+      .calc-note { font-size: 13px; color: var(--body); }
+
+      /* Promo con imagen */
+      .promo { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--r-xl); overflow: hidden; background: var(--soft); }
+      .promo-img img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+      .promo-copy { display: grid; gap: 16px; align-content: center; padding: clamp(24px, 4vw, 56px); }
+      .promo-copy .sub { margin-top: 0; }
+      .perks { display: grid; gap: 10px; margin-bottom: 8px; }
+      .perks li { display: flex; gap: 10px; align-items: center; font-weight: 500; }
+      .perks svg { width: 22px; height: 22px; color: var(--brand-deep); stroke-width: 2.5; }
+      .promo-copy .btn { justify-self: start; }
+
+      /* Preguntas */
+      .faq-in { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 48px; align-items: start; }
+      .faq { border-top: 1px solid var(--pressed); }
+      .faq details { border-bottom: 1px solid var(--pressed); }
+      .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; font-weight: 500; font-size: 1.0625rem; }
+      .faq summary::-webkit-details-marker { display: none; }
+      .faq summary::after { content: ""; width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: var(--soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b2926' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 16px no-repeat; transition: transform 0.2s; }
+      .faq details[open] summary::after { transform: rotate(45deg); }
+      .faq details p { padding: 0 48px 20px 0; color: var(--body); }
+
+      /* Cierre */
+      .cta { padding-block: clamp(64px, 8vw, 104px); }
+      .cta-in { display: grid; justify-items: center; text-align: center; gap: 16px; }
+      .cta-h { max-width: 18ch; }
+      .cta .btn { margin-top: 12px; }
+
+      /* Pie oscuro */
+      .foot { background: var(--ink); color: var(--on-dark-muted); padding: 56px 0 32px; font-size: 14px; }
+      .foot-in { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+      .foot-in > div { display: grid; align-content: start; gap: 4px; }
+      .foot-brand { gap: 16px !important; justify-items: start; }
+      .foot .brand { color: #fff; }
+      .foot .brand em { background: var(--ink-elevated); color: var(--on-dark-muted); }
+      .foot .brand img { border-radius: 50%; background: #fff; padding: 2px; }
+      .badge { padding: 2px 10px; border-radius: 999px; background: var(--amber-bg); color: var(--amber-ink); font-size: 12px; font-weight: 500; }
+      .foot-h { color: #fff; font-weight: 500; font-size: 16px; margin-bottom: 8px; }
+      .foot-in a:not(.brand) { text-decoration: none; line-height: 2; }
+      .foot-in a:not(.brand):hover { color: #fff; text-decoration: underline; }
+      .foot-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--ink-elevated); font-size: 12px; color: var(--mute); }
+
+      /* Responsive */
+      @media (max-width: 1119px) {
+        .nav-links { display: none; }
+        .nav-alt { margin-left: auto; }
+        .ben-grid { grid-template-columns: 1fr 1fr; }
+        .panel-in { grid-template-columns: 1fr; }
+        .panel-stage .panel { zoom: 0.9; }
+      }
+      @media (max-width: 899px) {
+        .hero-in, .calc-in, .faq-in { grid-template-columns: 1fr; }
+        .form-card { width: min(100%, 560px); }
+        .stats-in { grid-template-columns: 1fr 1fr; }
+        .steps { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+        .steps::before { display: none; }
+        .promo { grid-template-columns: 1fr; }
+        .panel-stage .panel { zoom: 0.72; }
+        .foot-in { grid-template-columns: 1fr 1fr; }
+        .foot-brand { grid-column: 1 / -1; }
+      }
+      @media (max-width: 600px) {
+        .nav-alt { display: none; }
+        .brand em { display: none; }
+        .nav-in .btn-primary { margin-left: auto; }
+        .ben-grid, .steps { grid-template-columns: 1fr; }
+        .field-row { grid-template-columns: 1fr; }
+        .toast { font-size: 13px; }
+        .toast-price { display: none; }
+        .panel-stage { justify-content: flex-start; }
+        .panel-stage .panel { zoom: 0.46; }
+        .calc-out { grid-template-columns: 1fr; }
+        .faq details p { padding-right: 0; }
+        .cta .btn { width: 100%; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition-duration: 0.01ms !important; }
+      }
+    </style>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const clp = (n: number) => "$" + Math.round(n).toLocaleString("es-CL");
+
+      // ---------- Registro de tienda ----------
+      // Sin backend todavía: valida en el navegador y muestra la confirmación.
+      const reg = document.querySelector<HTMLFormElement>("[data-reg]")!;
+      const regMsg = reg.querySelector(".reg-msg")!;
+      const done = document.querySelector<HTMLElement>(".reg-done")!;
+      const checks: Record<string, (v: string) => boolean> = {
+        tienda: (v) => v.length >= 2,
+        comuna: (v) => v.length >= 2,
+        nombre: (v) => v.length >= 2,
+        fono: (v) => v.replace(/\D/g, "").length >= 8,
+        email: (v) => /^\S+@\S+\.\S+$/.test(v),
+      };
+      reg.addEventListener("input", (e) => {
+        const el = e.target as HTMLInputElement;
+        if (el.getAttribute("aria-invalid") === "true" && checks[el.name]?.(el.value.trim())) el.removeAttribute("aria-invalid");
+      });
+      reg.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let first: HTMLInputElement | null = null;
+        for (const [name, ok] of Object.entries(checks)) {
+          const el = reg.elements.namedItem(name) as HTMLInputElement;
+          const valid = ok(el.value.trim());
+          if (valid) el.removeAttribute("aria-invalid");
+          else el.setAttribute("aria-invalid", "true");
+          if (!valid && !first) first = el;
+        }
+        const consent = reg.elements.namedItem("ok") as HTMLInputElement;
+        if (first || !consent.checked) {
+          regMsg.textContent = first ? "Revisa los campos marcados." : "Necesitamos tu autorización para contactarte.";
+          (first ?? consent).focus();
+          if (!reduced) gsap.fromTo(reg, { x: -8 }, { x: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" });
+          return;
+        }
+        regMsg.textContent = "";
+        done.querySelector("[data-shop]")!.textContent = (reg.elements.namedItem("tienda") as HTMLInputElement).value.trim();
+        reg.hidden = true;
+        done.hidden = false;
+        done.setAttribute("tabindex", "-1");
+        done.focus();
+        if (!reduced) gsap.from(done, { scale: 0.96, autoAlpha: 0, duration: 0.5, ease: "power3.out" });
+      });
+
+      // ---------- Calculadora ----------
+      const calc = document.querySelector<HTMLFormElement>("[data-calc]")!;
+      const out = (k: string, v: string) => (calc.querySelector(`[data-out="${k}"]`)!.textContent = v);
+      function compute() {
+        const d = new FormData(calc);
+        const clientes = Number(d.get("clientes"));
+        const pedidos = Math.round((clientes * 30) / 31);
+        out("clientes", String(clientes));
+        out("pedidos", String(pedidos));
+        out("ventas", clp(pedidos * Number(d.get("precio"))));
+      }
+      calc.addEventListener("input", compute);
+      calc.addEventListener("submit", (e) => e.preventDefault());
+      compute();
+
+      // ---------- Entradas ----------
+      if (!reduced) {
+        gsap.from(".hero:not(.cta) [data-rise]", { y: 24, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" });
+        gsap.from(".toast", { y: 16, autoAlpha: 0, duration: 0.6, delay: 0.9, ease: "back.out(1.6)" });
+        document.querySelectorAll<HTMLElement>("main > section:not(.hero), main > .cta").forEach((sec) => {
+          const items = sec.querySelectorAll("[data-rise]");
+          if (!items.length) return;
+          ScrollTrigger.create({
+            trigger: sec,
+            start: "top 85%",
+            once: true,
+            onEnter: () =>
+              gsap.fromTo(items, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: "power3.out" }),
+          });
+        });
+        // El panel sube y sus barras crecen al entrar
+        const stage = document.querySelector<HTMLElement>("[data-panel]")!;
+        stage.classList.add("panel-wait");
+        ScrollTrigger.create({
+          trigger: stage,
+          start: "top 80%",
+          once: true,
+          onEnter: () => {
+            gsap.fromTo(stage, { y: 48, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" });
+            setTimeout(() => stage.classList.remove("panel-wait"), 250);
+          },
+        });
+      }
+      window.addEventListener("load", () => ScrollTrigger.refresh());
+    </script>
+  </body>
+</html>

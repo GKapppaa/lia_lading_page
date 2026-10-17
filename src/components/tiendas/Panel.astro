@@ -1,0 +1,143 @@
+---
+// Panel web de la tienda recreado en HTML: pedidos programados, ventas y pronóstico de sacos.
+// Es una ilustración del producto; los datos son de ejemplo.
+interface Props {
+  label?: string;
+}
+const { label } = Astro.props;
+
+const orders = [
+  { day: "Hoy", date: "17 oct", dog: "Toby", meta: "Labrador · 32 kg", plan: "Premium 12,5 kg", price: "$58.000", status: "Por despachar", tone: "go" },
+  { day: "Hoy", date: "17 oct", dog: "Canela", meta: "Quiltro · 14 kg", plan: "Esencial 12,5 kg", price: "$28.000", status: "Por despachar", tone: "go" },
+  { day: "Mar", date: "20 oct", dog: "Maqui", meta: "Border collie · 18 kg", plan: "Equilibrado 12,5 kg", price: "$40.000", status: "Programado", tone: "" },
+  { day: "Jue", date: "22 oct", dog: "Lía", meta: "Quiltro · 30 kg", plan: "Equilibrado 12,5 kg", price: "$40.000", status: "Programado", tone: "" },
+];
+const weeks = [
+  { w: "Sem 43", n: 18 },
+  { w: "Sem 44", n: 23 },
+  { w: "Sem 45", n: 21 },
+  { w: "Sem 46", n: 27 },
+];
+const max = Math.max(...weeks.map((x) => x.n));
+---
+
+<figure class="panel" aria-label={label} aria-hidden={label ? undefined : "true"}>
+  <div class="bar">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="addr">Panel de tienda · Lía</span>
+  </div>
+  <div class="app">
+    <aside class="side">
+      <span class="logo"><img src="/logo_lia.png" alt="" width="22" height="22" />Lía <em>tiendas</em></span>
+      <span class="nav on">Pedidos <b>4</b></span>
+      <span class="nav">Catálogo</span>
+      <span class="nav">Pagos</span>
+      <span class="nav">Mi tienda</span>
+    </aside>
+    <div class="main">
+      <div class="head">
+        <div>
+          <span class="muted">Viernes 17 de octubre</span>
+          <p class="title">Hola, Mascotas Don Pepe</p>
+        </div>
+        <span class="pill">Tienda abierta</span>
+      </div>
+      <div class="kpis">
+        <div><span class="muted">Por despachar hoy</span><b>4</b></div>
+        <div><span class="muted">Pedidos esta semana</span><b>18</b></div>
+        <div class="dark"><span>Ventas del mes</span><b>$1.240.000</b></div>
+      </div>
+      <div class="cols">
+        <div class="card">
+          <p class="card-h">Próximos pedidos</p>
+          <ul class="rows">
+            {
+              orders.map((o) => (
+                <li>
+                  <span class="date"><b>{o.day}</b>{o.date}</span>
+                  <span class="who"><b>{o.dog}</b>{o.meta}</span>
+                  <span class="what">{o.plan}<b>{o.price}</b></span>
+                  <span class:list={["chip", o.tone]}>{o.status}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="card">
+          <p class="card-h">Sacos a preparar</p>
+          <div class="chart">
+            {
+              weeks.map((x) => (
+                <span class="col">
+                  <i style={`height: ${(x.n / max) * 100}%`}><b>{x.n}</b></i>
+                  <small>{x.w}</small>
+                </span>
+              ))
+            }
+          </div>
+          <span class="muted note">Pronóstico según el consumo de tus clientes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .panel {
+    --ink: #0b2926;
+    --or: #f28a3c;
+    width: 760px;
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    color: var(--ink);
+    font: 400 12px/1.35 "Inter", system-ui, sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 4px 16px 0;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .bar { display: flex; align-items: center; gap: 14px; height: 34px; padding: 0 14px; background: #eef3f2; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; background: #c9d6d3; }
+  .addr { flex: 1; max-width: 280px; margin-inline: auto; text-align: center; padding: 4px 12px; border-radius: 999px; background: #fff; font-size: 11px; color: #4d6461; }
+  .app { display: grid; grid-template-columns: 150px 1fr; min-height: 400px; }
+  .side { display: flex; flex-direction: column; gap: 4px; padding: 16px 12px; border-right: 1px solid #e3eae8; }
+  .logo { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+  .logo img { border-radius: 50%; }
+  .logo em { font-style: normal; font-weight: 500; font-size: 11px; color: #4d6461; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 999px; font-weight: 500; color: #4d6461; }
+  .nav.on { background: var(--ink); color: #fff; }
+  .nav b { min-width: 18px; height: 18px; border-radius: 99px; display: grid; place-items: center; background: var(--or); color: var(--ink); font-size: 10px; }
+  .main { padding: 18px 20px; display: grid; gap: 14px; align-content: start; background: #f7faf9; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; }
+  .muted { display: block; color: #6b807d; font-size: 11px; }
+  .title { margin: 2px 0 0; font-weight: 700; font-size: 18px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: #dff5ec; color: #0b6b4f; font-weight: 500; font-size: 11px; }
+  .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #16a34a; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 10px; }
+  .kpis > div { background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: inset 0 0 0 1px #e3eae8; }
+  .kpis b { display: block; margin-top: 4px; font-size: 24px; font-weight: 700; line-height: 1.1; }
+  .kpis .dark { background: var(--ink); color: #fff; box-shadow: none; }
+  .kpis .dark span { color: #b4ccc9; font-size: 11px; }
+  .cols { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+  .card { background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: inset 0 0 0 1px #e3eae8; display: grid; gap: 8px; align-content: start; }
+  .card-h { margin: 0; font-weight: 700; font-size: 13px; }
+  .rows { list-style: none; margin: 0; padding: 0; display: grid; }
+  .rows li { display: grid; grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1.1fr) auto; gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid #eef3f2; }
+  .rows li > span { display: grid; font-size: 10.5px; color: #6b807d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rows b { color: var(--ink); font-weight: 500; font-size: 11.5px; }
+  .date b { font-weight: 700; }
+  .what b { font-weight: 700; }
+  .chip { padding: 3px 9px; border-radius: 999px; background: #eef3f2; color: #4d6461 !important; font-weight: 500; white-space: nowrap; }
+  .chip.go { background: var(--or); color: var(--ink) !important; }
+  .chart { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; height: 150px; padding-top: 18px; }
+  .col { display: grid; grid-template-rows: 1fr auto; height: 100%; gap: 6px; text-align: center; }
+  .col i { align-self: end; position: relative; display: block; border-radius: 8px 8px 4px 4px; background: #cfe0dd; transform-origin: bottom; transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .col:last-child i { background: var(--or); }
+  .col i b { position: absolute; top: -16px; left: 0; right: 0; font-size: 11px; font-weight: 700; }
+  .col small { font-size: 10px; color: #6b807d; white-space: nowrap; }
+  .note { font-size: 10px; }
+  /* Las barras crecen cuando el panel entra en pantalla (la página agrega .is-in) */
+  :global(.panel-wait) .col i { transform: scaleY(0); }
+</style>
