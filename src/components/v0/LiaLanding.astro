@@ -1,0 +1,798 @@
+---
+const tabs = [
+  {
+    id: "home",
+    label: "Su día, de un vistazo",
+    shortLabel: "Inicio",
+    icon: "⌂",
+    description: "Perfil, rutinas y recordatorios importantes en una sola vista.",
+    reason: "Para saber qué necesita tu perro sin buscar en varias partes.",
+  },
+  {
+    id: "shop",
+    label: "Alimento a tiempo",
+    shortLabel: "Tienda",
+    icon: "＋",
+    description: "Organiza una suscripción y coordina entregas con una tienda local.",
+    reason: "Para anticipar la reposición y reducir las compras de último minuto.",
+  },
+  {
+    id: "health",
+    label: "Su salud, siempre a mano",
+    shortLabel: "Salud",
+    icon: "♡",
+    description: "Vacunas, peso y próximas citas reunidos en su ficha digital.",
+    reason: "Para tener sus antecedentes accesibles cuando los necesites.",
+  },
+];
+
+const heroSlides = [
+  {
+    src: "/v2/woman-and-dog-portrait.jpg",
+    kind: "image",
+    alt: "Una mujer comparte un momento tranquilo con su perro",
+    kicker: "El vínculo de todos los días",
+    title: "Que las tareas no te quiten tiempo para quererlo.",
+    credit: "Foto: Scarleth Marie · CC BY 2.0",
+    creditHref: "https://commons.wikimedia.org/w/index.php?curid=108100191",
+  },
+  {
+    src: "/v2/american-eskimo-dog-portrait-above.jpg",
+    kind: "image",
+    alt: "Primer plano de un perro blanco",
+    kicker: "Cada detalle de su cuidado cuenta",
+    title: "Lo importante, más fácil de tener presente.",
+    credit: "Foto: SheltieBoy · CC BY 2.0",
+    creditHref: "https://commons.wikimedia.org/w/index.php?curid=1923059",
+  },
+  {
+    src: "/v2/dog-walking-in-the-mission-in-san.webm",
+    poster: "/v2/dog-walking-in-the-mission-in-san-poster.jpg",
+    kind: "video",
+    alt: "Un perro pasea por su barrio",
+    kicker: "Más vida de barrio",
+    title: "El cuidado también ocurre cerca de casa.",
+    credit: "Video: Sage Ross · CC BY-SA 3.0",
+    creditHref: "https://commons.wikimedia.org/wiki/File:Dog_walking_in_the_Mission_in_San_Francisco.ogv",
+  },
+];
+
+const pillars = [
+  {
+    number: "01",
+    title: "Comida a tiempo",
+    body: "Suscripción y entregas a domicilio coordinadas para anticiparse a la próxima bolsa vacía.",
+    icon: "feed",
+  },
+  {
+    number: "02",
+    title: "Tu tienda de siempre",
+    body: "La entrega se coordina con comercios de mascotas de tu barrio.",
+    icon: "delivery",
+  },
+  {
+    number: "03",
+    title: "Su salud, a mano",
+    body: "Una ficha digital para tener sus cuidados importantes en un lugar.",
+    icon: "health",
+  },
+];
+---
+
+<div class="lia-v0">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Lía, inicio">
+      <img src="/logo_lia.png" alt="" width="44" height="44" />
+      <span>Lía<span class="brand-period">.</span></span>
+    </a>
+    <button class="mobile-menu-button" type="button" aria-expanded="false" aria-label="Abrir navegación" aria-controls="main-navigation" data-menu-toggle>
+      <span class="menu-line"></span><span class="menu-line"></span>
+    </button>
+    <nav class="desktop-nav" id="main-navigation" aria-label="Navegación principal" data-menu>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#beneficios">Todo para su cuidado</a>
+      <a href="#app">La app</a>
+    </nav>
+    <a class="button button-small" href="#lista">Quiero conocer Lía <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow" data-hero-item><span class="eyebrow-dot"></span> Cuidado cotidiano, más simple</p>
+        <h1 id="hero-title" data-hero-item>Para que cuidar de él se sienta <em>más fácil.</em></h1>
+        <p class="hero-intro">
+          Menos pendientes en tu cabeza. <strong>Más tiempo para lo que importa.</strong>
+          Lía te ayuda a anticiparte con su comida y a tener su cuidado siempre a mano.
+        </p>
+        <div class="hero-actions" data-hero-item>
+          <a class="button" href="#lista">Conoce Lía <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#app">Explorar la app <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-note" data-hero-item>
+          <span class="note-check" aria-hidden="true">✓</span>
+          Pensada para tu perro y para la vida real.
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <figure class="hero-carousel" data-hero-carousel aria-roledescription="carrusel" aria-label="Historias del cuidado cotidiano">
+          <div class="photo-card" data-hero-viewport>
+            {heroSlides.map((slide, index) => (
+              <div
+                class:list={["hero-slide", index === 0 && "is-active"]}
+                data-hero-slide
+                data-credit={slide.credit}
+                data-credit-href={slide.creditHref}
+                aria-hidden={index === 0 ? "false" : "true"}
+                role="group"
+                aria-roledescription="diapositiva"
+                aria-label={`${index + 1} de ${heroSlides.length}`}
+              >
+                {slide.kind === "video" ? (
+                  <video class="hero-slide-media" muted playsinline preload="none" poster={slide.poster} aria-label={slide.alt} data-hero-video>
+                    <source src={slide.src} type="video/webm" />
+                  </video>
+                ) : (
+                  <img
+                    class="hero-slide-media"
+                    src={slide.src}
+                    alt={slide.alt}
+                    width={index === 1 ? "1370" : "1920"}
+                    height={index === 1 ? "2048" : "1275"}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchpriority={index === 0 ? "high" : "auto"}
+                  />
+                )}
+                <div class="photo-wash" aria-hidden="true"></div>
+                <div class="photo-caption">
+                  <span class="caption-kicker">{slide.kicker}</span>
+                  <span class="caption-title">{slide.title}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div class="hero-carousel-controls" aria-label="Controles del carrusel">
+            <div class="carousel-dots" role="group" aria-label="Elegir imagen">
+              {heroSlides.map((slide, index) => (
+                <button
+                  type="button"
+                  class:list={["carousel-dot", index === 0 && "is-active"]}
+                  data-hero-dot={index}
+                  aria-label={`Mostrar imagen ${index + 1}: ${slide.kicker}`}
+                  aria-current={index === 0 ? "true" : undefined}
+                ></button>
+              ))}
+            </div>
+            <div class="carousel-actions">
+              <button type="button" class="carousel-control" data-hero-prev aria-label="Imagen anterior">←</button>
+              <button type="button" class="carousel-control" data-hero-next aria-label="Imagen siguiente">→</button>
+              <button type="button" class="carousel-control carousel-pause" data-hero-pause aria-label="Pausar carrusel"><span data-pause-symbol aria-hidden="true">Ⅱ</span></button>
+            </div>
+          </div>
+          <figcaption class="hero-credit">Crédito de la imagen: <a href={heroSlides[0].creditHref} target="_blank" rel="noreferrer" data-hero-credit>{heroSlides[0].credit}</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="app-experience" id="app" aria-labelledby="app-title">
+      <div class="experience-heading">
+        <p class="eyebrow">Una app para el día a día</p>
+        <h2 id="app-title">Cada cosa importante,<br /><em>en su lugar.</em></h2>
+        <p>Explora cómo Lía reúne el cuidado cotidiano de tu perro en una experiencia sencilla.</p>
+      </div>
+
+      <div class="experience-layout">
+        <div class="feature-menu" role="tablist" aria-label="Funciones de Lía">
+          {tabs.map((tab, index) => (
+            <button
+              id={`feature-tab-${tab.id}`}
+              type="button"
+              role="tab"
+              aria-selected={tab.id === "home" ? "true" : "false"}
+              aria-controls={`app-view-${tab.id}`}
+              data-app-tab={tab.id}
+              class:list={["feature-tab", tab.id === "home" && "is-selected"]}
+            >
+              <span class="feature-index">0{index + 1}</span>
+              <span class="feature-copy">
+                <strong>{tab.label}</strong>
+                <span>{tab.description}</span>
+                <span class="feature-reason"><b>¿Por qué está aquí?</b> {tab.reason}</span>
+              </span>
+              <span class="feature-arrow" aria-hidden="true">↗</span>
+            </button>
+          ))}
+        </div>
+
+        <div class="phone-stage">
+          <div class="phone-wrap" role="region" aria-label="Vista previa interactiva de la aplicación Lía">
+            <div class="phone-shell">
+              <div class="phone-island" aria-hidden="true"></div>
+              <div class="phone-screen">
+                <div class="phone-status"><span>9:41</span><span aria-hidden="true">●●●  ▰</span></div>
+                <div class="app-heading">
+                  <div><span class="app-overline">BUENOS DÍAS</span><h3>Hola, Camila</h3></div>
+                  <img class="pet-avatar" src="/v2/american-eskimo-dog-portrait-above.jpg" alt="Perro del perfil de ejemplo" width="1370" height="2048" loading="lazy" />
+                </div>
+                <span class="demo-tag">MUESTRA · DATOS ILUSTRATIVOS</span>
+
+                <div class="app-views" aria-live="polite">
+                  <section class="app-view is-active" id="app-view-home" role="tabpanel" aria-labelledby="feature-tab-home">
+                    <p class="screen-label">RESUMEN DE MORA</p>
+                    <div class="pet-card">
+                      <div class="pet-card-top"><span class="pet-icon" aria-hidden="true">⌂</span><span class="soft-pill">Vista de ejemplo</span></div>
+                      <h4>Todo sobre Mora,<br />en un solo lugar.</h4>
+                      <p>Perfil, rutina y recordatorios de cuidado.</p>
+                      <div class="pet-card-rule"></div>
+                      <button class="phone-action" type="button" data-open-tab="health">Ver ficha de Mora <span aria-hidden="true">→</span></button>
+                    </div>
+                    <button class="reminder-card" type="button" data-open-tab="shop"><span class="reminder-icon" aria-hidden="true">◷</span><span><b>Próximo paso</b><span>Organiza su siguiente entrega.</span></span><span class="record-arrow" aria-hidden="true">→</span></button>
+                  </section>
+
+                  <section class="app-view" id="app-view-shop" role="tabpanel" aria-labelledby="feature-tab-shop" hidden>
+                    <p class="screen-label">SU COMIDA, SIN OLVIDOS</p>
+                    <div class="shop-card"><div class="food-illustration" aria-hidden="true">◌</div><span class="card-overline">SUSCRIPCIÓN DE ALIMENTO</span><h4>Su favorito,<br />a tiempo.</h4><p>Planifica la reposición y coordina la entrega a domicilio con una tienda local.</p><div class="delivery-chip"><span></span> Entrega coordinada</div></div>
+                    <button class="phone-action phone-action-filled" type="button" data-open-tab="home">Revisar resumen <span aria-hidden="true">→</span></button>
+                  </section>
+
+                  <section class="app-view" id="app-view-health" role="tabpanel" aria-labelledby="feature-tab-health" hidden>
+                    <p class="screen-label">FICHA VETERINARIA</p>
+                    <div class="health-card"><span class="health-mark">♡</span><span class="card-overline">PERFIL DE MORA</span><h4>Su historia,<br />bien guardada.</h4><p>Un espacio claro para sus datos y cuidados.</p></div>
+                    <div class="record-row"><span class="record-icon">＋</span><span><b>Vacunas</b><small>Historial y próximas dosis</small></span><span class="record-arrow">→</span></div>
+                    <div class="record-row"><span class="record-icon">⌁</span><span><b>Peso</b><small>Seguimiento desde su perfil</small></span><span class="record-arrow">→</span></div>
+                    <div class="record-row"><span class="record-icon">＋</span><span><b>Próximas citas</b><small>Fechas y notas importantes</small></span><span class="record-arrow">→</span></div>
+                    <button class="phone-action phone-action-filled" type="button" data-open-tab="shop">Ver plan de alimento <span aria-hidden="true">→</span></button>
+                  </section>
+                </div>
+
+                <div class="phone-tabs" aria-hidden="true">
+                  {tabs.map((tab) => (
+                    <span class:list={["phone-tab", tab.id === "home" && "is-selected"]} data-phone-indicator={tab.id}>
+                      <span class="tab-icon">{tab.icon}</span>
+                      <span>{tab.shortLabel}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <a class="dog-credit" href="https://commons.wikimedia.org/w/index.php?curid=1923059" target="_blank" rel="noreferrer">Foto del perfil: SheltieBoy · CC BY 2.0</a>
+            <div class="phone-shadow" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillars-section" id="como-funciona" aria-labelledby="pillars-title">
+      <div class="section-heading">
+        <p class="eyebrow">Una ayuda que acompaña</p>
+        <h2 id="pillars-title">Lo esencial de su cuidado,<br /><em>en buenas manos.</em></h2>
+      </div>
+      <div class="pillars-grid" id="beneficios">
+        {pillars.map((pillar) => (
+          <article class="pillar-card" data-reveal>
+            <div class="pillar-top"><span class="pillar-icon" aria-hidden="true">
+              {pillar.icon === "feed" && <svg viewBox="0 0 24 24" fill="none"><path d="M4 8.5h16l-1.4 10H5.4L4 8.5Z"/><path d="M8 8.5 12 4l4 4.5M9 12h.01M15 12h.01"/></svg>}
+              {pillar.icon === "delivery" && <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7z"/><circle cx="7.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg>}
+              {pillar.icon === "health" && <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 8.8c0 5.2-8.5 10-8.5 10s-8.5-4.8-8.5-10a4.3 4.3 0 0 1 8.5-1 4.3 4.3 0 0 1 8.5 1Z"/><path d="M8.5 12h7M12 8.5v7"/></svg>}
+            </span><span class="pillar-number">{pillar.number}</span></div>
+            <h3>{pillar.title}</h3>
+            <p>{pillar.body}</p>
+            <span class="pillar-arrow" aria-hidden="true">↗</span>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="closing-card" id="lista" data-reveal>
+      <div><p class="eyebrow">Un día a la vez, juntos</p><h2>Más calma para ti.<br /><em>Más cuidado para él.</em></h2><p class="closing-copy">Déjanos tu correo para avisarte cuando la lista de espera esté disponible.</p></div>
+      <form class="waitlist-form" data-waitlist-form>
+        <label class="sr-only" for="waitlist-email">Tu correo electrónico</label>
+        <input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+        <button class="button button-light" type="submit">Quiero saber más <span aria-hidden="true">↗</span></button>
+        <p class="form-status" role="status" aria-live="polite" data-form-status>Vista previa: el formulario aún no está conectado a una lista real.</p>
+      </form>
+      <span class="closing-spark" aria-hidden="true">✳</span>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand footer-brand" href="#top"><img src="/logo_lia.png" alt="" width="36" height="36" /><span>Lía<span class="brand-period">.</span></span></a><span>Cuidado cotidiano, hecho con cariño.</span><a href="#top">Volver arriba ↑</a></footer>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-app-tab]"));
+  const views = Array.from(document.querySelectorAll<HTMLElement>(".app-view"));
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function selectTab(tab: HTMLButtonElement) {
+    const selectedId = tab.dataset.appTab;
+    tabs.forEach((item) => {
+      const selected = item === tab;
+      item.setAttribute("aria-selected", String(selected));
+      item.classList.toggle("is-selected", selected);
+      item.tabIndex = selected ? 0 : -1;
+    });
+    views.forEach((view) => {
+      const selected = view.id === `app-view-${selectedId}`;
+      view.hidden = !selected;
+      view.classList.toggle("is-active", selected);
+    });
+    document.querySelectorAll<HTMLElement>("[data-phone-indicator]").forEach((indicator) => {
+      indicator.classList.toggle("is-selected", indicator.dataset.phoneIndicator === selectedId);
+    });
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = tabs[(index + direction + tabs.length) % tabs.length];
+      next.focus();
+      selectTab(next);
+    });
+  });
+
+  if (tabs[0]) selectTab(tabs[0]);
+
+  document.querySelectorAll<HTMLButtonElement>("[data-open-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = tabs.find((tab) => tab.dataset.appTab === button.dataset.openTab);
+      if (target) selectTab(target);
+    });
+  });
+
+  const menuToggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.querySelector<HTMLElement>("[data-menu]");
+  const closeMenu = () => {
+    menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Abrir navegación");
+    menu?.classList.remove("is-open");
+  };
+
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Abrir navegación" : "Cerrar navegación");
+    menu?.classList.toggle("is-open", !isOpen);
+  });
+  menu?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuToggle?.getAttribute("aria-expanded") === "true") {
+      closeMenu();
+      menuToggle.focus();
+    }
+  });
+
+  const waitlistForm = document.querySelector<HTMLFormElement>("[data-waitlist-form]");
+  const formStatus = document.querySelector<HTMLElement>("[data-form-status]");
+  waitlistForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!waitlistForm.reportValidity()) return;
+    if (formStatus) formStatus.textContent = "Gracias. Esta vista previa no guarda ni envía tu correo.";
+  });
+
+  const heroCarousel = document.querySelector<HTMLElement>("[data-hero-carousel]");
+  const heroSlides = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-slide]"));
+  const heroDots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-hero-dot]"));
+  const heroCredit = document.querySelector<HTMLAnchorElement>("[data-hero-credit]");
+  const pauseButton = document.querySelector<HTMLButtonElement>("[data-hero-pause]");
+  const pauseSymbol = document.querySelector<HTMLElement>("[data-pause-symbol]");
+  let activeHeroIndex = 0;
+  let cycleTimer: number | undefined;
+  let pointerInsideCarousel = false;
+  let focusInsideCarousel = false;
+  let userPausedCarousel = reduceMotion;
+
+  function stopHeroCycle() {
+    if (cycleTimer !== undefined) window.clearInterval(cycleTimer);
+    cycleTimer = undefined;
+    heroSlides[activeHeroIndex]?.querySelector<HTMLVideoElement>("[data-hero-video]")?.pause();
+  }
+
+  function startHeroCycle() {
+    stopHeroCycle();
+    const activeVideo = heroSlides[activeHeroIndex]?.querySelector<HTMLVideoElement>("[data-hero-video]");
+    if (reduceMotion || userPausedCarousel || pointerInsideCarousel || focusInsideCarousel || heroSlides.length < 2) {
+      activeVideo?.pause();
+      return;
+    }
+    if (activeVideo?.paused) void activeVideo.play().catch(() => undefined);
+    cycleTimer = window.setInterval(() => setActiveHero(activeHeroIndex + 1), 6800);
+  }
+
+  function setActiveHero(nextIndex: number) {
+    if (!heroSlides.length) return;
+    activeHeroIndex = (nextIndex + heroSlides.length) % heroSlides.length;
+    heroSlides.forEach((slide, index) => {
+      const active = index === activeHeroIndex;
+      slide.classList.toggle("is-active", active);
+      slide.setAttribute("aria-hidden", String(!active));
+      const video = slide.querySelector<HTMLVideoElement>("[data-hero-video]");
+      if (video) video.pause();
+    });
+    heroDots.forEach((dot, index) => {
+      const active = index === activeHeroIndex;
+      dot.classList.toggle("is-active", active);
+      if (active) dot.setAttribute("aria-current", "true");
+      else dot.removeAttribute("aria-current");
+    });
+    const activeSlide = heroSlides[activeHeroIndex];
+    if (activeSlide && heroCredit) {
+      heroCredit.href = activeSlide.dataset.creditHref ?? "#";
+      heroCredit.textContent = activeSlide.dataset.credit ?? "Ver crédito de la imagen";
+    }
+    startHeroCycle();
+  }
+
+  heroDots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      setActiveHero(Number(dot.dataset.heroDot));
+      startHeroCycle();
+    });
+  });
+  document.querySelector("[data-hero-prev]")?.addEventListener("click", () => {
+    setActiveHero(activeHeroIndex - 1);
+    startHeroCycle();
+  });
+  document.querySelector("[data-hero-next]")?.addEventListener("click", () => {
+    setActiveHero(activeHeroIndex + 1);
+    startHeroCycle();
+  });
+  pauseButton?.addEventListener("click", () => {
+    userPausedCarousel = !userPausedCarousel;
+    pauseButton.setAttribute("aria-label", userPausedCarousel ? "Reanudar carrusel" : "Pausar carrusel");
+    if (pauseSymbol) pauseSymbol.textContent = userPausedCarousel ? "▶" : "Ⅱ";
+    if (userPausedCarousel) stopHeroCycle();
+    else startHeroCycle();
+  });
+  if (reduceMotion && pauseButton) {
+    pauseButton.disabled = true;
+    pauseButton.setAttribute("aria-label", "Animación automática desactivada por preferencia de movimiento reducido");
+    if (pauseSymbol) pauseSymbol.textContent = "▶";
+  }
+  heroCarousel?.addEventListener("pointerenter", () => {
+    pointerInsideCarousel = true;
+    stopHeroCycle();
+  });
+  heroCarousel?.addEventListener("pointerleave", () => {
+    pointerInsideCarousel = false;
+    startHeroCycle();
+  });
+  heroCarousel?.addEventListener("focusin", () => {
+    focusInsideCarousel = true;
+    stopHeroCycle();
+  });
+  heroCarousel?.addEventListener("focusout", (event) => {
+    if (event.relatedTarget instanceof Node && heroCarousel.contains(event.relatedTarget)) return;
+    focusInsideCarousel = false;
+    startHeroCycle();
+  });
+  setActiveHero(0);
+
+  // Entradas y revelados progresivos; el contenido permanece visible si se reduce el movimiento.
+  gsap.registerPlugin(ScrollTrigger);
+  if (!reduceMotion) {
+    gsap.from("[data-hero-item], .hero-intro", {
+      autoAlpha: 0,
+      y: 20,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: "power2.out",
+      delay: 0.08,
+    });
+    gsap.from(".photo-card", { autoAlpha: 0, y: 18, duration: 0.9, delay: 0.15, ease: "power2.out" });
+    gsap.from(".phone-wrap", {
+      autoAlpha: 0,
+      y: 22,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".app-experience", start: "top 80%", once: true },
+    });
+    gsap.from(".feature-tab", {
+      autoAlpha: 0,
+      x: -18,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".experience-layout", start: "top 82%", once: true },
+    });
+    gsap.from(".pillar-card", {
+      autoAlpha: 0,
+      y: 22,
+      duration: 0.65,
+      stagger: 0.12,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".pillars-grid", start: "top 84%", once: true },
+    });
+    gsap.from(".section-heading", {
+      autoAlpha: 0,
+      y: 16,
+      duration: 0.55,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".section-heading", start: "top 88%", once: true },
+    });
+    gsap.from(".closing-card", {
+      autoAlpha: 0,
+      y: 20,
+      duration: 0.65,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".closing-card", start: "top 88%", once: true },
+    });
+  } else {
+    gsap.set("[data-hero-item], .hero-intro, .photo-card, .phone-wrap, .feature-tab, .pillar-card, .section-heading, .closing-card", {
+      clearProps: "all",
+    });
+  }
+</script>
+
+<style>
+  .lia-v0 {
+    --lia-teal: #0d9488;
+    --lia-deep: #134e4a;
+    --lia-amber: #f59e0b;
+    --lia-amber-light: #fbbf24;
+    --lia-ink: #173b38;
+    --lia-muted: #607b77;
+    --lia-paper: #fbfaf6;
+    --lia-line: #e3ece8;
+    --lia-font: Inter, "ui-sans-serif", system-ui, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--lia-paper);
+    color: var(--lia-ink);
+    font-family: var(--lia-font);
+  }
+
+  .lia-v0 *, .lia-v0 *::before, .lia-v0 *::after { box-sizing: border-box; }
+  .lia-v0 a { color: inherit; text-decoration: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+  .site-header, .hero, .pillars-section, .site-footer { width: min(1180px, calc(100% - 64px)); margin-inline: auto; }
+  .site-header { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 28px; border-bottom: 1px solid rgb(19 78 74 / 8%); }
+  .brand { display: inline-flex; align-items: center; gap: 9px; font-size: 22px; font-weight: 800; letter-spacing: -.06em; color: var(--lia-deep); }
+  .brand img { width: 40px; height: 40px; object-fit: contain; }
+  .brand-period { color: var(--lia-amber); }
+  .desktop-nav { display: flex; align-items: center; gap: clamp(22px, 3vw, 42px); color: #47645f; font-size: 13px; font-weight: 600; }
+  .desktop-nav a, .site-footer a { transition: color .2s ease; }
+  .desktop-nav a:hover, .site-footer a:hover { color: var(--lia-teal); }
+  .mobile-menu-button { display: none; }
+  .button { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 18px; border: 1px solid var(--lia-teal); border-radius: 999px; padding: 0 23px; background: var(--lia-teal); color: white !important; font-size: 13px; font-weight: 700; box-shadow: 0 7px 18px rgb(13 148 136 / 14%); transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+  .button:hover { transform: translateY(-2px); background: var(--lia-deep); box-shadow: 0 12px 22px rgb(19 78 74 / 18%); }
+  .button:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid #fbbf24; outline-offset: 4px; }
+  .button-small { min-height: 42px; padding-inline: 17px; gap: 12px; font-size: 12px; }
+
+  .hero { position: relative; display: grid; min-height: 625px; grid-template-columns: minmax(0, .91fr) minmax(480px, 1.09fr); align-items: center; gap: 28px; padding-block: 52px 64px; }
+  .hero-copy { position: relative; z-index: 2; max-width: 530px; padding-block: 22px; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0; color: var(--lia-teal); font-size: 10px; font-weight: 800; letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; }
+  .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lia-amber); box-shadow: 0 0 0 4px rgb(245 158 11 / 12%); }
+  .hero h1 { max-width: 530px; margin: 24px 0 19px; color: var(--lia-deep); font-size: clamp(46px, 5.3vw, 70px); font-weight: 700; letter-spacing: -.075em; line-height: .99; }
+  .hero h1 em, .section-heading h2 em, .closing-card h2 em { color: var(--lia-teal); font-style: normal; }
+  .hero-intro { max-width: 444px; margin: 0; color: #59736e; font-size: 16px; line-height: 1.8; text-wrap: pretty; }
+  .hero-intro strong { color: var(--lia-deep); font-weight: 750; }
+  .hero-actions { display: flex; align-items: center; gap: 25px; margin-top: 29px; }
+  .text-link { display: inline-flex; align-items: center; gap: 9px; color: var(--lia-deep); font-size: 12px; font-weight: 700; transition: gap .2s ease; }
+  .text-link:hover { gap: 14px; }
+  .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 31px; color: #728680; font-size: 11px; }
+  .note-check { display: grid; width: 20px; height: 20px; place-items: center; border-radius: 50%; background: #e5f2ed; color: var(--lia-teal); font-size: 11px; font-weight: 800; }
+
+  .hero-visual { position: relative; min-height: 530px; isolation: isolate; }
+  .hero-visual::before { position: absolute; z-index: -2; top: 50%; left: 50%; width: min(460px, 94%); aspect-ratio: 1; border-radius: 50%; background: #f5ead8; content: ""; transform: translate(-48%, -50%); }
+  .hero-carousel { position: relative; height: 530px; margin: 0; }
+  .photo-card { position: absolute; top: 8px; right: 5%; left: 5%; height: 462px; overflow: hidden; border: 7px solid white; border-radius: 46% 46% 23px 23px; background: #dce8e1; box-shadow: 0 24px 60px rgb(29 65 58 / 18%); }
+  .hero-slide { position: absolute; inset: 0; overflow: hidden; opacity: 0; visibility: hidden; transform: scale(1.035); transition: opacity .75s ease, visibility .75s ease, transform 6.8s linear; }
+  .hero-slide.is-active { z-index: 1; opacity: 1; visibility: visible; transform: scale(1); }
+  .hero-slide-media { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+  .hero-slide:nth-child(2) .hero-slide-media { object-position: center 44%; }
+  .hero-slide:nth-child(3) .hero-slide-media { object-position: center; }
+  .photo-wash { position: absolute; inset: 22% 0 0; background: linear-gradient(180deg, transparent 4%, rgb(15 46 42 / 74%) 100%); }
+  .photo-caption { position: absolute; right: 24px; bottom: 27px; left: 25px; display: grid; gap: 10px; color: white; }
+  .caption-kicker { width: max-content; max-width: 100%; border: 1px solid rgb(255 255 255 / 48%); border-radius: 999px; padding: 6px 10px; background: rgb(19 78 74 / 42%); font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .caption-title { max-width: 385px; font-size: clamp(23px, 2.5vw, 34px); font-weight: 750; letter-spacing: -.055em; line-height: 1.08; text-wrap: balance; }
+  .hero-carousel-controls { position: absolute; right: 7%; bottom: 25px; left: 7%; z-index: 2; display: flex; align-items: center; justify-content: space-between; }
+  .carousel-dots, .carousel-actions { display: flex; align-items: center; gap: 7px; }
+  .carousel-dot { width: 9px; height: 9px; border: 0; border-radius: 10px; padding: 0; background: #a6bbb2; cursor: pointer; transition: width .2s ease, background .2s ease; }
+  .carousel-dot.is-active { width: 25px; background: var(--lia-teal); }
+  .carousel-control { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid #dce8e2; border-radius: 50%; background: white; color: var(--lia-deep); cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; transition: transform .18s ease, background .18s ease; }
+  .carousel-control:hover { transform: translateY(-2px); background: #edf6f1; }
+  .carousel-control:active { transform: scale(.94); }
+  .carousel-pause { margin-left: 4px; font-size: 11px; }
+  .carousel-control:disabled { cursor: not-allowed; opacity: .55; }
+  .hero-credit { position: absolute; right: 8%; bottom: 0; color: #728680; font-size: 9px; }
+  .hero-credit a { color: var(--lia-deep); text-decoration: underline; text-underline-offset: 2px; }
+  .app-experience { width: min(1080px, calc(100% - 64px)); margin: 0 auto; padding-block: 72px 90px; border-top: 1px solid rgb(19 78 74 / 8%); }
+  .experience-heading { max-width: 650px; margin: 0 auto 44px; text-align: center; }
+  .experience-heading .eyebrow { justify-content: center; }
+  .experience-heading h2 { margin: 14px 0 11px; color: var(--lia-deep); font-size: clamp(34px, 4.4vw, 52px); letter-spacing: -.075em; line-height: 1.04; }
+  .experience-heading h2 em { color: var(--lia-teal); font-style: normal; }
+  .experience-heading > p:last-child { max-width: 475px; margin: 0 auto; color: #668079; font-size: 14px; line-height: 1.75; }
+  .experience-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; align-items: center; gap: clamp(35px, 8vw, 110px); }
+  .feature-menu { display: grid; gap: 10px; }
+  .feature-tab { display: grid; grid-template-columns: 32px 1fr 18px; align-items: start; gap: 13px; width: 100%; border: 1px solid transparent; border-radius: 16px; padding: 16px 15px; background: transparent; color: var(--lia-ink); cursor: pointer; font: inherit; text-align: left; transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease; }
+  .feature-tab:hover { transform: translateX(3px); background: rgb(255 255 255 / 65%); }
+  .feature-tab.is-selected { border-color: #dcebe5; background: white; box-shadow: 0 12px 30px rgb(19 78 74 / 7%); }
+  .feature-index { padding-top: 2px; color: #97b6a9; font-size: 10px; font-weight: 800; letter-spacing: .1em; }
+  .feature-copy { display: grid; gap: 7px; }
+  .feature-copy strong { color: var(--lia-deep); font-size: 18px; letter-spacing: -.04em; line-height: 1.25; }
+  .feature-copy > span { color: #536e67; font-size: 13px; line-height: 1.7; }
+  .feature-copy .feature-reason { margin-top: 3px; border-left: 2px solid var(--lia-amber); border-radius: 0 8px 8px 0; padding: 7px 9px; background: #fbf4e7; color: #5d7169; font-size: 11px; line-height: 1.55; }
+  .feature-reason b { color: var(--lia-teal); font-weight: 700; }
+  .feature-arrow { padding-top: 1px; color: #94b9ad; font-size: 14px; transition: transform .2s ease; }
+  .feature-tab.is-selected .feature-arrow { color: var(--lia-teal); transform: translate(2px, -2px); }
+  .phone-stage { position: relative; display: grid; min-height: 560px; place-items: center; isolation: isolate; }
+  .phone-stage::before { position: absolute; z-index: -1; width: 350px; max-width: 100%; aspect-ratio: 1; border-radius: 50%; background: #f5ead8; content: ""; }
+  .phone-wrap { position: relative; z-index: 1; width: 270px; }
+  .phone-shell { position: relative; overflow: hidden; border: 7px solid #183b37; border-radius: 37px; background: #fff; box-shadow: 0 18px 35px rgb(19 78 74 / 20%), inset 0 0 0 1px rgb(255 255 255 / 40%); }
+  .phone-island { position: absolute; z-index: 4; top: 8px; left: 50%; width: 72px; height: 17px; border-radius: 20px; background: #183b37; transform: translateX(-50%); }
+  .phone-screen { display: grid; height: 490px; grid-template-rows: 10px 42px 18px minmax(0, 1fr) 44px; gap: 5px; overflow: hidden; padding: 17px 14px 12px; background: #f8faf7; }
+  .phone-status { display: flex; justify-content: space-between; padding: 0 3px; color: #244540; font-size: 7px; font-weight: 700; }
+  .app-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 0; }
+  .app-overline, .card-overline { color: #81918a; font-size: 7px; font-weight: 800; letter-spacing: .13em; }
+  .app-heading h3 { margin: 3px 0 0; color: #193f3a; font-size: 18px; letter-spacing: -.05em; }
+  .pet-avatar { width: 37px; height: 37px; border: 2px solid white; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 8px #173b3820; }
+  .demo-tag { display: inline-block; align-self: center; width: max-content; margin-top: 0; border-radius: 20px; padding: 4px 7px; background: #eaf3ef; color: #4b7169; font-size: 6px; font-weight: 800; letter-spacing: .08em; }
+  .app-views { position: relative; min-height: 0; overflow: hidden; }
+  .app-view { position: absolute; inset: 0; min-height: 0; overflow-y: auto; padding-top: 8px; scrollbar-width: none; animation: view-in .25s ease both; }
+  .app-view::-webkit-scrollbar { display: none; }
+  .app-view[hidden] { display: none; }
+  .screen-label { margin: 0 0 8px; color: #80918a; font-size: 7px; font-weight: 800; letter-spacing: .12em; }
+  .pet-card { border-radius: 16px; padding: 13px; background: #fff; box-shadow: 0 5px 17px rgb(32 78 67 / 7%); }
+  .pet-card-top { display: flex; align-items: center; justify-content: space-between; }
+  .pet-icon { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 9px; background: #fff4df; color: var(--lia-amber); font-size: 14px; }
+  .soft-pill { border-radius: 20px; padding: 5px 7px; background: #e9f4ed; color: #47816a; font-size: 6px; font-weight: 700; }
+  .pet-card h4, .shop-card h4, .health-card h4 { margin: 13px 0 6px; color: #17423b; font-size: 18px; letter-spacing: -.055em; line-height: 1.13; }
+  .pet-card p, .shop-card p, .health-card p { margin: 0; color: #778983; font-size: 8px; line-height: 1.55; }
+  .pet-card-rule { height: 1px; margin-top: 12px; background: #eaf0ed; }
+  .phone-action { display: flex; width: 100%; align-items: center; justify-content: space-between; margin-top: 10px; border: 0; border-radius: 9px; padding: 7px 8px; background: transparent; color: var(--lia-teal); cursor: pointer; font: inherit; font-size: 8px; font-weight: 700; text-align: left; transition: background .18s ease, transform .18s ease; }
+  .phone-action:hover { background: #edf6f1; }
+  .phone-action:active { transform: scale(.98); }
+  .phone-action-filled { background: #eaf3ef; }
+  .reminder-card { display: flex; width: 100%; gap: 9px; align-items: center; margin-top: 9px; border: 1px solid #f3ead6; border-radius: 12px; padding: 10px; background: #fffaf0; cursor: pointer; font: inherit; text-align: left; transition: transform .18s ease, border-color .18s ease; }
+  .reminder-card:hover { transform: translateY(-1px); border-color: #e8cc91; }
+  .reminder-card > span:nth-child(2) { display: grid; flex: 1; gap: 4px; }
+  .reminder-icon { color: #d89a2c; font-size: 15px; }
+  .reminder-card b { color: #425c52; font-size: 7px; }
+  .reminder-card > span:nth-child(2) span { color: #809087; font-size: 6px; line-height: 1.35; }
+  .dog-credit { display: block; margin: 7px auto 0; color: #758780 !important; font-size: 6px; text-align: center; }
+  .shop-card, .health-card { position: relative; min-height: 178px; overflow: hidden; border-radius: 16px; padding: 16px 13px; background: #eaf3ed; }
+  .food-illustration { position: absolute; top: 12px; right: 13px; display: grid; width: 55px; height: 55px; place-items: center; border-radius: 50%; background: #f9e2b4; color: #c58a2e; font-size: 27px; }
+  .shop-card .card-overline, .health-card .card-overline { display: block; margin-top: 23px; }
+  .shop-card h4, .health-card h4 { margin-top: 8px; }
+  .delivery-chip { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; border-radius: 20px; padding: 5px 7px; background: #fff; color: #4b7969; font-size: 6px; font-weight: 700; }
+  .delivery-chip span { width: 5px; height: 5px; border-radius: 50%; background: var(--lia-teal); }
+  .mini-link { margin: 12px 3px 0; }
+  .health-card { min-height: 112px !important; background: #e8f2f1; }
+  .health-mark { position: absolute; top: 11px; right: 14px; color: #449d92; font-size: 27px; }
+  .record-row { display: flex; align-items: center; gap: 8px; margin-top: 5px; border-radius: 11px; padding: 6px 8px; background: white; }
+  .record-icon { display: grid; width: 23px; height: 23px; place-items: center; border-radius: 7px; background: #eaf4f1; color: var(--lia-teal); font-size: 13px; }
+  .record-row > span:nth-child(2) { display: grid; flex: 1; gap: 3px; }
+  .record-row b { color: #3d5b52; font-size: 7px; }
+  .record-row small { color: #8b9993; font-size: 6px; }
+  .record-arrow { color: #6f9990; font-size: 10px; }
+  .phone-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #edf1ed; padding-top: 6px; }
+  .phone-tab { display: grid; min-height: 36px; place-items: center; gap: 3px; border-radius: 9px; color: #929e98; font-size: 7px; transition: color .18s ease, background .18s ease; }
+  .phone-tab.is-selected { background: #eaf3ef; }
+  .phone-tab.is-selected { color: var(--lia-teal); font-weight: 800; }
+  .tab-icon { font-size: 14px; line-height: 1; }
+  .phone-shadow { position: absolute; z-index: -1; right: 6%; bottom: 4px; left: 8%; height: 25px; border-radius: 50%; background: rgb(13 78 68 / 18%); filter: blur(16px); }
+  @keyframes view-in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .pillars-section { padding-block: 48px 98px; }
+  .section-heading { text-align: center; }
+  .section-heading .eyebrow { justify-content: center; }
+  .section-heading h2 { margin: 15px 0 0; color: var(--lia-deep); font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -.07em; line-height: 1.08; }
+  .pillars-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 43px; }
+  .pillar-card { position: relative; min-height: 218px; border: 1px solid var(--lia-line); border-radius: 17px; padding: 23px 23px 26px; background: #fff; box-shadow: 0 8px 22px rgb(32 78 67 / 3%); transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+  .pillar-card:hover { transform: translateY(-4px); border-color: #b9d8ce; box-shadow: 0 18px 35px rgb(32 78 67 / 9%); }
+  .pillar-top { display: flex; align-items: center; justify-content: space-between; }
+  .pillar-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: #edf6f1; color: var(--lia-teal); }
+  .pillar-icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+  .pillar-number { color: #b6cbc2; font-size: 11px; font-weight: 800; }
+  .pillar-card h3 { margin: 21px 0 7px; color: var(--lia-deep); font-size: 17px; letter-spacing: -.04em; }
+  .pillar-card p { max-width: 275px; margin: 0; color: #6b7f78; font-size: 12px; line-height: 1.7; }
+  .pillar-arrow { position: absolute; right: 23px; bottom: 20px; color: #91b5a9; font-size: 13px; transition: transform .2s ease; }
+  .pillar-card:hover .pillar-arrow { transform: translate(2px, -2px); }
+  .closing-card { position: relative; display: flex; width: min(1180px, calc(100% - 64px)); min-height: 220px; align-items: center; justify-content: space-between; gap: 28px; overflow: hidden; margin: 0 auto 65px; border-radius: 22px; padding: 42px 58px; background: var(--lia-deep); color: white; }
+  .closing-card .eyebrow { color: #b8ded3; }
+  .closing-card h2 { margin: 12px 0 0; font-size: clamp(30px, 4vw, 44px); letter-spacing: -.07em; line-height: 1.05; }
+  .closing-copy { max-width: 420px; margin: 13px 0 0; color: #d0e2db; font-size: 12px; line-height: 1.65; }
+  .waitlist-form { position: relative; z-index: 1; display: grid; width: min(100%, 348px); grid-template-columns: 1fr auto; gap: 8px; }
+  .waitlist-form input { min-width: 0; min-height: 47px; border: 1px solid rgb(255 255 255 / 50%); border-radius: 999px; padding: 0 14px; background: rgb(255 255 255 / 10%); color: white; font: inherit; font-size: 12px; }
+  .waitlist-form input::placeholder { color: #d0e2db; }
+  .waitlist-form input:focus-visible { outline: 3px solid var(--lia-amber-light); outline-offset: 2px; }
+  .waitlist-form .button { min-height: 47px; gap: 9px; padding-inline: 15px; font-size: 11px; white-space: nowrap; }
+  .form-status { grid-column: 1 / -1; margin: 2px 4px 0; color: #d0e2db; font-size: 9px; line-height: 1.5; }
+  .closing-card h2 em { color: #f6c66b; }
+  .button-light { position: relative; z-index: 1; border-color: white; background: white; color: var(--lia-deep) !important; box-shadow: none; }
+  .button-light:hover { border-color: #f8e3b3; background: #f8e3b3; }
+  .closing-spark { position: absolute; right: 31%; bottom: -89px; color: rgb(255 255 255 / 4%); font-size: 260px; line-height: 1; }
+  .site-footer { display: flex; min-height: 83px; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid rgb(19 78 74 / 10%); color: #788b84; font-size: 10px; }
+  .footer-brand { gap: 6px; font-size: 17px; }
+  .footer-brand img { width: 31px; height: 31px; }
+
+  @media (max-width: 900px) {
+    .site-header, .hero, .pillars-section, .site-footer { width: min(100% - 42px, 700px); }
+    .app-experience { width: min(100% - 42px, 700px); padding-block: 58px 70px; }
+    .hero { grid-template-columns: minmax(0, .9fr) minmax(340px, 1.1fr); gap: 4px; }
+    .hero h1 { font-size: clamp(43px, 7vw, 60px); }
+    .hero-visual { min-height: 440px; }
+    .hero-carousel { height: 440px; }
+    .photo-card { top: 14px; right: 8%; left: 8%; height: 360px; }
+    .hero-carousel-controls { right: 8%; left: 8%; }
+    .caption-title { font-size: 27px; }
+    .experience-layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; }
+    .phone-stage { min-height: 535px; }
+    .phone-wrap { width: 252px; }
+    .closing-card { width: min(100% - 42px, 700px); padding-inline: 38px; }
+  }
+  @media (max-width: 640px) {
+    .site-header, .hero, .pillars-section, .site-footer { width: calc(100% - 36px); }
+    .app-experience { width: calc(100% - 36px); padding-block: 48px 58px; }
+    .site-header { position: relative; min-height: 72px; gap: 9px; }
+    .brand { gap: 6px; font-size: 19px; }
+    .brand img { width: 35px; height: 35px; }
+    .desktop-nav { display: none; }
+    .desktop-nav.is-open { position: absolute; z-index: 9; top: calc(100% - 1px); right: 0; left: 0; display: flex; flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--lia-line); border-radius: 0 0 15px 15px; padding: 8px; background: var(--lia-paper); box-shadow: 0 16px 24px rgb(19 78 74 / 10%); }
+    .desktop-nav.is-open a { padding: 13px 12px; }
+    .mobile-menu-button { display: flex; width: 39px; height: 39px; flex-shrink: 0; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--lia-line); border-radius: 50%; background: white; cursor: pointer; }
+    .menu-line { width: 15px; height: 1.5px; border-radius: 2px; background: var(--lia-deep); transition: transform .2s ease; }
+    .mobile-menu-button[aria-expanded="true"] .menu-line:first-child { transform: translateY(3.25px) rotate(45deg); }
+    .mobile-menu-button[aria-expanded="true"] .menu-line:nth-child(2) { transform: translateY(-3.25px) rotate(-45deg); }
+    .button-small { min-height: 39px; gap: 8px; padding-inline: 13px; font-size: 10px; }
+    .hero { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 0; padding-block: 55px 30px; }
+    .hero-copy { padding: 0; }
+    .hero h1 { max-width: 450px; margin-top: 21px; font-size: clamp(48px, 12.3vw, 68px); }
+    .hero-intro { font-size: 14px; line-height: 1.75; }
+    .hero-actions { gap: 18px; margin-top: 23px; }
+    .button { min-height: 48px; gap: 12px; padding-inline: 18px; font-size: 12px; }
+    .hero-note { margin-top: 20px; font-size: 10px; }
+    .hero-visual { width: min(100%, 440px); min-height: 370px; align-self: center; margin-top: 22px; }
+    .hero-visual::before { width: 94%; }
+    .hero-carousel { height: 370px; }
+    .photo-card { top: 12px; right: 6%; left: 6%; height: 307px; border-radius: 44% 44% 18px 18px; }
+    .photo-caption { right: 14px; bottom: 23px; left: 17px; gap: 7px; }
+    .caption-kicker { font-size: 7px; padding: 5px 8px; }
+    .caption-title { max-width: 280px; font-size: clamp(21px, 6vw, 27px); }
+    .hero-carousel-controls { right: 7%; bottom: 24px; left: 7%; }
+    .carousel-control { width: 33px; height: 33px; }
+    .hero-credit { right: 7%; font-size: 8px; }
+    .experience-heading { margin-bottom: 27px; }
+    .experience-heading h2 { font-size: clamp(34px, 9vw, 44px); }
+    .experience-heading > p:last-child { font-size: 12px; }
+    .experience-layout { grid-template-columns: 1fr; gap: 20px; }
+    .feature-menu { gap: 7px; }
+    .feature-tab { grid-template-columns: 25px 1fr 14px; gap: 8px; border-radius: 13px; padding: 13px 11px; }
+    .feature-copy strong { font-size: 14px; }
+    .feature-copy > span { font-size: 12px; }
+    .feature-copy .feature-reason { font-size: 10px; }
+    .phone-stage { min-height: 525px; }
+    .phone-wrap { width: min(270px, 100%); }
+    .phone-screen { height: 490px; padding-inline: 12px; }
+    .pillars-section { padding-block: 33px 66px; }
+    .section-heading h2 { font-size: clamp(32px, 8.5vw, 43px); }
+    .pillars-grid { grid-template-columns: 1fr; gap: 11px; margin-top: 27px; }
+    .pillar-card { min-height: 0; padding: 17px 18px 19px; }
+    .pillar-top { justify-content: flex-start; gap: 13px; }
+    .pillar-number { order: -1; }
+    .pillar-icon { width: 38px; height: 38px; }
+    .pillar-card h3 { margin-top: 13px; font-size: 16px; }
+    .pillar-card p { font-size: 11px; }
+    .closing-card { width: calc(100% - 36px); min-height: 0; align-items: flex-start; flex-direction: column; gap: 22px; margin-bottom: 34px; border-radius: 18px; padding: 29px 24px; }
+    .closing-card h2 { font-size: 34px; }
+    .closing-copy { font-size: 11px; }
+    .waitlist-form { grid-template-columns: 1fr; }
+    .waitlist-form .button { width: 100%; }
+    .form-status { grid-column: 1; }
+    .closing-spark { right: -18px; bottom: -72px; font-size: 200px; }
+    .site-footer { min-height: 96px; flex-wrap: wrap; justify-content: space-between; padding-block: 17px; font-size: 9px; }
+    .site-footer > span { order: 1; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
