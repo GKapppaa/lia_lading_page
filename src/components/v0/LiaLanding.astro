@@ -309,13 +309,19 @@ const iconPaths: Record<string, string> = {
       <div class="closing-inner" data-reveal>
         <p class="eyebrow"><span>Un plato lleno, siempre</span></p>
         <h2 id="closing-title">Que lo único pendiente<br />sea <em>salir a pasear.</em></h2>
-        <p>Déjanos tu correo para conocer las novedades de Lía y la apertura de la lista de espera.</p>
-        <form class="waitlist-form" data-waitlist-form>
-          <label class="sr-only" for="waitlist-email">Tu correo electrónico</label>
-          <input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
-          <button class="button button-primary" type="submit">Quiero saber más <span aria-hidden="true">↗</span></button>
+        <p>Déjanos tu correo y te avisaremos cuando abramos la beta de Lía.</p>
+        <form class="waitlist-form" data-waitlist-form novalidate>
+          <div class="waitlist-row">
+            <label class="sr-only" for="waitlist-email">Tu correo electrónico</label>
+            <input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="320" required />
+            <button class="button button-primary" type="submit" data-waitlist-submit>Quiero participar en la beta <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="sr-only" aria-hidden="true">
+            <label>No completar <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
         </form>
-        <p class="form-status" role="status" aria-live="polite" data-form-status>Demostración: este formulario todavía no guarda ni envía datos.</p>
+        <p class="waitlist-note">Solo usaremos tu correo para avisarte sobre la beta. Puedes pedir que lo borremos cuando quieras.</p>
+        <p class="form-status" role="status" aria-live="polite" data-form-status></p>
       </div>
     </section>
   </main>
@@ -429,10 +435,48 @@ const iconPaths: Record<string, string> = {
 
   const waitlistForm = document.querySelector<HTMLFormElement>("[data-waitlist-form]");
   const formStatus = document.querySelector<HTMLElement>("[data-form-status]");
-  waitlistForm?.addEventListener("submit", (event) => {
+  const apiUrl: string = (import.meta.env.PUBLIC_API_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  const setStatus = (state: "idle" | "submitting" | "success" | "error", text: string): void => {
+    if (!formStatus) return;
+    formStatus.dataset.state = state;
+    formStatus.textContent = text;
+  };
+
+  waitlistForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!waitlistForm.reportValidity()) return;
-    if (formStatus) formStatus.textContent = "Gracias por tu interés. Esta demostración no guarda ni envía tu correo.";
+
+    const data = new FormData(waitlistForm);
+    const submit = waitlistForm.querySelector<HTMLButtonElement>("[data-waitlist-submit]");
+    const payload = {
+      email: String(data.get("email") ?? "").trim(),
+      source: "closing",
+      website: String(data.get("website") ?? ""),
+    };
+
+    if (submit) submit.disabled = true;
+    setStatus("submitting", "Enviando tu solicitud…");
+
+    try {
+      const response = await fetch(`${apiUrl}/api/v1/beta/signups`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        waitlistForm.reset();
+        setStatus("success", "¡Listo! Recibimos tu solicitud. Te escribiremos cuando abramos la beta.");
+        return;
+      }
+
+      const body: { error?: string } = await response.json().catch(() => ({}));
+      setStatus("error", body.error ?? "No pudimos guardar tu solicitud. Intenta de nuevo en unos minutos.");
+    } catch {
+      setStatus("error", "No pudimos conectar con Lía. Revisa tu conexión e intenta de nuevo.");
+    } finally {
+      if (submit) submit.disabled = false;
+    }
   });
 
   if (!reducedMotion) {
@@ -689,11 +733,16 @@ const iconPaths: Record<string, string> = {
   .closing .eyebrow { justify-content: center; color: var(--deep); }
   .closing h2 { font-size: clamp(50px, 6.5vw, 86px); }
   .closing h2 em { color: var(--deep); font-style: normal; }
-  .closing-inner > p:not(.eyebrow):not(.form-status) { max-width: 540px; margin: 25px auto 0 !important; color: #255760; font-size: 15px; line-height: 1.7; }
-  .waitlist-form { display: flex; max-width: 600px; gap: 10px; margin: 36px auto 0; border: 1px solid rgb(11 61 74 / 17%); border-radius: 999px; padding: 6px; background: white; box-shadow: 0 18px 45px rgb(11 61 74 / 10%); }
-  .waitlist-form input { min-width: 0; min-height: 52px; flex: 1; border: 0; border-radius: 999px; padding: 0 20px; background: transparent; color: var(--ink); font-size: 14px; outline: none; }
-  .waitlist-form input:focus { box-shadow: inset 0 0 0 2px var(--teal); }
-  .form-status { margin-top: 14px !important; color: #315f66; font-size: 9px; }
+  .closing-inner > p:not(.eyebrow):not(.form-status):not(.waitlist-note) { max-width: 540px; margin: 25px auto 0 !important; color: #255760; font-size: 15px; line-height: 1.7; }
+  .waitlist-form { max-width: 600px; margin: 36px auto 0; }
+  .waitlist-row { display: flex; gap: 10px; border: 1px solid rgb(11 61 74 / 17%); border-radius: 999px; padding: 6px; background: white; box-shadow: 0 18px 45px rgb(11 61 74 / 10%); }
+  .waitlist-row input { min-width: 0; min-height: 52px; flex: 1; border: 0; border-radius: 999px; padding: 0 20px; background: transparent; color: var(--ink); font-size: 14px; outline: none; }
+  .waitlist-row input:focus { box-shadow: inset 0 0 0 2px var(--teal); }
+  .waitlist-row .button:disabled { cursor: wait; opacity: .7; transform: none; }
+  .waitlist-note { max-width: 600px; margin: 14px auto 0 !important; color: #4d7379; font-size: 12px; line-height: 1.5; }
+  .form-status { min-height: 1.5em; margin-top: 14px !important; color: #315f66; font-size: 13px; }
+  .form-status[data-state="success"] { color: var(--deep); font-weight: 700; }
+  .form-status[data-state="error"] { color: #b3261e; font-weight: 700; }
   .closing-orbit { position: absolute; z-index: -1; top: 50%; left: 50%; width: 880px; height: 880px; border: 1px solid rgb(11 61 74 / 9%); border-radius: 50%; box-shadow: 0 0 0 100px rgb(11 61 74 / 2%), 0 0 0 200px rgb(11 61 74 / 2%); transform: translate(-50%, -50%); }
 
   /* Pie */
@@ -818,8 +867,8 @@ const iconPaths: Record<string, string> = {
     .benefit-card { min-height: 285px; }
     .neighborhood-photo { min-height: 350px; }
     .neighborhood-copy { padding: 65px 24px; }
-    .waitlist-form { display: grid; border: 0; border-radius: 20px; padding: 8px; }
-    .waitlist-form .button { width: 100%; }
+    .waitlist-row { display: grid; border: 0; border-radius: 20px; padding: 8px; }
+    .waitlist-row .button { width: 100%; }
     .closing-inner { width: calc(100% - 32px); }
     .site-footer { padding: 42px 22px; }
     .footer-top { grid-template-columns: 1fr auto; }
