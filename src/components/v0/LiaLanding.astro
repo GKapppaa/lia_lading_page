@@ -483,7 +483,6 @@ const iconPaths: Record<string, string> = {
     gsap.from("[data-hero-item]", { y: 30, autoAlpha: 0, duration: 0.85, stagger: 0.1, ease: "power3.out" });
     gsap.from("[data-hero-product]", { y: 50, rotate: 2, autoAlpha: 0, duration: 1.1, delay: 0.2, ease: "power3.out" });
     gsap.from(".floating-card", { y: 20, autoAlpha: 0, duration: 0.65, delay: 0.8, stagger: 0.15, ease: "power2.out" });
-    gsap.to(".hero-phone", { y: -12, duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".orbit-one", { rotate: 35, duration: 28, repeat: -1, ease: "none" });
     document.querySelectorAll<HTMLElement>("main > section:not(.hero), .neighborhood").forEach((section) => {
       const items = section.querySelectorAll("[data-reveal]");
@@ -587,7 +586,8 @@ const iconPaths: Record<string, string> = {
   .product-halo::before, .product-halo::after { position: absolute; border: 1px solid rgb(120 210 200 / 10%); border-radius: inherit; content: ""; }
   .product-halo::before { inset: 48px; }
   .product-halo::after { inset: 100px; background: rgb(120 210 200 / 4%); }
-  .hero-phone { position: relative; z-index: 2; transform: rotate(4deg) scale(1.06); filter: drop-shadow(0 40px 45px rgb(0 0 0 / 30%)); }
+  .hero-phone { position: relative; z-index: 2; filter: drop-shadow(0 32px 36px rgb(0 0 0 / 28%)); }
+  .hero-phone .phone { width: 300px; }
   .hero-phone .phone { box-shadow: inset 0 0 0 1.5px #2c373a, inset 0 0 0 4px #10181a, inset 0 0 0 5px #1e282b, 0 32px 60px rgb(0 0 0 / 35%); }
   .floating-card { position: absolute; z-index: 3; display: flex; align-items: center; gap: 11px; border: 1px solid rgb(255 255 255 / 65%); border-radius: 16px; padding: 13px 15px; background: rgb(255 255 255 / 93%); color: var(--deep); box-shadow: 0 20px 40px rgb(0 0 0 / 18%); backdrop-filter: blur(14px); }
   .floating-card small, .floating-card strong { display: block; }
@@ -787,7 +787,6 @@ const iconPaths: Record<string, string> = {
     .hero h1 { max-width: 680px; font-size: clamp(58px, 10vw, 82px); }
     .hero-intro { margin-inline: auto; }
     .hero-product { min-height: 600px; margin-top: 20px; }
-    .hero-phone { transform: rotate(3deg); }
     .delivery-card { left: calc(50% - 230px); }
     .covered-card { right: calc(50% - 230px); }
     .story-grid, .calc-grid, .about-grid { grid-template-columns: 1fr; }
@@ -797,7 +796,7 @@ const iconPaths: Record<string, string> = {
     .section-heading { grid-template-columns: 1fr; }
     .section-heading > p:last-child { justify-self: start; }
     .how-layout { grid-template-columns: 1fr 1fr; gap: 35px; }
-    .tour-phone { transform: scale(.82); }
+    .tour-phone .phone { width: 223px; }
     .chapter h3 { font-size: 38px; }
     .calc-copy { max-width: 600px; }
     .benefit-grid { grid-template-columns: 1fr; }
@@ -823,7 +822,6 @@ const iconPaths: Record<string, string> = {
     .hero-actions .button { width: 100%; }
     .hero-assurances { gap: 10px 15px; font-size: 9px; }
     .hero-product { min-height: 560px; margin-top: 10px; }
-    .hero-phone { transform: rotate(2deg) scale(.94); }
     .product-halo { width: 390px; height: 390px; }
     .delivery-card { bottom: 68px; left: 0; }
     .covered-card { top: 65px; right: -4px; }
@@ -846,7 +844,8 @@ const iconPaths: Record<string, string> = {
     .section-heading > p:last-child { font-size: 14px; }
     .how-layout { display: flex; flex-direction: column; gap: 0; }
     .tour-stage { z-index: 5; top: 0; height: auto; gap: 0; margin-inline: -18px; padding: 14px 0 6px; background: linear-gradient(#fff 88%, transparent); }
-    .tour-phone { height: 455px; transform: scale(.76); transform-origin: top center; }
+    .tour-phone { height: 455px; }
+    .tour-phone .phone { width: 207px; }
     .tour-phone::before { width: 360px; height: 360px; }
     .tour-pagination { margin-top: -6px; padding-bottom: 8px; }
     .chapters { padding: 0; }
