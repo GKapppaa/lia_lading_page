@@ -2,7 +2,7 @@
 
 ## Identity
 
-- **Logo:** `public/logo_lia.png` (original asset; do not redraw or recolor).
+- **Logo:** `public/logo_lia.png` (official supplied logo; use as-is without redrawing or recoloring).
 - **Primary teal:** `#0d9488`.
 - **Deep teal:** `#134e4a`.
 - **Accent amber:** `#f59e0b`; light accent `#fbbf24`.
@@ -48,8 +48,8 @@ Prefer deep teal for prominent hero or feature surfaces; orange for primary acti
 
 ### Logo and visual motifs
 
-- Use the existing original logo asset at `public/logo_lia.png`; do not redraw or recolor it. The official asset is the teal running-dog silhouette with orange motion accents. It appears in the landing-page header and footer, and in the app preview’s home-screen header.
-- Do not substitute the older white dog-profile mark from the inspirational mockups for the official running-dog asset.
+- Use the official supplied logo asset at `public/logo_lia.png`; do not redraw or recolor it. It appears in the landing-page header and footer, and in the app preview’s home-screen header.
+- The supplied logo is a white dog-profile mark with a teal background and orange/teal accents.
 - Recurring UI motifs in the mockups: rounded pill-shaped orange buttons, rounded white cards, simple teal line icons, pet photography, progress indicators/rings, and step progress bars. These can inform the landing page’s visual language without implying that every app control belongs on the marketing page.
 
 ### Current landing-page implementation
