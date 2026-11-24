@@ -373,27 +373,41 @@ const iconPaths: Record<string, string> = {
     const chapters = Array.from(tour.querySelectorAll<HTMLElement>("[data-chapter]"));
     const screens = tour.querySelectorAll<HTMLElement>(".tour-phone .screen");
     const dots = Array.from(tour.querySelectorAll<HTMLButtonElement>("[data-goto]"));
+    const desktopQuery = window.matchMedia("(min-width: 641px)");
+    let chapterTriggers: ScrollTrigger[] = [];
     let activeStep = -1;
     const showStep = (index: number) => {
       if (index === activeStep) return;
       activeStep = index;
-      screens.forEach((screen, i) => screen.classList.toggle("on", i === index));
+      screens.forEach((screen, i) => {
+        screen.classList.toggle("on", i === index);
+        screen.setAttribute("aria-hidden", String(i !== index));
+      });
       chapters.forEach((chapter, i) => chapter.classList.toggle("is-active", i === index));
       dots.forEach((dot, i) => i === index ? dot.setAttribute("aria-current", "step") : dot.removeAttribute("aria-current"));
     };
     showStep(0);
-    chapters.forEach((chapter, index) => {
-      ScrollTrigger.create({
-        trigger: chapter,
-        start: "top 58%",
-        end: "bottom 42%",
-        onEnter: () => showStep(index),
-        onEnterBack: () => showStep(index),
+    const syncTourLayout = () => {
+      chapterTriggers.forEach((trigger) => trigger.kill());
+      chapterTriggers = [];
+      tour.classList.toggle("is-mobile-tour", !desktopQuery.matches);
+      if (!desktopQuery.matches) return;
+
+      chapters.forEach((chapter, index) => {
+        chapterTriggers.push(ScrollTrigger.create({
+          trigger: chapter,
+          start: "top 58%",
+          end: "bottom 42%",
+          onEnter: () => showStep(index),
+          onEnterBack: () => showStep(index),
+        }));
       });
-    });
+    };
+    syncTourLayout();
+    desktopQuery.addEventListener("change", syncTourLayout);
     dots.forEach((dot, index) => dot.addEventListener("click", () => {
       showStep(index);
-      if (window.matchMedia("(max-width: 640px)").matches) return;
+      if (!desktopQuery.matches) return;
       const chapter = chapters[index];
       if (!chapter) return;
       const top = chapter.getBoundingClientRect().top + window.scrollY - (window.innerHeight - chapter.offsetHeight) / 2;
@@ -649,6 +663,9 @@ const iconPaths: Record<string, string> = {
   .chapters { padding-block: 16vh; }
   .chapter { display: flex; min-height: 68vh; flex-direction: column; justify-content: center; opacity: .28; transition: opacity .4s ease; }
   .chapter.is-active { opacity: 1; }
+  .how-layout.is-mobile-tour .chapter { display: none; min-height: 0; padding: 24px 12px 34px; opacity: 1; }
+  .how-layout.is-mobile-tour .chapter.is-active { display: flex; animation: chapter-in .3s ease both; }
+  @keyframes chapter-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   .chapter-number { color: #c1d1d4; font-family: var(--display); font-size: 76px; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
   .chapter-kicker { margin-top: 22px !important; color: var(--teal); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
   .chapter h3 { max-width: 470px; margin-top: 10px; font-family: var(--display); font-size: clamp(38px, 4vw, 56px); font-weight: 600; letter-spacing: -.03em; line-height: 1.03; }
