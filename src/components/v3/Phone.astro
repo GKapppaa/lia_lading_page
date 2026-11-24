@@ -334,6 +334,7 @@ const icons = {
     inset: 9px;
     border-radius: 36px;
     overflow: hidden;
+    overscroll-behavior: contain;
     background: #f6f8f8;
     color: #14272b;
     font-family: "Inter", system-ui, sans-serif;
@@ -359,7 +360,15 @@ const icons = {
     gap: 8px;
     padding: 40px 16px 14px;
     min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: #b9c9cb transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
   }
+  .body::-webkit-scrollbar { width: 4px; }
+  .body::-webkit-scrollbar-thumb { border-radius: 4px; background: #b9c9cb; }
   .stepper + .body { padding-top: 10px; }
   .stepper { display: flex; gap: 10px; align-items: center; padding: 40px 16px 0; }
   .back { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 15px; box-shadow: 0 0 0 1px #e1e7e8; }
