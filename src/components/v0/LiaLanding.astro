@@ -392,6 +392,8 @@ const iconPaths: Record<string, string> = {
       });
     });
     dots.forEach((dot, index) => dot.addEventListener("click", () => {
+      showStep(index);
+      if (window.matchMedia("(max-width: 640px)").matches) return;
       const chapter = chapters[index];
       if (!chapter) return;
       const top = chapter.getBoundingClientRect().top + window.scrollY - (window.innerHeight - chapter.offsetHeight) / 2;
@@ -845,13 +847,12 @@ const iconPaths: Record<string, string> = {
     .section-heading { gap: 20px; padding-bottom: 35px; }
     .section-heading > p:last-child { font-size: 14px; }
     .how-layout { display: flex; flex-direction: column; gap: 0; }
-    .tour-stage { z-index: 5; top: 0; height: auto; gap: 0; margin-inline: -18px; padding: 14px 0 6px; background: linear-gradient(#fff 88%, transparent); }
-    .tour-phone { height: 455px; }
-    .tour-phone .phone { width: 207px; }
+    .tour-stage { position: relative; z-index: auto; top: auto; height: auto; gap: 4px; margin-inline: -18px; padding: 14px 0 10px; background: #fff; }
+    .tour-phone { height: auto; transform: none; transform-origin: top center; }
     .tour-phone::before { width: 360px; height: 360px; }
-    .tour-pagination { margin-top: -6px; padding-bottom: 8px; }
+    .tour-pagination { margin-top: 8px; padding-bottom: 8px; }
     .chapters { padding: 0; }
-    .chapter { min-height: 62vh; justify-content: flex-start; padding: 60px 4px 35px; opacity: .45; text-align: center; }
+    .chapter { min-height: 62vh; justify-content: flex-start; padding: 48px 4px 35px; opacity: .72; text-align: center; }
     .chapter-number { font-size: 54px; }
     .chapter h3 { font-size: 39px; }
     .chapter > p:not(.chapter-kicker) { font-size: 14px; }
