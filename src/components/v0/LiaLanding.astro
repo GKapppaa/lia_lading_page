@@ -7,7 +7,7 @@ const steps = [
     number: "01",
     kicker: "Su perfil",
     title: "Primero, una foto.",
-    body: "Crea un perfil tan único como tu perro. Empieza con su foto y hazlo reconocible en toda la app.",
+    body: "Sube una foto de tu perro para armar su perfil. Así lo encuentras rápido cada vez que abras la app.",
     note: "Puedes cambiarla cuando quieras.",
   },
   {
@@ -16,23 +16,23 @@ const steps = [
     kicker: "Sus datos",
     title: "Cuéntanos cómo es.",
     body: "Peso, edad, raza y nivel de actividad nos ayudan a estimar cuánto come y cuánto le dura cada saco.",
-    note: "Una configuración simple, una sola vez.",
+    note: "Lo llenas una vez y no lo vuelves a tocar.",
   },
   {
     screen: "plan" as const,
     number: "03",
     kicker: "Su alimento",
-    title: "Elige y olvídate del reloj.",
-    body: "Compara alternativas, activa la reposición y deja que Lía coordine la próxima entrega con una tienda cercana.",
+    title: "Elige su alimento.",
+    body: "Compara las opciones, activa la reposición automática y Lía coordina la entrega con una tienda cerca de tu casa.",
     note: "Sin permanencia. Pausa o cancela cuando quieras.",
   },
   {
     screen: "inicio" as const,
     number: "04",
-    kicker: "Todo bajo control",
-    title: "Siempre un paso adelante.",
-    body: "Revisa los días de comida restantes, la próxima entrega y el estado del plan desde una sola pantalla.",
-    note: "Menos pendientes. Más tiempo juntos.",
+    kicker: "Tu día a día",
+    title: "Todo en una pantalla.",
+    body: "Cuántos días de comida le quedan, cuándo llega el próximo saco y cómo va tu plan.",
+    note: "Sin alarmas ni recordatorios en el celular.",
   },
 ];
 
@@ -40,19 +40,19 @@ const benefits = [
   {
     number: "01",
     title: "Calculamos cuándo se acaba",
-    body: "Convertimos los datos de tu perro en una estimación de consumo y una fecha de reposición.",
+    body: "Con su peso, edad y actividad estimamos cuánto come y qué día conviene pedir el siguiente saco.",
     icon: "clock",
   },
   {
     number: "02",
-    title: "Tu tienda de barrio despacha",
-    body: "La compra mantiene su cercanía: el pedido se coordina con una tienda de mascotas local.",
+    title: "Te lo lleva tu tienda de barrio",
+    body: "El pedido lo prepara y lo despacha una tienda de mascotas de tu barrio, no una bodega lejana.",
     icon: "truck",
   },
   {
     number: "03",
     title: "Tú conservas el control",
-    body: "Consulta el plan, adelanta una entrega o pausa la reposición. Sin letra chica ni permanencia.",
+    body: "Revisa tu plan, adelanta una entrega o ponla en pausa cuando quieras. Sin letra chica ni permanencia.",
     icon: "check",
   },
 ];
@@ -87,7 +87,7 @@ const iconPaths: Record<string, string> = {
         <a href="/tiendas/">Para tiendas</a>
       </nav>
 
-      <a class="button button-small nav-cta" href="#lista">Quiero conocer Lía <span aria-hidden="true">↗</span></a>
+      <a class="button button-small nav-cta" href="#lista">Unirme a la beta <span aria-hidden="true">↗</span></a>
     </div>
   </header>
 
@@ -99,12 +99,12 @@ const iconPaths: Record<string, string> = {
 
       <div class="hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow hero-eyebrow" data-hero-item><span></span>Cuidado que se adelanta</p>
+          <p class="eyebrow hero-eyebrow" data-hero-item><span></span>Adiós al saco vacío</p>
           <h1 id="hero-title" data-hero-item>
             La comida llega <em>antes</em> de que se acabe.
           </h1>
           <p class="hero-intro" data-hero-item>
-            Lía calcula cuándo se termina el saco de tu perro y coordina la reposición con tu tienda de barrio. Tú disfrutes la compañía; nosotros, las cuentas.
+            Lía calcula cuándo se va a terminar el saco de tu perro y le avisa a tu tienda de barrio para que el siguiente llegue a tiempo. Tú te encargas de los paseos; nosotros, de las cuentas.
           </p>
           <div class="hero-actions" data-hero-item>
             <a class="button button-primary" href="#lista">Quiero probar Lía <span aria-hidden="true">↗</span></a>
@@ -113,7 +113,7 @@ const iconPaths: Record<string, string> = {
           <ul class="hero-assurances" data-hero-item aria-label="Condiciones del servicio">
             <li><span aria-hidden="true">✓</span>Sin permanencia</li>
             <li><span aria-hidden="true">✓</span>Desde tu tienda local</li>
-            <li><span aria-hidden="true">✓</span>Tú tienes el control</li>
+            <li><span aria-hidden="true">✓</span>Pausa cuando quieras</li>
           </ul>
         </div>
 
@@ -129,14 +129,14 @@ const iconPaths: Record<string, string> = {
           </div>
           <div class="floating-card covered-card" aria-hidden="true">
             <span class="covered-dot"></span>
-            <span><strong>Todo bajo control</strong><small>Tu perro está cubierto</small></span>
+            <span><strong>Comida para rato</strong><small>Quedan 9 días en el saco</small></span>
           </div>
           <p class="demo-caption">Vista previa · Datos ilustrativos</p>
         </div>
       </div>
 
       <div class="hero-bottom">
-        <span>Menos compras de urgencia</span>
+        <span>Sin carreras de última hora</span>
         <a href="#historia">Descubre Lía <i aria-hidden="true"></i></a>
       </div>
     </section>
@@ -145,9 +145,9 @@ const iconPaths: Record<string, string> = {
     <section class="story section" id="historia" aria-labelledby="story-title">
       <div class="section-wrap story-grid">
         <div class="story-copy" data-reveal>
-          <p class="eyebrow"><span>01</span> El final de las compras de urgencia</p>
+          <p class="eyebrow"><span>01</span> Se acabó correr a la tienda</p>
           <h2 id="story-title">El saco no avisa.<br /><em>Lía sí.</em></h2>
-          <p class="section-intro">No deberías tener que levantar la bolsa para saber si alcanza hasta el fin de semana. Lía convierte los datos cotidianos de tu perro en una reposición oportuna.</p>
+          <p class="section-intro">No deberías tener que levantar el saco para adivinar si alcanza hasta el fin de semana. Con unos pocos datos de tu perro, Lía sabe cuándo pedir el siguiente.</p>
           <a class="text-link" href="#calcula">Calcula cuánto dura su saco <span aria-hidden="true">↗</span></a>
         </div>
 
@@ -157,7 +157,7 @@ const iconPaths: Record<string, string> = {
           </figure>
           <div class="story-quote">
             <span class="quote-mark" aria-hidden="true">“</span>
-            <p>Más tiempo para quererlo.<br />Menos pendientes en tu cabeza.</p>
+            <p>Que la comida sea lo último<br />en lo que tengas que pensar.</p>
           </div>
           <p class="photo-credit">Foto: <a href="https://commons.wikimedia.org/w/index.php?curid=108100191" target="_blank" rel="noreferrer">Scarleth Marie · CC BY 2.0</a></p>
         </div>
@@ -168,8 +168,8 @@ const iconPaths: Record<string, string> = {
       <div class="section-wrap">
         <header class="section-heading" data-reveal>
           <p class="eyebrow"><span>02</span> Así de simple</p>
-          <h2 id="how-title">Tú lo conoces.<br /><em>Lía aprende de él.</em></h2>
-          <p>Configura su perfil una vez. Después, la próxima entrega deja de ser otro pendiente.</p>
+          <h2 id="how-title">Tú lo conoces.<br /><em>Lía saca la cuenta.</em></h2>
+          <p>Armas su perfil una vez y listo. De ahí en adelante, la próxima entrega ya no es algo que tengas que recordar.</p>
         </header>
 
         <div class="how-layout" data-tour>
@@ -205,7 +205,7 @@ const iconPaths: Record<string, string> = {
         <div class="calc-copy" data-reveal>
           <p class="eyebrow eyebrow-light"><span>03</span> Una cuenta menos</p>
           <h2 id="calculator-title">¿Cuánto le dura<br /><em>un saco?</em></h2>
-          <p>Prueba una estimación orientativa con los datos de tu perro. Ajusta su peso y actividad para ver el resultado al instante.</p>
+          <p>Pon el peso de tu perro y qué tan activo es, y te mostramos cuántos días le dura un saco.</p>
           <p class="calc-disclaimer">Esta demostración usa una fórmula general y no reemplaza la indicación de un veterinario.</p>
         </div>
 
@@ -213,7 +213,7 @@ const iconPaths: Record<string, string> = {
           <form class="calc-form" data-calc>
             <label class="field field-name">
               <span>Nombre de tu perro</span>
-              <input name="dogName" value="Lía" maxlength="20" autocomplete="off" />
+              <input name="dogName" value="Canela" maxlength="20" autocomplete="off" />
             </label>
 
             <div class="field">
@@ -241,11 +241,11 @@ const iconPaths: Record<string, string> = {
               <span><strong data-result="days">31</strong><small>días aprox.</small></span>
             </div>
             <div class="result-copy">
-              <p>Un saco de 12,5 kg le duraría a <strong data-result="name">Lía</strong></p>
+              <p>Un saco de 12,5 kg le duraría a <strong data-result="name">Canela</strong></p>
               <span>Estimado: <b data-result="grams">400</b> g al día</span>
             </div>
           </div>
-          <a class="button button-primary button-full" href="#lista">Quiero una reposición a tiempo <span aria-hidden="true">↗</span></a>
+          <a class="button button-primary button-full" href="#lista">Quiero probar Lía <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>
@@ -253,8 +253,8 @@ const iconPaths: Record<string, string> = {
     <section class="benefits section" id="beneficios" aria-labelledby="benefits-title">
       <div class="section-wrap">
         <header class="benefits-heading" data-reveal>
-          <p class="eyebrow"><span>04</span> La tranquilidad se ve así</p>
-          <h2 id="benefits-title">Todo lo que necesita.<br /><em>Nada que recordar.</em></h2>
+          <p class="eyebrow"><span>04</span> Por qué Lía</p>
+          <h2 id="benefits-title">Su comida al día,<br /><em>sin que tengas que acordarte.</em></h2>
         </header>
 
         <div class="benefit-grid">
@@ -280,8 +280,8 @@ const iconPaths: Record<string, string> = {
       </div>
       <div class="neighborhood-copy" data-reveal>
         <p class="eyebrow eyebrow-light"><span>05</span> Cerca de casa</p>
-        <h2 id="neighborhood-title">Tecnología con<br /><em>acento de barrio.</em></h2>
-        <p>Lía no viene a reemplazar a quien ya conoce a tu perro. Ayuda a que tu tienda local pueda anticiparse, preparar el pedido y despacharlo a tiempo.</p>
+        <h2 id="neighborhood-title">La tienda de siempre,<br /><em>ahora a tiempo.</em></h2>
+        <p>Lía no reemplaza a la tienda que ya conoce a tu perro. Le avisa con tiempo cuándo te toca, para que tenga tu pedido listo y te lo despache sin atrasos.</p>
         <a class="text-link text-link-light" href="/tiendas/">Conoce Lía para tiendas <span aria-hidden="true">↗</span></a>
       </div>
     </section>
@@ -293,8 +293,8 @@ const iconPaths: Record<string, string> = {
           <h2 id="about-title">Cuidar a tu mascota<br />debería ser <em>más simple.</em></h2>
         </div>
         <div class="about-copy" data-reveal>
-          <p>Somos una empresa que busca agilizar y facilitar la compra del alimento de tu mascota, con entregas programadas en el día y la hora que elijas.</p>
-          <p>Creamos un plan personalizado a partir de los datos que ingresas. Además, la sección <strong>Ficha Vet</strong> reunirá su historial veterinario y, en el futuro, se asociará con veterinarias para facilitar el acceso y la actualización de esa información.</p>
+          <p>Somos un equipo que quiere que comprar el alimento de tu mascota deje de ser un trámite. Tú eliges el día y la hora de entrega, y nosotros nos encargamos de que llegue.</p>
+          <p>Con los datos que nos das armamos un plan a la medida de tu perro. También estamos preparando la <strong>Ficha Vet</strong>, un lugar para guardar su historial veterinario. Más adelante queremos trabajar con veterinarias para que esa información esté siempre al día.</p>
           <div class="about-values" aria-label="Nuestros pilares">
             <span>Compra programada</span>
             <span>Plan personalizado</span>
@@ -309,13 +309,19 @@ const iconPaths: Record<string, string> = {
       <div class="closing-inner" data-reveal>
         <p class="eyebrow"><span>Un plato lleno, siempre</span></p>
         <h2 id="closing-title">Que lo único pendiente<br />sea <em>salir a pasear.</em></h2>
-        <p>Déjanos tu correo para conocer las novedades de Lía y la apertura de la lista de espera.</p>
-        <form class="waitlist-form" data-waitlist-form>
-          <label class="sr-only" for="waitlist-email">Tu correo electrónico</label>
-          <input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
-          <button class="button button-primary" type="submit">Quiero saber más <span aria-hidden="true">↗</span></button>
+        <p>Déjanos tu correo y te avisaremos cuando abramos la beta de Lía.</p>
+        <form class="waitlist-form" data-waitlist-form novalidate>
+          <div class="waitlist-row">
+            <label class="sr-only" for="waitlist-email">Tu correo electrónico</label>
+            <input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="320" required />
+            <button class="button button-primary" type="submit" data-waitlist-submit>Quiero participar en la beta <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="sr-only" aria-hidden="true">
+            <label>No completar <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
         </form>
-        <p class="form-status" role="status" aria-live="polite" data-form-status>Demostración: este formulario todavía no guarda ni envía datos.</p>
+        <p class="waitlist-note">Solo usaremos tu correo para avisarte sobre la beta. Puedes pedir que lo borremos cuando quieras.</p>
+        <p class="form-status" role="status" aria-live="polite" data-form-status></p>
       </div>
     </section>
   </main>
@@ -331,7 +337,7 @@ const iconPaths: Record<string, string> = {
     </div>
     <div class="footer-bottom">
       <span>© {new Date().getFullYear()} Lía</span>
-      <span>Cuidado cotidiano, más simple.</span>
+      <span>Comida a tiempo, sin pensarlo.</span>
       <span>Foto de la app: <a href="https://commons.wikimedia.org/w/index.php?curid=1923059" target="_blank" rel="noreferrer">SheltieBoy · CC BY 2.0</a></span>
     </div>
   </footer>
@@ -429,17 +435,54 @@ const iconPaths: Record<string, string> = {
 
   const waitlistForm = document.querySelector<HTMLFormElement>("[data-waitlist-form]");
   const formStatus = document.querySelector<HTMLElement>("[data-form-status]");
-  waitlistForm?.addEventListener("submit", (event) => {
+  const apiUrl: string = (import.meta.env.PUBLIC_API_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  const setStatus = (state: "idle" | "submitting" | "success" | "error", text: string): void => {
+    if (!formStatus) return;
+    formStatus.dataset.state = state;
+    formStatus.textContent = text;
+  };
+
+  waitlistForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!waitlistForm.reportValidity()) return;
-    if (formStatus) formStatus.textContent = "Gracias por tu interés. Esta demostración no guarda ni envía tu correo.";
+
+    const data = new FormData(waitlistForm);
+    const submit = waitlistForm.querySelector<HTMLButtonElement>("[data-waitlist-submit]");
+    const payload = {
+      email: String(data.get("email") ?? "").trim(),
+      source: "closing",
+      website: String(data.get("website") ?? ""),
+    };
+
+    if (submit) submit.disabled = true;
+    setStatus("submitting", "Enviando tu solicitud…");
+
+    try {
+      const response = await fetch(`${apiUrl}/api/v1/beta/signups`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        waitlistForm.reset();
+        setStatus("success", "¡Listo! Recibimos tu solicitud. Te escribiremos cuando abramos la beta.");
+        return;
+      }
+
+      const body: { error?: string } = await response.json().catch(() => ({}));
+      setStatus("error", body.error ?? "No pudimos guardar tu solicitud. Intenta de nuevo en unos minutos.");
+    } catch {
+      setStatus("error", "No pudimos conectar con Lía. Revisa tu conexión e intenta de nuevo.");
+    } finally {
+      if (submit) submit.disabled = false;
+    }
   });
 
   if (!reducedMotion) {
     gsap.from("[data-hero-item]", { y: 30, autoAlpha: 0, duration: 0.85, stagger: 0.1, ease: "power3.out" });
     gsap.from("[data-hero-product]", { y: 50, rotate: 2, autoAlpha: 0, duration: 1.1, delay: 0.2, ease: "power3.out" });
     gsap.from(".floating-card", { y: 20, autoAlpha: 0, duration: 0.65, delay: 0.8, stagger: 0.15, ease: "power2.out" });
-    gsap.to(".hero-phone", { y: -12, duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".orbit-one", { rotate: 35, duration: 28, repeat: -1, ease: "none" });
     document.querySelectorAll<HTMLElement>("main > section:not(.hero), .neighborhood").forEach((section) => {
       const items = section.querySelectorAll("[data-reveal]");
@@ -470,8 +513,8 @@ const iconPaths: Record<string, string> = {
     --ink: #123c48;
     --muted: #5d747a;
     --line: #dce6e7;
-    --display: "Bricolage Grotesque", "Inter", sans-serif;
-    --body: "Inter", sans-serif;
+    --display: "Fraunces", Georgia, serif;
+    --body: "Plus Jakarta Sans", "Inter", sans-serif;
     min-height: 100vh;
     overflow: clip;
     background: var(--paper);
@@ -486,6 +529,8 @@ const iconPaths: Record<string, string> = {
   .lia-home button, .lia-home input { font: inherit; }
   .lia-home button { color: inherit; }
   .lia-home :focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+  .lia-home h1, .lia-home h2, .lia-home h3, .lia-home .brand, .story-quote p, .footer-top > p { font-variation-settings: "SOFT" 100; }
+  .lia-home h1 em, .lia-home h2 em { font-style: italic !important; font-weight: 500; }
   .lia-home ::selection { background: var(--mint); color: var(--deepest); }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
   .skip-link { position: fixed; top: -80px; left: 20px; z-index: 100; padding: 12px 18px; border-radius: 8px; background: var(--orange); color: var(--deepest); font-weight: 800; }
@@ -514,7 +559,7 @@ const iconPaths: Record<string, string> = {
   /* Navegación */
   .site-header { position: absolute; z-index: 30; top: 0; right: 0; left: 0; color: white; }
   .nav-wrap { display: flex; width: min(1360px, calc(100% - 64px)); height: 92px; align-items: center; gap: 36px; margin-inline: auto; border-bottom: 1px solid rgb(255 255 255 / 12%); }
-  .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--display); font-size: 28px; font-weight: 800; letter-spacing: -.06em; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--display); font-size: 28px; font-weight: 800; letter-spacing: -.03em; }
   .brand img { width: 43px; height: 43px; object-fit: contain; }
   .main-nav { display: flex; align-items: center; gap: clamp(22px, 2.7vw, 42px); margin-left: auto; font-size: 12px; font-weight: 600; }
   .main-nav a { position: relative; padding-block: 12px; color: #c9dadd; transition: color .2s ease; }
@@ -531,7 +576,7 @@ const iconPaths: Record<string, string> = {
   .hero-copy { position: relative; z-index: 4; max-width: 680px; }
   .hero-eyebrow { color: var(--mint); }
   .hero-eyebrow > span { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 6px rgb(244 124 44 / 12%); }
-  .hero h1 { max-width: 690px; margin-top: 25px; font-family: var(--display); font-size: clamp(62px, 6.25vw, 94px); font-weight: 650; letter-spacing: -.07em; line-height: .94; text-wrap: balance; }
+  .hero h1 { max-width: 690px; margin-top: 25px; font-family: var(--display); font-size: clamp(62px, 6.25vw, 94px); font-weight: 600; letter-spacing: -.025em; line-height: 1; text-wrap: balance; }
   .hero h1 em { display: inline; color: var(--orange); font-style: normal; }
   .hero-intro { max-width: 540px; margin-top: 28px !important; color: #bfd1d5; font-size: 16px; line-height: 1.75; text-wrap: pretty; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
@@ -543,7 +588,8 @@ const iconPaths: Record<string, string> = {
   .product-halo::before, .product-halo::after { position: absolute; border: 1px solid rgb(120 210 200 / 10%); border-radius: inherit; content: ""; }
   .product-halo::before { inset: 48px; }
   .product-halo::after { inset: 100px; background: rgb(120 210 200 / 4%); }
-  .hero-phone { position: relative; z-index: 2; transform: rotate(4deg) scale(1.06); filter: drop-shadow(0 40px 45px rgb(0 0 0 / 30%)); }
+  .hero-phone { position: relative; z-index: 2; filter: drop-shadow(0 32px 36px rgb(0 0 0 / 28%)); }
+  .hero-phone .phone { width: 300px; }
   .hero-phone .phone { box-shadow: inset 0 0 0 1.5px #2c373a, inset 0 0 0 4px #10181a, inset 0 0 0 5px #1e282b, 0 32px 60px rgb(0 0 0 / 35%); }
   .floating-card { position: absolute; z-index: 3; display: flex; align-items: center; gap: 11px; border: 1px solid rgb(255 255 255 / 65%); border-radius: 16px; padding: 13px 15px; background: rgb(255 255 255 / 93%); color: var(--deep); box-shadow: 0 20px 40px rgb(0 0 0 / 18%); backdrop-filter: blur(14px); }
   .floating-card small, .floating-card strong { display: block; }
@@ -569,7 +615,7 @@ const iconPaths: Record<string, string> = {
   /* Historia */
   .story { background: var(--paper); }
   .story-grid { display: grid; grid-template-columns: .86fr 1.14fr; align-items: center; gap: clamp(60px, 9vw, 140px); }
-  .story h2, .section-heading h2, .calc-copy h2, .benefits-heading h2, .neighborhood h2, .closing h2 { margin-top: 24px; font-family: var(--display); font-size: clamp(48px, 5.4vw, 78px); font-weight: 650; letter-spacing: -.065em; line-height: .98; text-wrap: balance; }
+  .story h2, .section-heading h2, .calc-copy h2, .benefits-heading h2, .neighborhood h2, .closing h2 { margin-top: 24px; font-family: var(--display); font-size: clamp(48px, 5.4vw, 78px); font-weight: 600; letter-spacing: -.03em; line-height: .98; text-wrap: balance; }
   .story h2 em, .section-heading h2 em, .benefits-heading h2 em { color: var(--teal); font-style: normal; }
   .section-intro { max-width: 450px; margin-top: 28px !important; color: var(--muted); font-size: 16px; line-height: 1.8; }
   .story-copy .text-link { margin-top: 35px; }
@@ -579,7 +625,7 @@ const iconPaths: Record<string, string> = {
   .story-photo:hover img { transform: scale(1.035); }
   .story-quote { position: absolute; right: -24px; bottom: 18px; display: flex; max-width: 390px; align-items: flex-start; gap: 14px; border-radius: 18px; padding: 25px 28px; background: var(--deep); color: white; box-shadow: 0 22px 45px rgb(11 61 74 / 17%); }
   .quote-mark { color: var(--orange); font-family: Georgia, serif; font-size: 52px; line-height: .8; }
-  .story-quote p { font-family: var(--display); font-size: 21px; font-weight: 600; letter-spacing: -.04em; line-height: 1.3; }
+  .story-quote p { font-family: var(--display); font-size: 21px; font-weight: 600; letter-spacing: -.02em; line-height: 1.3; }
   .photo-credit { position: absolute; bottom: 0; left: 42px; color: #71878b; font-size: 8px; }
   .photo-credit a { text-decoration: underline; text-underline-offset: 2px; }
 
@@ -601,9 +647,9 @@ const iconPaths: Record<string, string> = {
   .chapters { padding-block: 16vh; }
   .chapter { display: flex; min-height: 68vh; flex-direction: column; justify-content: center; opacity: .28; transition: opacity .4s ease; }
   .chapter.is-active { opacity: 1; }
-  .chapter-number { color: #c1d1d4; font-family: var(--display); font-size: 76px; font-weight: 600; letter-spacing: -.08em; line-height: 1; }
+  .chapter-number { color: #c1d1d4; font-family: var(--display); font-size: 76px; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
   .chapter-kicker { margin-top: 22px !important; color: var(--teal); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-  .chapter h3 { max-width: 470px; margin-top: 10px; font-family: var(--display); font-size: clamp(38px, 4vw, 56px); font-weight: 650; letter-spacing: -.06em; line-height: 1.03; }
+  .chapter h3 { max-width: 470px; margin-top: 10px; font-family: var(--display); font-size: clamp(38px, 4vw, 56px); font-weight: 600; letter-spacing: -.03em; line-height: 1.03; }
   .chapter > p:not(.chapter-kicker) { max-width: 430px; margin-top: 22px !important; color: var(--muted); font-size: 15px; line-height: 1.8; }
   .chapter-note { display: flex; align-items: center; gap: 10px; margin-top: 24px; color: var(--ink); font-size: 11px; font-weight: 700; }
   .chapter-note i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
@@ -639,7 +685,7 @@ const iconPaths: Record<string, string> = {
   .result-ring > span { position: relative; display: grid; text-align: center; }
   .result-ring strong { font-family: var(--display); font-size: 36px; line-height: 1; }
   .result-ring small { margin-top: 4px; color: #b6cfd3; font-size: 8px; }
-  .result-copy p { max-width: 260px; font-family: var(--display); font-size: 23px; font-weight: 600; letter-spacing: -.035em; line-height: 1.2; }
+  .result-copy p { max-width: 260px; font-family: var(--display); font-size: 23px; font-weight: 600; letter-spacing: -.015em; line-height: 1.2; }
   .result-copy p strong { color: var(--mint); }
   .result-copy > span { display: block; margin-top: 9px; color: #b6cfd3; font-size: 11px; }
 
@@ -654,7 +700,7 @@ const iconPaths: Record<string, string> = {
   .benefit-icon { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 14px; background: #e8f4f1; color: var(--teal); }
   .benefit-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
   .benefit-number { color: #a0b5b9; font-size: 10px; font-weight: 800; }
-  .benefit-card h3 { max-width: 290px; margin-top: 54px; font-family: var(--display); font-size: 26px; font-weight: 650; letter-spacing: -.045em; line-height: 1.1; }
+  .benefit-card h3 { max-width: 290px; margin-top: 54px; font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
   .benefit-card p { margin-top: 15px !important; color: var(--muted); font-size: 13px; line-height: 1.75; }
   .benefit-line { position: absolute; right: 28px; bottom: 0; left: 28px; height: 3px; border-radius: 3px 3px 0 0; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
   .benefit-card:hover .benefit-line { transform: scaleX(1); }
@@ -674,7 +720,7 @@ const iconPaths: Record<string, string> = {
   /* Quiénes somos */
   .about { background: white; }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: clamp(55px, 9vw, 130px); }
-  .about-heading h2 { margin-top: 24px; font-family: var(--display); font-size: clamp(45px, 4.8vw, 68px); font-weight: 650; letter-spacing: -.06em; line-height: 1; text-wrap: balance; }
+  .about-heading h2 { margin-top: 24px; font-family: var(--display); font-size: clamp(45px, 4.8vw, 68px); font-weight: 600; letter-spacing: -.03em; line-height: 1; text-wrap: balance; }
   .about-heading h2 em { color: var(--teal); font-style: normal; }
   .about-copy { padding-top: 36px; }
   .about-copy > p { color: var(--muted); font-size: 16px; line-height: 1.85; text-wrap: pretty; }
@@ -689,17 +735,22 @@ const iconPaths: Record<string, string> = {
   .closing .eyebrow { justify-content: center; color: var(--deep); }
   .closing h2 { font-size: clamp(50px, 6.5vw, 86px); }
   .closing h2 em { color: var(--deep); font-style: normal; }
-  .closing-inner > p:not(.eyebrow):not(.form-status) { max-width: 540px; margin: 25px auto 0 !important; color: #255760; font-size: 15px; line-height: 1.7; }
-  .waitlist-form { display: flex; max-width: 600px; gap: 10px; margin: 36px auto 0; border: 1px solid rgb(11 61 74 / 17%); border-radius: 999px; padding: 6px; background: white; box-shadow: 0 18px 45px rgb(11 61 74 / 10%); }
-  .waitlist-form input { min-width: 0; min-height: 52px; flex: 1; border: 0; border-radius: 999px; padding: 0 20px; background: transparent; color: var(--ink); font-size: 14px; outline: none; }
-  .waitlist-form input:focus { box-shadow: inset 0 0 0 2px var(--teal); }
-  .form-status { margin-top: 14px !important; color: #315f66; font-size: 9px; }
+  .closing-inner > p:not(.eyebrow):not(.form-status):not(.waitlist-note) { max-width: 540px; margin: 25px auto 0 !important; color: #255760; font-size: 15px; line-height: 1.7; }
+  .waitlist-form { max-width: 600px; margin: 36px auto 0; }
+  .waitlist-row { display: flex; gap: 10px; border: 1px solid rgb(11 61 74 / 17%); border-radius: 999px; padding: 6px; background: white; box-shadow: 0 18px 45px rgb(11 61 74 / 10%); }
+  .waitlist-row input { min-width: 0; min-height: 52px; flex: 1; border: 0; border-radius: 999px; padding: 0 20px; background: transparent; color: var(--ink); font-size: 14px; outline: none; }
+  .waitlist-row input:focus { box-shadow: inset 0 0 0 2px var(--teal); }
+  .waitlist-row .button:disabled { cursor: wait; opacity: .7; transform: none; }
+  .waitlist-note { max-width: 600px; margin: 14px auto 0 !important; color: #4d7379; font-size: 12px; line-height: 1.5; }
+  .form-status { min-height: 1.5em; margin-top: 14px !important; color: #315f66; font-size: 13px; }
+  .form-status[data-state="success"] { color: var(--deep); font-weight: 700; }
+  .form-status[data-state="error"] { color: #b3261e; font-weight: 700; }
   .closing-orbit { position: absolute; z-index: -1; top: 50%; left: 50%; width: 880px; height: 880px; border: 1px solid rgb(11 61 74 / 9%); border-radius: 50%; box-shadow: 0 0 0 100px rgb(11 61 74 / 2%), 0 0 0 200px rgb(11 61 74 / 2%); transform: translate(-50%, -50%); }
 
   /* Pie */
   .site-footer { padding: 50px max(40px, calc((100% - 1240px) / 2)); background: var(--deepest); color: white; }
   .footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 30px; padding-bottom: 45px; }
-  .footer-top > p { color: #b3c9ce; font-family: var(--display); font-size: 20px; font-weight: 550; letter-spacing: -.035em; line-height: 1.4; }
+  .footer-top > p { color: #b3c9ce; font-family: var(--display); font-size: 20px; font-weight: 550; letter-spacing: -.015em; line-height: 1.4; }
   .footer-up { display: inline-flex; align-items: center; justify-self: end; gap: 14px; font-size: 11px; font-weight: 700; }
   .footer-up span { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #42616a; border-radius: 50%; transition: background .2s, color .2s; }
   .footer-up:hover span { background: var(--orange); color: var(--deepest); }
@@ -738,7 +789,6 @@ const iconPaths: Record<string, string> = {
     .hero h1 { max-width: 680px; font-size: clamp(58px, 10vw, 82px); }
     .hero-intro { margin-inline: auto; }
     .hero-product { min-height: 600px; margin-top: 20px; }
-    .hero-phone { transform: rotate(3deg); }
     .delivery-card { left: calc(50% - 230px); }
     .covered-card { right: calc(50% - 230px); }
     .story-grid, .calc-grid, .about-grid { grid-template-columns: 1fr; }
@@ -748,7 +798,7 @@ const iconPaths: Record<string, string> = {
     .section-heading { grid-template-columns: 1fr; }
     .section-heading > p:last-child { justify-self: start; }
     .how-layout { grid-template-columns: 1fr 1fr; gap: 35px; }
-    .tour-phone { transform: scale(.82); }
+    .tour-phone .phone { width: 223px; }
     .chapter h3 { font-size: 38px; }
     .calc-copy { max-width: 600px; }
     .benefit-grid { grid-template-columns: 1fr; }
@@ -774,7 +824,6 @@ const iconPaths: Record<string, string> = {
     .hero-actions .button { width: 100%; }
     .hero-assurances { gap: 10px 15px; font-size: 9px; }
     .hero-product { min-height: 560px; margin-top: 10px; }
-    .hero-phone { transform: rotate(2deg) scale(.94); }
     .product-halo { width: 390px; height: 390px; }
     .delivery-card { bottom: 68px; left: 0; }
     .covered-card { top: 65px; right: -4px; }
@@ -797,7 +846,8 @@ const iconPaths: Record<string, string> = {
     .section-heading > p:last-child { font-size: 14px; }
     .how-layout { display: flex; flex-direction: column; gap: 0; }
     .tour-stage { z-index: 5; top: 0; height: auto; gap: 0; margin-inline: -18px; padding: 14px 0 6px; background: linear-gradient(#fff 88%, transparent); }
-    .tour-phone { height: 455px; transform: scale(.76); transform-origin: top center; }
+    .tour-phone { height: 455px; }
+    .tour-phone .phone { width: 207px; }
     .tour-phone::before { width: 360px; height: 360px; }
     .tour-pagination { margin-top: -6px; padding-bottom: 8px; }
     .chapters { padding: 0; }
@@ -818,8 +868,8 @@ const iconPaths: Record<string, string> = {
     .benefit-card { min-height: 285px; }
     .neighborhood-photo { min-height: 350px; }
     .neighborhood-copy { padding: 65px 24px; }
-    .waitlist-form { display: grid; border: 0; border-radius: 20px; padding: 8px; }
-    .waitlist-form .button { width: 100%; }
+    .waitlist-row { display: grid; border: 0; border-radius: 20px; padding: 8px; }
+    .waitlist-row .button { width: 100%; }
     .closing-inner { width: calc(100% - 32px); }
     .site-footer { padding: 42px 22px; }
     .footer-top { grid-template-columns: 1fr auto; }
